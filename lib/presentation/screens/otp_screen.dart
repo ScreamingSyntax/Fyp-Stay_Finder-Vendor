@@ -35,6 +35,7 @@ class OtpScreen extends StatelessWidget {
                   clearText: true,
                   obscureText: true,
                   onSubmit: (value) {
+                    Navigator.pushReplacementNamed(context, "/home");
                     print(value);
                     if (value != 3333) {}
                   },
@@ -58,7 +59,7 @@ class OtpScreen extends StatelessWidget {
                   Text("Didn't receive a code? "),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/login");
+                      Navigator.pushNamed(context, "/");
                     },
                     child: Text(
                       "Resend",

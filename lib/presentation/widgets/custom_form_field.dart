@@ -8,22 +8,27 @@ class CustomFormField extends StatelessWidget {
   final void Function()? onTap;
   final void Function(PointerDownEvent?)? onTapOutside;
   final TextInputType? keyboardType;
-  const CustomFormField({
-    super.key,
-    required this.inputFormatters,
-    this.validatior,
-    this.onChange,
-    this.onTap,
-    this.onTapOutside,
-    this.keyboardType,
-  });
+  final bool obscureText;
+  final IconButton? icon;
+  const CustomFormField(
+      {super.key,
+      required this.inputFormatters,
+      this.validatior,
+      this.onChange,
+      this.onTap,
+      this.onTapOutside,
+      this.keyboardType,
+      this.icon,
+      this.obscureText = false});
 
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obscureText,
       keyboardType: this.keyboardType != null ? keyboardType : null,
       inputFormatters: inputFormatters,
       validator: validatior,
       decoration: InputDecoration(
+          suffixIcon: icon,
           filled: true,
           fillColor: Color(0xffe5e5e5),
           isDense: true,

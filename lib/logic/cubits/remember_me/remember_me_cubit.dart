@@ -8,12 +8,11 @@ class RememberMeCubit extends Cubit<RememberMeState> with HydratedMixin {
 
   @override
   RememberMeState? fromJson(Map<String, dynamic> json) {
-    // TODO: implement fromJson
     return RememberMeState.fromMap(json);
   }
 
   @override
   Map<String, dynamic>? toJson(RememberMeState state) {
-    return state.toMap(); // TODO: implement toJson
+    return state.toMap();
   }
 }

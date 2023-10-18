@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stayfinder_vendor/constants/extensions.dart';
 import 'package:stayfinder_vendor/data/model/bloc_form.dart';
 import 'package:stayfinder_vendor/logic/blocs/form_bloc/form_bloc.dart';
 import 'package:stayfinder_vendor/logic/cubits/clicked_item/clicked_item_cubit.dart';
+import 'package:stayfinder_vendor/logic/cubits/eye_cubit/eye_button_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/remember_me/remember_me_cubit.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 
@@ -82,23 +84,46 @@ class LoginScreen extends StatelessWidget {
                           TextFieldLabel(
                             label: "Password :",
                           ),
-                          CustomFormField(
-                            validatior: (p0) {
-                              if (p0!.isEmpty) {
-                                return "The password field cannot be null";
-                              }
-                              return null;
-                            },
-                            onChange: (p0) => context.read<FormBloc>()
-                              ..add(Password1ChangedEvent(
-                                  password: BlocFormItem(value: p0!))),
-                            inputFormatters: [],
-                            onTap: () =>
-                                context.read<ClickedItemCubit>().clicked(),
-                            onTapOutside: (event) {
-                              context.read<ClickedItemCubit>()..unclicked();
-                              FocusScope.of(context).unfocus();
-                            },
+                          BlocProvider(
+                            create: (_) => EyeButtonCubit(),
+                            child: Builder(builder: (context) {
+                              return BlocBuilder<EyeButtonCubit,
+                                  EyeButtonState>(
+                                builder: (context, state) {
+                                  bool obscureText = state.clickedEye;
+                                  return CustomFormField(
+                                    icon: IconButton(
+                                        onPressed: () {
+                                          context
+                                              .read<EyeButtonCubit>()
+                                              .pressedEyeButton(!obscureText);
+                                        },
+                                        icon: !obscureText
+                                            ? Icon(CupertinoIcons.eye)
+                                            : Icon(CupertinoIcons.eye_slash)),
+                                    obscureText: obscureText,
+                                    validatior: (p0) {
+                                      if (p0!.isEmpty) {
+                                        return "The password field cannot be null";
+                                      }
+                                      return null;
+                                    },
+                                    onChange: (p0) => context.read<FormBloc>()
+                                      ..add(Password1ChangedEvent(
+                                          password: BlocFormItem(value: p0!))),
+                                    inputFormatters: [],
+                                    onTap: () => context
+                                        .read<ClickedItemCubit>()
+                                        .clicked(),
+                                    onTapOutside: (event) {
+                                      context.read<ClickedItemCubit>()
+                                        ..unclicked();
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                  );
+                                },
+                              );
+                            }),
                           ),
                           SizedBox(
                             height: 10,

@@ -10,18 +10,20 @@ import '../../logic/blocs/form_bloc/form_bloc.dart';
 class AppRouter {
   Route onGeneratedRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      // case "/":
-      //   return checkOnBoardingStatus();
-      // case "/home":
-      //   return MaterialPageRoute(builder: (_) => HomeScreen());
-      // case "/signUp":
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider(
-      //       create: (_) => FormBloc()..add(InitEvent()),
-      //       child: SignUpScreen(),
-      //     ),
-      //   );
       case "/":
+        return checkOnBoardingStatus();
+      case "/login":
+        return MaterialPageRoute(builder: (_) => LoginScreen());
+      case "/otp":
+        return MaterialPageRoute(builder: (_) => OtpScreen());
+      case "/signUp":
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => FormBloc()..add(InitEvent()),
+            child: SignUpScreen(),
+          ),
+        );
+      case "/home":
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (_) => NavBarIndexCubit(),

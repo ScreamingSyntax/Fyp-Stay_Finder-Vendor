@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:stayfinder_vendor/data/model/bloc_form.dart';
 import 'package:stayfinder_vendor/logic/blocs/form_bloc/form_bloc.dart';
 import 'package:stayfinder_vendor/logic/cubits/clicked_item/clicked_item_cubit.dart';
 import 'package:stayfinder_vendor/constants/extensions.dart';
+import 'package:stayfinder_vendor/logic/cubits/eye_cubit/eye_button_cubit.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -131,26 +133,45 @@ class SignUpScreen extends StatelessWidget {
                           TextFieldLabel(
                             label: "Password :",
                           ),
-                          CustomFormField(
-                            inputFormatters: [],
-                            onChange: (p0) => context.read<FormBloc>()
-                              ..add(Password1ChangedEvent(
-                                  password: BlocFormItem(value: p0!))),
-                            onTap: () =>
-                                context.read<ClickedItemCubit>().clicked(),
-                            onTapOutside: (event) {
-                              context.read<ClickedItemCubit>()..unclicked();
-                              FocusScope.of(context).unfocus();
-                            },
-                            validatior: (p0) {
-                              if (p0!.isEmpty) {
-                                return 'Please enter valid password';
-                              }
-                              if (passOne != passTwo) {
-                                return "Passwords donot match";
-                              }
-                              return null;
-                            },
+                          BlocProvider(
+                            create: (_) => EyeButtonCubit(),
+                            child: Builder(builder: (context) {
+                              bool obscureText = context
+                                  .watch<EyeButtonCubit>()
+                                  .state
+                                  .clickedEye;
+                              return CustomFormField(
+                                icon: IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<EyeButtonCubit>()
+                                          .pressedEyeButton(!obscureText);
+                                    },
+                                    icon: obscureText
+                                        ? Icon(CupertinoIcons.eye_slash)
+                                        : Icon(CupertinoIcons.eye)),
+                                obscureText: obscureText,
+                                inputFormatters: [],
+                                onChange: (p0) => context.read<FormBloc>()
+                                  ..add(Password2ChangedEvent(
+                                      password2: BlocFormItem(value: p0!))),
+                                onTap: () =>
+                                    context.read<ClickedItemCubit>().clicked(),
+                                onTapOutside: (event) {
+                                  context.read<ClickedItemCubit>()..unclicked();
+                                  FocusScope.of(context).unfocus();
+                                },
+                                validatior: (p0) {
+                                  if (p0!.isEmpty) {
+                                    return 'Please enter valid password';
+                                  }
+                                  if (passOne != passTwo) {
+                                    return "Passwords donot match";
+                                  }
+                                  return null;
+                                },
+                              );
+                            }),
                           ),
                           SizedBox(
                             height: 10,
@@ -158,26 +179,45 @@ class SignUpScreen extends StatelessWidget {
                           TextFieldLabel(
                             label: "Confirm Password :",
                           ),
-                          CustomFormField(
-                            inputFormatters: [],
-                            onChange: (p0) => context.read<FormBloc>()
-                              ..add(Password2ChangedEvent(
-                                  password2: BlocFormItem(value: p0!))),
-                            onTap: () =>
-                                context.read<ClickedItemCubit>().clicked(),
-                            onTapOutside: (event) {
-                              context.read<ClickedItemCubit>()..unclicked();
-                              FocusScope.of(context).unfocus();
-                            },
-                            validatior: (p0) {
-                              if (p0!.isEmpty) {
-                                return 'Please enter valid password';
-                              }
-                              if (passOne != passTwo) {
-                                return "Passwords donot match";
-                              }
-                              return null;
-                            },
+                          BlocProvider(
+                            create: (_) => EyeButtonCubit(),
+                            child: Builder(builder: (context) {
+                              bool obscureText = context
+                                  .watch<EyeButtonCubit>()
+                                  .state
+                                  .clickedEye;
+                              return CustomFormField(
+                                icon: IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<EyeButtonCubit>()
+                                          .pressedEyeButton(!obscureText);
+                                    },
+                                    icon: obscureText
+                                        ? Icon(CupertinoIcons.eye_slash)
+                                        : Icon(CupertinoIcons.eye)),
+                                obscureText: obscureText,
+                                inputFormatters: [],
+                                onChange: (p0) => context.read<FormBloc>()
+                                  ..add(Password2ChangedEvent(
+                                      password2: BlocFormItem(value: p0!))),
+                                onTap: () =>
+                                    context.read<ClickedItemCubit>().clicked(),
+                                onTapOutside: (event) {
+                                  context.read<ClickedItemCubit>()..unclicked();
+                                  FocusScope.of(context).unfocus();
+                                },
+                                validatior: (p0) {
+                                  if (p0!.isEmpty) {
+                                    return 'Please enter valid password';
+                                  }
+                                  if (passOne != passTwo) {
+                                    return "Passwords donot match";
+                                  }
+                                  return null;
+                                },
+                              );
+                            }),
                           ),
                           SizedBox(
                             height: 10,
@@ -188,7 +228,7 @@ class SignUpScreen extends StatelessWidget {
                           MaterialButton(
                             onPressed: () async {
                               if (state.formKey!.currentState!.validate()) {
-                                Navigator.pushNamed(context, "/home");
+                                Navigator.pushNamed(context, "/otp");
                               }
                             },
                             minWidth: MediaQuery.of(context).size.width,
