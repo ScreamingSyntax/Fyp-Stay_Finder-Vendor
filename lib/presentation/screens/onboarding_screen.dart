@@ -81,9 +81,8 @@ class OnBoardingScreen extends StatelessWidget {
                       context.read<OnBoardingCubit>()..visitedOnBoarding();
                     }
                   },
-                  child: Text(
-                      "Next -> ${context.watch<OnBoardingCubit>().state.visitedOnBoarding.toString()}",
-                      style: TextStyle(color: Color(0xff29383F)))),
+                  child:
+                      Text("Next", style: TextStyle(color: Color(0xff29383F)))),
             )
           ],
         ),

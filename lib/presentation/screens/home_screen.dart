@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stayfinder_vendor/logic/cubits/home_tab_bar/home_tabbar_cubit.dart';
 import 'package:stayfinder_vendor/presentation/screens/home_tab_bodies/tab_exports.dart';
 import 'package:stayfinder_vendor/presentation/widgets/tab_bar_icon.dart';
+
+import '../widgets/widgets_exports.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -13,7 +16,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          // shrinkWrap: true,
           children: [
             Container(
               height: 224,
