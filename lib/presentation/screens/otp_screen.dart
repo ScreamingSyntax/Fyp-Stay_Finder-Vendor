@@ -16,9 +16,10 @@ class OtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     OtpFieldControllerV2 otpFieldControllerV2 = OtpFieldControllerV2();
     return BlocListener<SignUpOtpDartBloc, SignUpOtpDartState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is SignupOtpLoading) {
-          otpFieldControllerV2.clear();
+          await Future.delayed(Duration(seconds: 2));
+
           customScaffold(
               context: context,
               title: "Hold on Captain",
@@ -26,6 +27,8 @@ class OtpScreen extends StatelessWidget {
               contentType: ContentType.help);
         }
         if (state is SignUpOtpErrorState) {
+          await Future.delayed(Duration(seconds: 2));
+
           otpFieldControllerV2.clear();
           customScaffold(
               context: context,
@@ -39,6 +42,8 @@ class OtpScreen extends StatelessWidget {
               title: "Horraay :) ",
               message: state.success.message!,
               contentType: ContentType.success);
+          // Future.wait()
+          await Future.delayed(Duration(seconds: 2));
           Navigator.pushNamed(context, "/login");
         }
       },
@@ -66,61 +71,82 @@ class OtpScreen extends StatelessWidget {
                     ),
                     BlocBuilder<SignupBloc, SignupState>(
                       builder: (context, state) {
-                        return !(context.read<SignUpOtpDartBloc>().state ==
-                                SignupOtpLoading())
-                            ? OTPTextFieldV2(
-                                length: 6,
-                                width: MediaQuery.of(context).size.width,
-                                textFieldAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                fieldWidth: 45,
-                                controller: otpFieldControllerV2,
-                                otpFieldStyle: OtpFieldStyle(
-                                    disabledBorderColor: Color(0xff767171),
-                                    borderColor: Color(0xff767171),
-                                    enabledBorderColor: Color(0xff767171),
-                                    errorBorderColor: Color(0xff767171),
-                                    focusBorderColor: Color(0xff767171)),
-                                fieldStyle: FieldStyle.box,
-                                keyboardType: TextInputType.number,
-                                obscureText: false,
-                                outlineBorderRadius: 5,
-                                style: TextStyle(fontSize: 17),
-                                onChanged: (pin) {
-                                  print("Changed: " + pin);
-                                },
-                                onCompleted: (pin) {
-                                  if (state is SignupLoaded) {
-                                    context.read<SignUpOtpDartBloc>().add(
-                                        SignUpEventHitOtp(
-                                            vendor: Vendor(
-                                                id: 0,
-                                                email: state.vendor.email,
-                                                phoneNumber:
-                                                    state.vendor.phoneNumber,
-                                                isVerified: null,
-                                                password: state.vendor.password,
-                                                fullName: state.vendor.fullName,
-                                                otp: pin)));
-                                  }
-                                },
-                              )
-                            : Center(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    CircularProgressIndicator(
-                                      color: Color(0xff546464),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text("Please wait.....")
-                                  ],
+                        if ((context.read<SignUpOtpDartBloc>().state ==
+                            SignupOtpLoading())) {
+                          return Center(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              );
+                                CircularProgressIndicator(
+                                  color: Color(0xff546464),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text("Please wait.....")
+                              ],
+                            ),
+                          );
+                        }
+                        if (context.read<SignUpOtpDartBloc>().state ==
+                            SignupLoaded) {
+                          return Center(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CircularProgressIndicator(
+                                  color: Color(0xff546464),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text("Please wait.....")
+                              ],
+                            ),
+                          );
+                        } else {
+                          return OTPTextFieldV2(
+                            length: 6,
+                            width: MediaQuery.of(context).size.width,
+                            textFieldAlignment: MainAxisAlignment.spaceAround,
+                            fieldWidth: 45,
+                            controller: otpFieldControllerV2,
+                            otpFieldStyle: OtpFieldStyle(
+                              disabledBorderColor: Color(0xff767171),
+                              borderColor: Color(0xff767171),
+                              enabledBorderColor: Color(0xff767171),
+                              errorBorderColor: Color(0xff767171),
+                              focusBorderColor: Color(0xff767171),
+                            ),
+                            fieldStyle: FieldStyle.box,
+                            keyboardType: TextInputType.number,
+                            obscureText: false,
+                            outlineBorderRadius: 5,
+                            style: TextStyle(fontSize: 17),
+                            onChanged: (pin) {
+                              print("Changed: " + pin);
+                            },
+                            onCompleted: (pin) {
+                              if (state is SignupLoaded) {
+                                context.read<SignUpOtpDartBloc>().add(
+                                    SignUpEventHitOtp(
+                                        vendor: Vendor(
+                                            id: 0,
+                                            email: state.vendor.email,
+                                            phoneNumber:
+                                                state.vendor.phoneNumber,
+                                            isVerified: null,
+                                            password: state.vendor.password,
+                                            fullName: state.vendor.fullName,
+                                            otp: pin)));
+                              }
+                            },
+                          );
+                        }
                       },
                     ),
                     SizedBox(

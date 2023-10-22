@@ -30,16 +30,20 @@ class SignUpOtpDartBloc extends Bloc<SignUpOtpDartEvent, SignUpOtpDartState> {
       print(success);
       if (success.error != null) {
         emit(SignUpOtpErrorState(errorMessage: success.error!));
+        return;
       }
       if (success.success == 0) {
         emit(SignUpOtpErrorState(errorMessage: success.message!));
+        return;
       } else {
         emit(SignupOtpLoaded(vendor: event.vendor, success: success));
+        return;
       }
     } catch (Exception) {
       print(Exception);
       // print(e);
       emit(SignUpOtpErrorState(errorMessage: "Connection Error"));
+      return;
     }
   }
 }

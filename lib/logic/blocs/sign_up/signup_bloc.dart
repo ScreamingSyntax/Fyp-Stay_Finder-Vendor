@@ -25,11 +25,14 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           phoneNumber: event.vendor.phoneNumber!);
       if (success.error != null) {
         emit(SignUpErrorState(errorMessage: success.error!));
+        return;
       }
       if (success.success == 0) {
         emit(SignUpErrorState(errorMessage: success.message!));
+        return;
       } else {
         emit(SignupLoaded(success: success, vendor: event.vendor));
+        return;
       }
     } catch (Exception) {
       emit(SignUpErrorState(errorMessage: "Connection Error"));

@@ -1,32 +1,34 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class Tier {
-  final int id;
-  final String name;
-  final String description;
-  final String image;
-  final String price;
-  final bool isCurrent;
-  final int accomodationLimit;
-  Tier({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.image,
-    required this.price,
-    required this.isCurrent,
-    required this.accomodationLimit,
-  });
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
+class Tier {
+  int? id;
+  String? name;
+  String? description;
+  String? image;
+  String? price;
+  int? accomodationLimit;
+  String? error;
+  Tier(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.image,
+      required this.price,
+      required this.accomodationLimit,
+      this.error});
+  Tier.withError({required String error}) {
+    this.error = error;
+  }
   Tier copyWith({
     int? id,
     String? name,
     String? description,
     String? image,
     String? price,
-    bool? isCurrent,
     int? accomodationLimit,
+    String? error,
   }) {
     return Tier(
       id: id ?? this.id,
@@ -34,8 +36,8 @@ class Tier {
       description: description ?? this.description,
       image: image ?? this.image,
       price: price ?? this.price,
-      isCurrent: isCurrent ?? this.isCurrent,
       accomodationLimit: accomodationLimit ?? this.accomodationLimit,
+      error: error ?? this.error,
     );
   }
 
@@ -46,20 +48,23 @@ class Tier {
       'description': description,
       'image': image,
       'price': price,
-      'isCurrent': isCurrent,
       'accomodationLimit': accomodationLimit,
+      'error': error,
     };
   }
 
   factory Tier.fromMap(Map<String, dynamic> map) {
     return Tier(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      description: map['description'] as String,
-      image: map['image'] as String,
-      price: map['price'] as String,
-      isCurrent: map['isCurrent'] as bool,
-      accomodationLimit: map['accomodationLimit'] as int,
+      id: map['id'] != null ? map['id'] as int : null,
+      name: map['name'] != null ? map['name'] as String : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
+      image: map['image'] != null ? map['image'] as String : null,
+      price: map['price'] != null ? map['price'] as String : null,
+      accomodationLimit: map['accomodationLimit'] != null
+          ? map['accomodationLimit'] as int
+          : null,
+      error: map['error'] != null ? map['error'] as String : null,
     );
   }
 
@@ -70,7 +75,7 @@ class Tier {
 
   @override
   String toString() {
-    return 'Tier(id: $id, name: $name, description: $description, image: $image, price: $price, isCurrent: $isCurrent, accomodationLimit: $accomodationLimit)';
+    return 'Tier(id: $id, name: $name, description: $description, image: $image, price: $price, accomodationLimit: $accomodationLimit, error: $error)';
   }
 
   @override
@@ -82,8 +87,8 @@ class Tier {
         other.description == description &&
         other.image == image &&
         other.price == price &&
-        other.isCurrent == isCurrent &&
-        other.accomodationLimit == accomodationLimit;
+        other.accomodationLimit == accomodationLimit &&
+        other.error == error;
   }
 
   @override
@@ -93,7 +98,7 @@ class Tier {
         description.hashCode ^
         image.hashCode ^
         price.hashCode ^
-        isCurrent.hashCode ^
-        accomodationLimit.hashCode;
+        accomodationLimit.hashCode ^
+        error.hashCode;
   }
 }

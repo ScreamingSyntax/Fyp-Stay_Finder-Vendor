@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stayfinder_vendor/data/model/bloc_form.dart';
+import 'package:stayfinder_vendor/data/model/bloc_form_model.dart';
 import 'package:stayfinder_vendor/data/model/model_exports.dart';
 import 'package:stayfinder_vendor/logic/blocs/form_bloc/form_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';

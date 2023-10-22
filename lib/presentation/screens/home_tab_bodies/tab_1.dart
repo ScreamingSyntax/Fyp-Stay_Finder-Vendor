@@ -1,6 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:stayfinder_vendor/logic/blocs/fetch_tier/fetch_tier_bloc.dart';
 
+import '../../../constants/ip.dart';
 import '../../../constants/sample_tier.dart';
 
 class TabBar1 extends StatelessWidget {
@@ -35,37 +39,49 @@ class TabBar1 extends StatelessWidget {
                     SizedBox(
                       width: 20,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.network(
-                          "${tier.tier_id.image}",
-                          width: 91,
-                          height: 91,
-                        ),
-                        Text(
-                          "${tier.tier_id.name} (Current)",
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w700),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Text(
-                        "${tier.tier_id.description}",
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(
-                            color: Color(0xff383A3F),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
+                    BlocBuilder<FetchTierBloc, FetchTierState>(
+                      builder: (context, state) {
+                        if (state is TierLoadedState) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl:
+                                    "${getIp()}${state.tierList[0].image}",
+                                width: 95,
+                                height: 95,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                              Text(
+                                "${state.tierList[0].name} (Current)",
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w700),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${state.tierList[0].description}",
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                      color: Color(0xff383A3F),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          );
+                        }
+                        return Text("data");
+                      },
                     ),
                   ],
                 ),

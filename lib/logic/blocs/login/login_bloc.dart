@@ -16,6 +16,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
         emit(LoginLoading());
         final login = await apiRepository.loginVendor(
             email: event.email, password: event.password);
+
         print('This is the error ${login.error}');
         if (login.success == 0) {
           print(login.message);
@@ -24,6 +25,7 @@ class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
         }
         if (login.error != null) {
           emit(LoginError(message: login.error));
+          return;
         }
         emit(LoginLoaded(successModel: login, rememberMe: event.rememberMe));
       } catch (Exception) {

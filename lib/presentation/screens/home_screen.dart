@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';
+import 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_bloc.dart';
+import 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_state.dart';
 import 'package:stayfinder_vendor/logic/cubits/home_tab_bar/home_tabbar_cubit.dart';
 import 'package:stayfinder_vendor/presentation/screens/home_tab_bodies/tab_exports.dart';
 import 'package:stayfinder_vendor/presentation/widgets/tab_bar_icon.dart';
 
+import '../../logic/blocs/fetch_tier/fetch_tier_bloc.dart';
 import '../widgets/widgets_exports.dart';
 
 // ignore: must_be_immutable
@@ -120,9 +124,19 @@ class HomeScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   TabBarIcon(
-                                    onTap: () => context
-                                        .read<HomeTabbarCubit>()
-                                        .firstElementClicked(),
+                                    onTap: () {
+                                      final state =
+                                          context.read<LoginBloc>().state;
+                                      if (state is LoginLoaded) {
+                                        BlocProvider.of<FetchTierBloc>(context)
+                                          ..add(FetchTierHitEvent(
+                                              token: state.successModel.token
+                                                  .toString()));
+                                      }
+                                      context
+                                          .read<HomeTabbarCubit>()
+                                          .firstElementClicked();
+                                    },
                                     backgroundColor: firstElement
                                         ? Color(0xffC9C9C9)
                                         : Colors.white,
@@ -132,9 +146,19 @@ class HomeScreen extends StatelessWidget {
                                     icon: Icons.apps_outlined,
                                   ),
                                   TabBarIcon(
-                                    onTap: () => context
-                                        .read<HomeTabbarCubit>()
-                                        .secondElementClicked(),
+                                    onTap: () {
+                                      final state =
+                                          context.read<LoginBloc>().state;
+                                      if (state is LoginLoaded) {
+                                        BlocProvider.of<FetchTierBloc>(context)
+                                          ..add(FetchTierHitEvent(
+                                              token: state.successModel.token
+                                                  .toString()));
+                                      }
+                                      context
+                                          .read<HomeTabbarCubit>()
+                                          .secondElementClicked();
+                                    },
                                     backgroundColor: secondElement
                                         ? Color(0xffC9C9C9)
                                         : Colors.white,

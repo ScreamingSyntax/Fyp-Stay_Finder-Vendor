@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../constants/constants_exports.dart';
 import '../model/model_exports.dart';
 
-class VendorDataProvider {
-  Future<Vendor> getUserData(String token) async {
+class TierApiProvider {
+  Future<List<Tier>> fetchTierList(String token) async {
     try {
       final response = await http.get(
-        Uri.parse("${getIp()}vendor/data/"),
+        Uri.parse('http://192.168.1.84:3333/tier/'),
         headers: <String, String>{
           'Authorization': 'Token $token',
         },
@@ -16,24 +15,22 @@ class VendorDataProvider {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
-        final int success = responseData['success'];
-
-        if (success == 0) {
-          return Vendor.withError(error: responseData['message']);
-        }
 
         if (responseData.containsKey('data')) {
-          return Vendor.fromMap(responseData['data']);
+          final List<dynamic> tierDataList = responseData['data'];
+          List<Tier> tierList =
+              tierDataList.map((e) => Tier.fromMap(e)).toList();
+          return tierList;
         } else {
-          return Vendor.withError(error: "No data available");
+          return [Tier.withError(error: "No data available")];
         }
       } else {
         print('Request failed with status: ${response.statusCode}');
-        return Vendor.withError(error: 'Connection Error');
+        return [Tier.withError(error: "Connection Error, Please try again")];
       }
     } catch (err) {
       print(err);
-      return Vendor.withError(error: 'Connection Error');
+      return [Tier.withError(error: "Connection Error, Please try again")];
     }
   }
 }

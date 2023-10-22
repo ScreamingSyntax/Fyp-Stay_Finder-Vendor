@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:stayfinder_vendor/data/api/login_api.dart';
-import 'package:stayfinder_vendor/data/api/vendor_data_api.dart';
 import 'package:stayfinder_vendor/data/repository/login_repository.dart';
 import 'package:stayfinder_vendor/data/repository/sign_up_repository.dart';
+import 'package:stayfinder_vendor/data/repository/tier_repository.dart';
 import 'package:stayfinder_vendor/data/repository/vendor_repository.dart';
-import 'package:stayfinder_vendor/logic/blocs/form_bloc/form_bloc.dart';
+import 'package:stayfinder_vendor/logic/blocs/fetch_tier/fetch_tier_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/sign_up/signup_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/sign_up_otp/sign_up_otp_dart_bloc.dart';
@@ -57,6 +56,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 SignUpOtpDartBloc(repository: SignUpRepository())),
+        BlocProvider(
+          create: (context) => FetchTierBloc(tier: TierRepository()),
+        )
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

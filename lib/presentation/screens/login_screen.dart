@@ -1,17 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stayfinder_vendor/constants/extensions.dart';
-import 'package:stayfinder_vendor/data/model/bloc_form.dart';
+import 'package:stayfinder_vendor/data/model/bloc_form_model.dart';
+import 'package:stayfinder_vendor/logic/blocs/fetch_tier/fetch_tier_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/form_bloc/form_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_state.dart';
 import 'package:stayfinder_vendor/logic/cubits/clicked_item/clicked_item_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/eye_cubit/eye_button_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/remember_me/remember_me_cubit.dart';
-import 'package:stayfinder_vendor/presentation/widgets/custom_pop_scope.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
@@ -35,9 +36,9 @@ class LoginScreen extends StatelessWidget {
                 message: "Loggin you in captain");
           }
           if (state is LoginLoaded) {
-            // loaded = true;
             BlocProvider.of<VendorDataProviderBloc>(context)
               ..add(LoadDataEvent(token: state.successModel.token.toString()));
+
             customScaffold(
                 contentType: ContentType.success,
                 context: context,
@@ -53,26 +54,19 @@ class LoginScreen extends StatelessWidget {
                 contentType: ContentType.failure);
           }
         },
-        child: WillPopScope(
-          onWillPop: () {
-            return showExitPopup(
-              context: context,
-              message: "Do you want to exit?",
-              noBtnFunction: () => Navigator.pop(context),
-              title: "Exit Application",
-              yesBtnFunction: () => SystemNavigator.pop(),
-            );
-          },
-          child: BlocBuilder<LoginBloc, LoginState>(
-            builder: (context, state) {
-              if (state is LoginLoaded) {
-                // BlocProvider.of<VendorDataProviderBloc>(context)
-                //     .add(LoadDataEvent(token: state.successModel.token!));
-                print(state.successModel.token);
-              }
-              return BlocBuilder<FormBloc, FormsState>(
-                builder: (context, state) {
-                  return Builder(
+        child: WillPopScope(onWillPop: () {
+          return showExitPopup(
+            context: context,
+            message: "Do you want to exit?",
+            noBtnFunction: () => Navigator.pop(context),
+            title: "Exit Application",
+            yesBtnFunction: () => SystemNavigator.pop(),
+          );
+        }, child: BlocBuilder<FormBloc, FormsState>(
+          builder: (context, state) {
+            return !(context.watch<LoginBloc>().state == LoginLoading() ||
+                    context.watch<LoginBloc>().state == LoginLoading())
+                ? Builder(
                     builder: (context) {
                       return Scaffold(
                         resizeToAvoidBottomInset: false,
@@ -289,12 +283,18 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     },
+                  )
+                : Scaffold(
+                    body: SafeArea(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xff29383F).withOpacity(0.8),
+                        ),
+                      ),
+                    ),
                   );
-                },
-              );
-            },
-          ),
-        ),
+          },
+        )),
       ),
     );
   }
