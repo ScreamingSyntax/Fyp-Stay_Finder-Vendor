@@ -1,17 +1,10 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stayfinder_vendor/data/model/bloc_form_model.dart';
-import 'package:stayfinder_vendor/data/model/model_exports.dart';
-import 'package:stayfinder_vendor/logic/blocs/form_bloc/form_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/sign_up/signup_bloc.dart';
-import 'package:stayfinder_vendor/logic/cubits/clicked_item/clicked_item_cubit.dart';
-import 'package:stayfinder_vendor/constants/extensions.dart';
-import 'package:stayfinder_vendor/logic/cubits/eye_cubit/eye_button_cubit.dart';
-import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
+
+import '../../data/model/model_exports.dart';
+import '../../logic/blocs/bloc_exports.dart';
+import '../../constants/constants_exports.dart';
+import '../../logic/cubits/cubit_exports.dart';
+import '../../presentation/widgets/widgets_exports.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -100,25 +93,10 @@ class SignUpScreen extends StatelessWidget {
                                   builder: (context, state) {
                                     return AnimatedContainer(
                                       duration: Duration(seconds: 2),
-                                      // width: !(state == SignupLoading()) ? null : 0,
-                                      // height:
-                                      // !(state == SignupLoading()) ? null : 0,
                                       child: (state == SignupLoading())
-                                          ? Center(
-                                              child: Column(
-                                                children: [
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  CircularProgressIndicator(
-                                                    color: Color(0xff546464),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text("Please wait.....")
-                                                ],
-                                              ),
+                                          ? CustomCircularBar(
+                                              message:
+                                                  "Signing up, please wait.....",
                                             )
                                           : ListView(
                                               shrinkWrap: true,

@@ -1,5 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import '../cubit_exports.dart';
 
 part 'eye_button_state.dart';
 

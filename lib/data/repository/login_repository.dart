@@ -1,5 +1,5 @@
-import 'package:stayfinder_vendor/data/api/login_api.dart';
-import 'package:stayfinder_vendor/data/model/model_exports.dart';
+import '../api/api_exports.dart';
+import '../model/model_exports.dart';
 
 class LoginRepository {
   final _provider = LoginApiProvider();

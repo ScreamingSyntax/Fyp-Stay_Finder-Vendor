@@ -1,5 +1,4 @@
-import 'package:stayfinder_vendor/data/api/tier_api.dart';
-
+import '../api/api_exports.dart';
 import '../model/model_exports.dart';
 
 class TierRepository {

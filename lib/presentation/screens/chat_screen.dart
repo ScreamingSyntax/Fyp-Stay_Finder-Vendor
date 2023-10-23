@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import '../../presentation/widgets/widgets_exports.dart';
 
 class ChatScreen extends StatelessWidget {
   @override

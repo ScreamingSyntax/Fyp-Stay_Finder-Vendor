@@ -1,13 +1,6 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:stayfinder_vendor/logic/blocs/fetch_tier/fetch_tier_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';
-import 'package:stayfinder_vendor/presentation/widgets/custom_scaffold.dart';
-
 import '../../../constants/constants_exports.dart';
+import '../../../logic/blocs/bloc_exports.dart';
+import '../../widgets/widgets_exports.dart';
 
 class TabBar2 extends StatelessWidget {
   const TabBar2({
@@ -65,10 +58,7 @@ class TabBar2 extends StatelessWidget {
                 columnCount: 2,
                 duration: Duration(seconds: 2),
                 child: SlideAnimation(
-                  // One for whole List
-                  duration: Duration(seconds: 1),
                   child: SlideAnimation(
-                    // Other for particular items
                     delay: Duration(seconds: 1),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),

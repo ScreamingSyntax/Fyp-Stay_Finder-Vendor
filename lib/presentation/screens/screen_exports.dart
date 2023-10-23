@@ -6,3 +6,4 @@ export 'notification_screen.dart';
 export 'nav_bar_main.dart';
 export 'sign_up_screen.dart';
 export 'otp_screen.dart';
+export 'profile_screen.dart';

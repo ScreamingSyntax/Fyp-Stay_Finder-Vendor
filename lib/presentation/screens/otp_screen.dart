@@ -1,14 +1,6 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:otp_text_field_v2/otp_field_v2.dart';
-import 'package:otp_text_field_v2/otp_text_field_v2.dart';
-import 'package:stayfinder_vendor/data/model/model_exports.dart';
-import 'package:stayfinder_vendor/logic/blocs/sign_up/signup_bloc.dart';
-
-import 'package:stayfinder_vendor/logic/blocs/sign_up_otp/sign_up_otp_dart_bloc.dart';
 import '../widgets/widgets_exports.dart';
+import '../../logic/blocs/bloc_exports.dart';
+import '../../data/model/model_exports.dart';
 import 'screen_exports.dart';
 
 class OtpScreen extends StatelessWidget {

@@ -1,12 +1,6 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stayfinder_vendor/constants/constants_exports.dart';
-import 'package:stayfinder_vendor/logic/cubits/nav_bar_index/nav_bar_index_cubit.dart';
-
-import '../widgets/widgets_exports.dart';
+import '../../constants/constants_exports.dart';
+import '../../logic/cubits/cubit_exports.dart';
+import '../../presentation/widgets/widgets_exports.dart';
 
 class NavBarMain extends StatelessWidget {
   @override

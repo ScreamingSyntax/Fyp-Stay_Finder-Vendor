@@ -1,8 +1,6 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-
 import '../../../data/model/model_exports.dart';
 import '../../../data/repository/sign_up_repository.dart';
+import '../bloc_exports.dart';
 
 part 'sign_up_otp_dart_event.dart';
 part 'sign_up_otp_dart_state.dart';

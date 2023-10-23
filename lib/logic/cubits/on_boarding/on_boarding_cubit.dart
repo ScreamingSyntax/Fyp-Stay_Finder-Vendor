@@ -1,6 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:stayfinder_vendor/logic/cubits/on_boarding/on_boarding_state.dart';
+import '../cubit_exports.dart';
 
 class OnBoardingCubit extends Cubit<OnBoardingState> with HydratedMixin {
   OnBoardingCubit() : super(OnBoardingState(visitedOnBoarding: false));

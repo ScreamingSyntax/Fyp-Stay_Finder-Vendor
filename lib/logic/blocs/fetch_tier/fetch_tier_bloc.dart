@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:stayfinder_vendor/data/model/model_exports.dart';
-import 'package:stayfinder_vendor/data/repository/tier_repository.dart';
+import '../../../data/model/model_exports.dart';
+import '../../../data/repository/repository_exports.dart';
+import '../bloc_exports.dart';
 
 part 'fetch_tier_event.dart';
 part 'fetch_tier_state.dart';

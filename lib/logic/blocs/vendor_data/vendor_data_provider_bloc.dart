@@ -1,9 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:stayfinder_vendor/data/repository/vendor_repository.dart';
-import 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_state.dart';
-
+import '../../../data/repository/repository_exports.dart';
+import '../bloc_exports.dart';
 part 'vendor_data_provider_event.dart';
 
 class VendorDataProviderBloc

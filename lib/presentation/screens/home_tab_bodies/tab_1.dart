@@ -1,11 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:stayfinder_vendor/logic/blocs/fetch_tier/fetch_tier_bloc.dart';
-
-import '../../../constants/ip.dart';
-import '../../../constants/sample_tier.dart';
+import '../../../constants/constants_exports.dart';
+import '../../../logic/blocs/bloc_exports.dart';
+import '../../widgets/widgets_exports.dart';
 
 class TabBar1 extends StatelessWidget {
   const TabBar1({

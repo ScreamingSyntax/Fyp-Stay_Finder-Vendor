@@ -1,15 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_state.dart';
-import 'package:stayfinder_vendor/logic/cubits/home_tab_bar/home_tabbar_cubit.dart';
-import 'package:stayfinder_vendor/presentation/screens/home_tab_bodies/tab_exports.dart';
-import 'package:stayfinder_vendor/presentation/widgets/tab_bar_icon.dart';
-
-import '../../logic/blocs/fetch_tier/fetch_tier_bloc.dart';
-import '../widgets/widgets_exports.dart';
+import '../../logic/blocs/bloc_exports.dart';
+import '../../logic/cubits/cubit_exports.dart';
+import '../../presentation/widgets/widgets_exports.dart';
+import 'home_tab_bodies/tab_exports.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -69,17 +61,20 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 88,
-                          width: 88,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(200),
-                              border: Border.all(color: Colors.black),
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                    "assets/images/hanci_aaryan.jpg",
-                                  ),
-                                  fit: BoxFit.contain)),
+                        InkWell(
+                          onTap: () => Navigator.pushNamed(context, "/profile"),
+                          child: Container(
+                            height: 88,
+                            width: 88,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(200),
+                                border: Border.all(color: Colors.black),
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                      "assets/images/hanci_aaryan.jpg",
+                                    ),
+                                    fit: BoxFit.contain)),
+                          ),
                         ),
                       ],
                     ),

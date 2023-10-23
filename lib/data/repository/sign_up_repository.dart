@@ -1,5 +1,5 @@
-import 'package:stayfinder_vendor/data/api/sign_up_api.dart';
-import 'package:stayfinder_vendor/data/model/success_model.dart';
+import '../api/api_exports.dart';
+import '../model/model_exports.dart';
 
 class SignUpRepository {
   final _provider = SignUpApiProvider();

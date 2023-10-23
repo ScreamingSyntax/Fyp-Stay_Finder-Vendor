@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:stayfinder_vendor/logic/cubits/on_boarding/on_boarding_cubit.dart';
+import '../../logic/cubits/cubit_exports.dart';
+import '../../presentation/widgets/widgets_exports.dart';
 
 // ignore: must_be_immutable
 class OnBoardingScreen extends StatelessWidget {

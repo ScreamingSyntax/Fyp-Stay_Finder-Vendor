@@ -1,20 +1,10 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stayfinder_vendor/constants/extensions.dart';
-import 'package:stayfinder_vendor/data/model/bloc_form_model.dart';
-import 'package:stayfinder_vendor/logic/blocs/fetch_tier/fetch_tier_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/form_bloc/form_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_bloc.dart';
-import 'package:stayfinder_vendor/logic/cubits/clicked_item/clicked_item_cubit.dart';
-import 'package:stayfinder_vendor/logic/cubits/eye_cubit/eye_button_cubit.dart';
-import 'package:stayfinder_vendor/logic/cubits/remember_me/remember_me_cubit.dart';
-import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import '../../data/model/model_exports.dart';
+import '../../logic/blocs/bloc_exports.dart';
+import '../../constants/constants_exports.dart';
+import '../../logic/cubits/cubit_exports.dart';
+import '../../presentation/widgets/widgets_exports.dart';
 
 class LoginScreen extends StatelessWidget {
   var loaded = false;

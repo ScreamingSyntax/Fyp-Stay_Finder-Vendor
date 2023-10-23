@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stayfinder_vendor/logic/blocs/login/login_bloc.dart';
-import 'package:stayfinder_vendor/logic/cubits/nav_bar_index/nav_bar_index_cubit.dart';
-import 'package:stayfinder_vendor/logic/cubits/on_boarding/on_boarding_cubit.dart';
-import 'package:stayfinder_vendor/presentation/screens/screen_exports.dart';
-import '../../logic/blocs/form_bloc/form_bloc.dart';
+import '../../logic/blocs/bloc_exports.dart';
+import '../../logic/cubits/cubit_exports.dart';
+import '../../presentation/widgets/widgets_exports.dart';
+import '../screens/screen_exports.dart';
 
 class AppRouter {
   Route onGeneratedRoute(RouteSettings routeSettings) {
@@ -38,6 +35,10 @@ class AppRouter {
             create: (_) => NavBarIndexCubit(),
             child: NavBarMain(),
           ),
+        );
+      case "/profile":
+        return MaterialPageRoute(
+          builder: (_) => ProfileScreen(),
         );
       default:
         return MaterialPageRoute(

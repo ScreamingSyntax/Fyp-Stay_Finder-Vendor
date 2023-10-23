@@ -1,9 +1,8 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:stayfinder_vendor/constants/extensions.dart';
-import 'package:stayfinder_vendor/data/model/model_exports.dart';
 
+import '../../../constants/constants_exports.dart';
+import '../bloc_exports.dart';
+import '../../../data/model/model_exports.dart';
 part 'form_event.dart';
 part 'form_state.dart';
 

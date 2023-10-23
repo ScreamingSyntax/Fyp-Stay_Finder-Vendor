@@ -3,3 +3,5 @@ export 'tier_model.dart';
 export 'success_model.dart';
 export 'current_tier.dart';
 export 'vendor.dart';
+export 'vendor_profile.dart';
+export 'dart:convert';

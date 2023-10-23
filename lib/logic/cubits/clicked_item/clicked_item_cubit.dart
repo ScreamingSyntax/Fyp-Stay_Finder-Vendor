@@ -1,5 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import '../cubit_exports.dart';
 
 part 'clicked_item_state.dart';
 
