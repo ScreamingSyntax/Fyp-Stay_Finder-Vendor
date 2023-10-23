@@ -1,4 +1,3 @@
-import 'package:stayfinder_vendor/data/model/current_tier.dart';
 import 'package:stayfinder_vendor/data/model/tier_model.dart';
 
 List<Tier> teirData = [

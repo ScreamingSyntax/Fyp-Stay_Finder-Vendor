@@ -6,3 +6,9 @@ sealed class FetchVendorProfileEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class HitFetchVendorProfileEvent extends FetchVendorProfileEvent {
+  final String token;
+
+  HitFetchVendorProfileEvent({required this.token});
+}

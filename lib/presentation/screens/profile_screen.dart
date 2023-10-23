@@ -260,6 +260,7 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
+                    onTap: () => Navigator.pushNamed(context, "/info"),
                     leading: Icon(
                       CupertinoIcons.doc_checkmark_fill,
                       color: Color(0xff32454D).withOpacity(0.8),

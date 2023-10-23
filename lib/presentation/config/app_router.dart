@@ -40,6 +40,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(),
         );
+      case "/info":
+        return MaterialPageRoute(builder: (_) => InformationScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

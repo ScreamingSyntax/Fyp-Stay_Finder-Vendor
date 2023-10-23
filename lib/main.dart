@@ -1,3 +1,5 @@
+import 'package:stayfinder_vendor/data/repository/vendor_profile_repository.dart';
+
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
 import '../../presentation/widgets/widgets_exports.dart';
@@ -46,6 +48,10 @@ class MyApp extends StatelessWidget {
                 SignUpOtpDartBloc(repository: SignUpRepository())),
         BlocProvider(
           create: (context) => FetchTierBloc(tier: TierRepository()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              FetchVendorProfileBloc(repository: VendorProfileRepository()),
         )
       ],
       child: RepositoryProvider(

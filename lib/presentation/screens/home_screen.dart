@@ -120,14 +120,14 @@ class HomeScreen extends StatelessWidget {
                                 children: [
                                   TabBarIcon(
                                     onTap: () {
-                                      final state =
-                                          context.read<LoginBloc>().state;
-                                      if (state is LoginLoaded) {
-                                        BlocProvider.of<FetchTierBloc>(context)
-                                          ..add(FetchTierHitEvent(
-                                              token: state.successModel.token
-                                                  .toString()));
-                                      }
+                                      // final state =
+                                      //     context.read<LoginBloc>().state;
+                                      // if (state is LoginLoaded) {
+                                      //   BlocProvider.of<FetchTierBloc>(context)
+                                      //     ..add(FetchTierHitEvent(
+                                      //         token: state.successModel.token
+                                      //             .toString()));
+                                      // }
                                       context
                                           .read<HomeTabbarCubit>()
                                           .firstElementClicked();
@@ -142,14 +142,6 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   TabBarIcon(
                                     onTap: () {
-                                      final state =
-                                          context.read<LoginBloc>().state;
-                                      if (state is LoginLoaded) {
-                                        BlocProvider.of<FetchTierBloc>(context)
-                                          ..add(FetchTierHitEvent(
-                                              token: state.successModel.token
-                                                  .toString()));
-                                      }
                                       context
                                           .read<HomeTabbarCubit>()
                                           .secondElementClicked();

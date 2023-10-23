@@ -11,16 +11,14 @@ class VendorDataProvider {
           'Authorization': 'Token $token',
         },
       );
-      print("This is the response ${response.body}");
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         final int success = responseData['success'];
-
+        print(responseData);
         if (success == 0) {
           return Vendor.withError(error: responseData['message']);
         }
-
         if (responseData.containsKey('data')) {
           return Vendor.fromMap(responseData['data']);
         } else {
@@ -31,7 +29,7 @@ class VendorDataProvider {
         return Vendor.withError(error: 'Connection Error');
       }
     } catch (err) {
-      print(err);
+      print("This is exception ${err}");
       return Vendor.withError(error: 'Connection Error');
     }
   }

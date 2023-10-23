@@ -1,15 +1,15 @@
 import './model_exports.dart';
 
 class VendorProfile {
-  DateTime? date_joined;
+  String? date_joined;
   String? profile_picture;
   String? citizenship_back;
   String? citizenship_front;
   String? digital_signature;
   String? rejected_message;
   String? address;
-  bool? is_rejected;
-  bool? is_verified;
+  String? is_rejected;
+  String? is_verified;
   String? error;
   VendorProfile(
       {required this.date_joined,
@@ -28,15 +28,15 @@ class VendorProfile {
   }
 
   VendorProfile copyWith({
-    DateTime? date_joined,
+    String? date_joined,
     String? profile_picture,
     String? citizenship_back,
     String? citizenship_front,
     String? digital_signature,
     String? rejected_message,
     String? address,
-    bool? is_rejected,
-    bool? is_verified,
+    String? is_rejected,
+    String? is_verified,
     String? error,
   }) {
     return VendorProfile(
@@ -55,7 +55,7 @@ class VendorProfile {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'date_joined': date_joined?.millisecondsSinceEpoch,
+      'date_joined': date_joined,
       'profile_picture': profile_picture,
       'citizenship_back': citizenship_back,
       'citizenship_front': citizenship_front,
@@ -70,9 +70,8 @@ class VendorProfile {
 
   factory VendorProfile.fromMap(Map<String, dynamic> map) {
     return VendorProfile(
-      date_joined: map['date_joined'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['date_joined'] as int)
-          : null,
+      date_joined:
+          map['date_joined'] != null ? map['date_joined'] as String : null,
       profile_picture: map['profile_picture'] != null
           ? map['profile_picture'] as String
           : null,
@@ -90,9 +89,9 @@ class VendorProfile {
           : null,
       address: map['address'] != null ? map['address'] as String : null,
       is_rejected:
-          map['is_rejected'] != null ? map['is_rejected'] as bool : null,
+          map['is_rejected'] != null ? map['is_rejected'] as String : null,
       is_verified:
-          map['is_verified'] != null ? map['is_verified'] as bool : null,
+          map['is_verified'] != null ? map['is_verified'] as String : null,
       error: map['error'] != null ? map['error'] as String : null,
     );
   }
