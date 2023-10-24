@@ -14,3 +14,5 @@ export 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:path_provider/path_provider.dart';
 export 'custom_circular_bar.dart';
+export 'package:image_cropper/image_cropper.dart';
+export 'package:image_picker/image_picker.dart';

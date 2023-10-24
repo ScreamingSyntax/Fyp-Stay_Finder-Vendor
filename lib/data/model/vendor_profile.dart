@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import './model_exports.dart';
 
 class VendorProfile {
@@ -5,8 +8,8 @@ class VendorProfile {
   String? profile_picture;
   String? citizenship_back;
   String? citizenship_front;
-  String? digital_signature;
   String? rejected_message;
+  String? is_under_verification_process;
   String? address;
   String? is_rejected;
   String? is_verified;
@@ -16,13 +19,12 @@ class VendorProfile {
       this.profile_picture,
       required this.citizenship_back,
       required this.citizenship_front,
-      required this.digital_signature,
       required this.rejected_message,
+      required this.is_under_verification_process,
       required this.address,
       required this.is_rejected,
       required this.is_verified,
       required this.error});
-
   VendorProfile.withError({required String error}) {
     this.error = error;
   }
@@ -32,8 +34,8 @@ class VendorProfile {
     String? profile_picture,
     String? citizenship_back,
     String? citizenship_front,
-    String? digital_signature,
     String? rejected_message,
+    String? is_under_verification_process,
     String? address,
     String? is_rejected,
     String? is_verified,
@@ -44,8 +46,9 @@ class VendorProfile {
       profile_picture: profile_picture ?? this.profile_picture,
       citizenship_back: citizenship_back ?? this.citizenship_back,
       citizenship_front: citizenship_front ?? this.citizenship_front,
-      digital_signature: digital_signature ?? this.digital_signature,
       rejected_message: rejected_message ?? this.rejected_message,
+      is_under_verification_process:
+          is_under_verification_process ?? this.is_under_verification_process,
       address: address ?? this.address,
       is_rejected: is_rejected ?? this.is_rejected,
       is_verified: is_verified ?? this.is_verified,
@@ -59,8 +62,8 @@ class VendorProfile {
       'profile_picture': profile_picture,
       'citizenship_back': citizenship_back,
       'citizenship_front': citizenship_front,
-      'digital_signature': digital_signature,
       'rejected_message': rejected_message,
+      'is_under_verification_process': is_under_verification_process,
       'address': address,
       'is_rejected': is_rejected,
       'is_verified': is_verified,
@@ -81,12 +84,13 @@ class VendorProfile {
       citizenship_front: map['citizenship_front'] != null
           ? map['citizenship_front'] as String
           : null,
-      digital_signature: map['digital_signature'] != null
-          ? map['digital_signature'] as String
-          : null,
       rejected_message: map['rejected_message'] != null
           ? map['rejected_message'] as String
           : null,
+      is_under_verification_process:
+          map['is_under_verification_process'] != null
+              ? map['is_under_verification_process'] as String
+              : null,
       address: map['address'] != null ? map['address'] as String : null,
       is_rejected:
           map['is_rejected'] != null ? map['is_rejected'] as String : null,
@@ -103,7 +107,7 @@ class VendorProfile {
 
   @override
   String toString() {
-    return 'VendorProfile(date_joined: $date_joined, profile_picture: $profile_picture, citizenship_back: $citizenship_back, citizenship_front: $citizenship_front, digital_signature: $digital_signature, rejected_message: $rejected_message, address: $address, is_rejected: $is_rejected, is_verified: $is_verified, error: $error)';
+    return 'VendorProfile(date_joined: $date_joined, profile_picture: $profile_picture, citizenship_back: $citizenship_back, citizenship_front: $citizenship_front, rejected_message: $rejected_message, is_under_verification_process: $is_under_verification_process, address: $address, is_rejected: $is_rejected, is_verified: $is_verified, error: $error)';
   }
 
   @override
@@ -114,8 +118,8 @@ class VendorProfile {
         other.profile_picture == profile_picture &&
         other.citizenship_back == citizenship_back &&
         other.citizenship_front == citizenship_front &&
-        other.digital_signature == digital_signature &&
         other.rejected_message == rejected_message &&
+        other.is_under_verification_process == is_under_verification_process &&
         other.address == address &&
         other.is_rejected == is_rejected &&
         other.is_verified == is_verified &&
@@ -128,8 +132,8 @@ class VendorProfile {
         profile_picture.hashCode ^
         citizenship_back.hashCode ^
         citizenship_front.hashCode ^
-        digital_signature.hashCode ^
         rejected_message.hashCode ^
+        is_under_verification_process.hashCode ^
         address.hashCode ^
         is_rejected.hashCode ^
         is_verified.hashCode ^

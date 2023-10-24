@@ -28,9 +28,7 @@ class LoginScreen extends StatelessWidget {
           if (state is LoginLoaded) {
             BlocProvider.of<VendorDataProviderBloc>(context)
               ..add(LoadDataEvent(token: state.successModel.token.toString()));
-            context.read<FetchVendorProfileBloc>()
-              ..add(
-                  HitFetchVendorProfileEvent(token: state.successModel.token!));
+
             BlocProvider.of<FetchTierBloc>(context)
               ..add(FetchTierHitEvent(
                   token: state.successModel.token.toString()));

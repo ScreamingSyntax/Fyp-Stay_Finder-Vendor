@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
   final AppRouter appRouter;
   const MyApp({super.key, required this.appRouter});
 
-  // const MyApp(super.key);
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -52,6 +51,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               FetchVendorProfileBloc(repository: VendorProfileRepository()),
+        ),
+        BlocProvider(create: (context) => ImageHelperCubit()),
+        BlocProvider(
+          create: (context) => DocumentDetailDartBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ProfileVerificationBloc(
+              repository: ProfileVerificationRepository()),
         )
       ],
       child: RepositoryProvider(

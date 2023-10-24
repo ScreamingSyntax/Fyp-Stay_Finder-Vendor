@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Use image as profile photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Use image as profile photos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Use image as profile photos</string>
 </dict>
 </plist>

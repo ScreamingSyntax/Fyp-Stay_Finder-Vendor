@@ -10,3 +10,5 @@ export 'package:hydrated_bloc/hydrated_bloc.dart';
 export 'package:stayfinder_vendor/logic/blocs/vendor_data/vendor_data_provider_state.dart';
 export 'package:stayfinder_vendor/logic/blocs/fetch_profle_bloc/fetch_vendor_profile_bloc.dart';
 export 'verify_profile/verify_profile_bloc.dart';
+export 'document_detail/document_detail_dart_bloc.dart';
+export 'profile_verification/profile_verification_bloc.dart';

@@ -1,11 +1,12 @@
 import 'package:http/http.dart' as http;
+import '../../constants/ip.dart';
 import '../model/model_exports.dart';
 
 class TierApiProvider {
   Future<List<Tier>> fetchTierList(String token) async {
     try {
       final response = await http.get(
-        Uri.parse('http://192.168.1.84:3333/tier/'),
+        Uri.parse('${getIp()}tier/'),
         headers: <String, String>{
           'Authorization': 'Token $token',
         },

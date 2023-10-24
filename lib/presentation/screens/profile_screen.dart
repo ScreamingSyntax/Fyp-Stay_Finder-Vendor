@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
+
+import '../../logic/blocs/bloc_exports.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -260,7 +263,18 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    onTap: () => Navigator.pushNamed(context, "/info"),
+                    onTap: () {
+                      var state = context.read<LoginBloc>().state;
+                      if (state is LoginLoaded) {
+                        context.read<FetchVendorProfileBloc>()
+                          ..add(HitFetchVendorProfileEvent(
+                              token: state.successModel.token!));
+                        Navigator.pushNamed(context, "/info");
+                      }
+                      context
+                          .read<DocumentDetailDartBloc>()
+                          .add(DocumentDataClearEvent());
+                    },
                     leading: Icon(
                       CupertinoIcons.doc_checkmark_fill,
                       color: Color(0xff32454D).withOpacity(0.8),
