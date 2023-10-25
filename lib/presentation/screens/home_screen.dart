@@ -14,100 +14,7 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 224,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SafeArea(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "Stay",
-                              style: TextStyle(
-                                  fontFamily: 'Slackey', fontSize: 24),
-                            ),
-                            Text(
-                              "finder",
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w500),
-                            )
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Hi Aaryan,",
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              "Good Morning",
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SafeArea(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () => Navigator.pushNamed(context, "/profile"),
-                          child: BlocBuilder<FetchVendorProfileBloc,
-                              FetchVendorProfileState>(
-                            builder: (context, fetchVendorState) {
-                              if (fetchVendorState
-                                  is FetchVendorProfileLoaded) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(200),
-                                      border: Border.all(
-                                          width: 2, color: Colors.black)),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(200),
-                                    child: CachedNetworkImage(
-                                        width: 88,
-                                        height: 88,
-                                        fit: BoxFit.fill,
-                                        imageUrl:
-                                            "${getIp()}${fetchVendorState.vendorProfile.profile_picture}"),
-                                  ),
-                                );
-                              }
-                              return SizedBox();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              margin: EdgeInsets.all(0.2),
-              decoration: BoxDecoration(
-                  color: Color(0xffDAD7CD),
-                  border: Border.all(
-                    color: Color(
-                      0xff29383F,
-                    ),
-                  ),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(
-                        50,
-                      ),
-                      bottomRight: Radius.circular(50))),
-            ),
+            UpperBody(),
             SizedBox(
               height: 30,
             ),
@@ -133,14 +40,6 @@ class HomeScreen extends StatelessWidget {
                                 children: [
                                   TabBarIcon(
                                     onTap: () {
-                                      // final state =
-                                      //     context.read<LoginBloc>().state;
-                                      // if (state is LoginLoaded) {
-                                      //   BlocProvider.of<FetchTierBloc>(context)
-                                      //     ..add(FetchTierHitEvent(
-                                      //         token: state.successModel.token
-                                      //             .toString()));
-                                      // }
                                       context
                                           .read<HomeTabbarCubit>()
                                           .firstElementClicked();
@@ -155,6 +54,14 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   TabBarIcon(
                                     onTap: () {
+                                      final state =
+                                          context.read<LoginBloc>().state;
+                                      if (state is LoginLoaded) {
+                                        BlocProvider.of<FetchTierBloc>(context)
+                                          ..add(FetchTierHitEvent(
+                                              token: state.successModel.token
+                                                  .toString()));
+                                      }
                                       context
                                           .read<HomeTabbarCubit>()
                                           .secondElementClicked();
@@ -181,6 +88,125 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class UpperBody extends StatelessWidget {
+  const UpperBody({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 224,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "Stay",
+                      style: TextStyle(fontFamily: 'Slackey', fontSize: 24),
+                    ),
+                    Text(
+                      "finder",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BlocBuilder<VendorDataProviderBloc,
+                        VendorDataProviderState>(builder: (context, state) {
+                      if (state is VendorLoaded) {
+                        return Text(
+                          "Hi ${state.vendorModel.fullName},",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        );
+                      }
+                      return Text(
+                        "Hi There,",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      );
+                    }),
+                    Text(
+                      "Good Morning",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<LoginBloc, LoginState>(
+                  builder: (context, state) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/profile");
+                      },
+                      child: BlocBuilder<FetchVendorProfileBloc,
+                          FetchVendorProfileState>(
+                        builder: (context, fetchVendorState) {
+                          if (fetchVendorState is FetchVendorProfileLoaded) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(200),
+                                  border: Border.all(
+                                      width: 2, color: Colors.black)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(200),
+                                child: CachedNetworkImage(
+                                    width: 88,
+                                    height: 88,
+                                    fit: BoxFit.fill,
+                                    imageUrl:
+                                        "${getIp()}${fetchVendorState.vendorProfile.profile_picture}"),
+                              ),
+                            );
+                          }
+                          return SizedBox();
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+      margin: EdgeInsets.all(0.2),
+      decoration: BoxDecoration(
+          color: Color(0xffDAD7CD),
+          border: Border.all(
+            color: Color(
+              0xff29383F,
+            ),
+          ),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(
+                50,
+              ),
+              bottomRight: Radius.circular(50))),
     );
   }
 }

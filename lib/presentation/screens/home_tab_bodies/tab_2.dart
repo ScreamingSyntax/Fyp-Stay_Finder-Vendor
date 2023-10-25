@@ -44,7 +44,7 @@ class TabBar2 extends StatelessWidget {
           ),
         );
       }
-      if (state is TierLoadedState) {
+      if (state is FetchTierLoaedState) {
         return AnimationLimiter(
           child: GridView.builder(
             physics: NeverScrollableScrollPhysics(),

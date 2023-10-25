@@ -2,12 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stayfinder_vendor/data/model/model_exports.dart';
 import 'package:stayfinder_vendor/data/repository/vendor_profile_repository.dart';
+import 'package:stayfinder_vendor/logic/blocs/bloc_exports.dart';
 
 part 'fetch_vendor_profile_event.dart';
 part 'fetch_vendor_profile_state.dart';
 
 class FetchVendorProfileBloc
-    extends Bloc<FetchVendorProfileEvent, FetchVendorProfileState> {
+    extends HydratedBloc<FetchVendorProfileEvent, FetchVendorProfileState> {
   FetchVendorProfileBloc({required VendorProfileRepository repository})
       : super(FetchVendorProfileInitial()) {
     on<HitFetchVendorProfileEvent>((event, emit) async {
@@ -39,5 +40,22 @@ class FetchVendorProfileBloc
     print(
         "Current State ${change.currentState}, next state ${change.nextState}");
     super.onChange(change);
+  }
+
+  @override
+  FetchVendorProfileState? fromJson(Map<String, dynamic> json) {
+    try {
+      return FetchVendorProfileLoaded.fromMap(json);
+    } catch (e) {
+      return FetchVendorProfileInitial();
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(FetchVendorProfileState state) {
+    if (state is FetchVendorProfileLoaded) {
+      return state.toMap();
+    }
+    return {};
   }
 }

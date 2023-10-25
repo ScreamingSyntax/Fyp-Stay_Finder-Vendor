@@ -5,7 +5,7 @@ import '../bloc_exports.dart';
 part 'fetch_tier_event.dart';
 part 'fetch_tier_state.dart';
 
-class FetchTierBloc extends Bloc<FetchTierEvent, FetchTierState> {
+class FetchTierBloc extends HydratedBloc<FetchTierEvent, FetchTierState> {
   FetchTierBloc({required TierRepository tier})
       : super(FetchTierInitialState()) {
     on<FetchTierHitEvent>((event, emit) async {
@@ -26,7 +26,7 @@ class FetchTierBloc extends Bloc<FetchTierEvent, FetchTierState> {
         return;
       }
 
-      emit(TierLoadedState(tierList: tierList));
+      emit(FetchTierLoaedState(tierList: tierList));
       return;
     } catch (err) {
       emit(TierErrorState(errorMessage: "Connection Errrror"));
@@ -39,5 +39,30 @@ class FetchTierBloc extends Bloc<FetchTierEvent, FetchTierState> {
     print(
         "Current State ${change.currentState}, next state ${change.nextState}");
     super.onChange(change);
+  }
+
+  @override
+  FetchTierState? fromJson(Map<String, dynamic> json) {
+    try {
+      return FetchTierLoaedState.fromMap(json);
+    } catch (e) {
+      return FetchTierInitialState();
+    }
+  }
+
+  // @override
+  // Map<String, dynamic>? toJson(FetchTierState state) {
+  //   // TODO: implement toJson
+  //   if (state is FetchTierLoaedState) {
+  //     state.toMap();
+  //   }
+  //   return {};
+  // }
+  @override
+  Map<String, dynamic>? toJson(FetchTierState state) {
+    if (state is FetchTierLoaedState) {
+      return state.toMap();
+    }
+    return null; // Return null for other states.
   }
 }

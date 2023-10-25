@@ -29,15 +29,15 @@ class TabBar1 extends StatelessWidget {
                 ),
                 padding: EdgeInsets.all(10),
                 height: 153,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 20,
-                    ),
-                    BlocBuilder<FetchTierBloc, FetchTierState>(
-                      builder: (context, state) {
-                        if (state is TierLoadedState) {
-                          return Column(
+                child: BlocBuilder<FetchTierBloc, FetchTierState>(
+                  builder: (context, state) {
+                    if (state is FetchTierLoaedState) {
+                      return Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CachedNetworkImage(
@@ -56,29 +56,87 @@ class TabBar1 extends StatelessWidget {
                                     fontSize: 12, fontWeight: FontWeight.w700),
                               ),
                               SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  "${state.tierList[0].description}",
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.fade,
-                                  style: TextStyle(
-                                      color: Color(0xff383A3F),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
+                                width: 10,
                               ),
                             ],
-                          );
-                        }
-                        return Text("data");
-                      },
-                    ),
-                  ],
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Container(
+                            child: Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${state.tierList[0].description}.",
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.fade,
+                                    style: TextStyle(
+                                        color: Color(0xff383A3F),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  BlocBuilder<FetchVendorProfileBloc,
+                                      FetchVendorProfileState>(
+                                    builder: (context, state) {
+                                      if (state is FetchVendorProfileLoaded) {
+                                        if (state.vendorProfile.is_verified ==
+                                            'True') {
+                                          return SizedBox();
+                                        }
+                                        return MaterialButton(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          color: Color(0xff29383F)
+                                              .withOpacity(0.8),
+                                          textColor: Color(0xffFFFCFC),
+                                          onPressed: () {
+                                            var state =
+                                                context.read<LoginBloc>().state;
+                                            if (state is LoginLoaded) {
+                                              context.read<
+                                                  FetchVendorProfileBloc>()
+                                                ..add(
+                                                    HitFetchVendorProfileEvent(
+                                                        token: state
+                                                            .successModel
+                                                            .token!));
+                                              Navigator.pushNamed(
+                                                  context, "/info");
+                                            }
+                                            context
+                                                .read<DocumentDetailDartBloc>()
+                                                .add(DocumentDataClearEvent());
+                                          },
+                                          minWidth: 50,
+                                          disabledColor: Color(0xff29383F)
+                                              .withOpacity(0.8),
+                                          focusColor: Color(0xff29383F)
+                                              .withOpacity(0.8),
+                                          child: Text("Get Verified"),
+                                        );
+                                      }
+                                      return SizedBox();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 0,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                      );
+                    }
+                    return SizedBox();
+                  },
                 ),
               ),
               Padding(
