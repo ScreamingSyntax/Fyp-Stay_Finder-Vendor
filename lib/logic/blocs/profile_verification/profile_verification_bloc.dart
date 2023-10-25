@@ -13,6 +13,8 @@ class ProfileVerificationBloc
     extends Bloc<ProfileVerificationEvent, ProfileVerificationState> {
   ProfileVerificationBloc({required ProfileVerificationRepository repository})
       : super(ProfileVerificationInitial()) {
+    on<ProfileVerificationResetEvent>(
+        (event, emit) => emit(ProfileVerificationInitial()));
     on<ProfileVerificationHitEvent>((event, emit) async {
       try {
         emit(ProfileVerificationLoadingState());

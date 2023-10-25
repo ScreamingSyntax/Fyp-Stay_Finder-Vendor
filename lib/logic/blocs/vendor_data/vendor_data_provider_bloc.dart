@@ -11,8 +11,6 @@ class VendorDataProviderBloc
       try {
         emit(VendorDataLoading());
         final data = await vendorRepository.getUserData(token: event.token);
-        // print(event.token);
-        // print(data);
         if (data.error != null) {
           emit(VendorLoadingError(message: data.error));
         }

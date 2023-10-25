@@ -1,3 +1,4 @@
+import '../../constants/ip.dart';
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
 import '../../presentation/widgets/widgets_exports.dart';
@@ -63,17 +64,29 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () => Navigator.pushNamed(context, "/profile"),
-                          child: Container(
-                            height: 88,
-                            width: 88,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(200),
-                                border: Border.all(color: Colors.black),
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                      "assets/images/hanci_aaryan.jpg",
-                                    ),
-                                    fit: BoxFit.contain)),
+                          child: BlocBuilder<FetchVendorProfileBloc,
+                              FetchVendorProfileState>(
+                            builder: (context, fetchVendorState) {
+                              if (fetchVendorState
+                                  is FetchVendorProfileLoaded) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(200),
+                                      border: Border.all(
+                                          width: 2, color: Colors.black)),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(200),
+                                    child: CachedNetworkImage(
+                                        width: 88,
+                                        height: 88,
+                                        fit: BoxFit.fill,
+                                        imageUrl:
+                                            "${getIp()}${fetchVendorState.vendorProfile.profile_picture}"),
+                                  ),
+                                );
+                              }
+                              return SizedBox();
+                            },
                           ),
                         ),
                       ],

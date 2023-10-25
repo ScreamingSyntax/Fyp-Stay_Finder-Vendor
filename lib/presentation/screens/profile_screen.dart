@@ -296,6 +296,10 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   ListTile(
+                    onTap: () {
+                      context.read<LoginBloc>().add(LoginClearEvent());
+                      Navigator.pushNamed(context, "/login");
+                    },
                     leading: Icon(
                       Icons.door_back_door_rounded,
                       color: Color(0xff32454D).withOpacity(0.8),

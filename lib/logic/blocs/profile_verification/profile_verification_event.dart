@@ -21,3 +21,5 @@ class ProfileVerificationHitEvent extends ProfileVerificationEvent {
       required this.address,
       required this.token});
 }
+
+class ProfileVerificationResetEvent extends ProfileVerificationEvent {}

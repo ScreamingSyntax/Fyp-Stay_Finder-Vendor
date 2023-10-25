@@ -14,3 +14,5 @@ class LoginClickedEvent extends LoginEvent {
   const LoginClickedEvent(
       {required this.email, required this.password, required this.rememberMe});
 }
+
+class LoginClearEvent extends LoginEvent {}

@@ -35,8 +35,7 @@ class ProfileVerificationApi {
         citizenshipFront.readAsBytes().asStream(),
         citizenshipFront.lengthSync(),
         filename: 'citizenship_front.jpg',
-        contentType:
-            MediaType('image', '*'), // Adjust the content type if needed
+        contentType: MediaType('image', '*'),
       ));
 
       request.files.add(http.MultipartFile(
@@ -44,8 +43,7 @@ class ProfileVerificationApi {
         citizenshipBack.readAsBytes().asStream(),
         citizenshipBack.lengthSync(),
         filename: 'citizenship_back.jpg',
-        contentType:
-            MediaType('image', '*'), // Adjust the content type if needed
+        contentType: MediaType('image', '*'),
       ));
 
       request.files.add(http.MultipartFile(
@@ -53,8 +51,7 @@ class ProfileVerificationApi {
         profilePicture.readAsBytes().asStream(),
         profilePicture.lengthSync(),
         filename: 'profile_picture.jpg',
-        contentType:
-            MediaType('image', '*'), // Adjust the content type if needed
+        contentType: MediaType('image', '*'),
       ));
 
       final streamedResponse = await request.send();
