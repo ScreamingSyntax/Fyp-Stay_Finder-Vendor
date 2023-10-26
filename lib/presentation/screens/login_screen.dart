@@ -34,15 +34,10 @@ class LoginScreen extends StatelessWidget {
             context.read<FetchVendorProfileBloc>()
               ..add(
                   HitFetchVendorProfileEvent(token: state.successModel.token!));
-            customScaffold(
-                contentType: ContentType.success,
-                context: context,
-                title: "Login Success",
-                message: state.successModel.message.toString());
             Navigator.pushReplacementNamed(context, "/home");
           }
           if (state is LoginError) {
-            customScaffold(
+            return customScaffold(
                 context: context,
                 title: "Login Failed",
                 message: state.message.toString(),

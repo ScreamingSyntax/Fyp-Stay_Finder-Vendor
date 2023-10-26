@@ -1,4 +1,5 @@
 import 'package:stayfinder_vendor/data/repository/vendor_profile_repository.dart';
+import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
 
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
@@ -59,11 +60,16 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ProfileVerificationBloc(
               repository: ProfileVerificationRepository()),
-        )
+        ),
+        BlocProvider(
+          create: (context) =>
+              FetchCurrentTierBloc(repository: CurrentTierApiRepository()),
+        ),
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(useMaterial3: true, fontFamily: 'Poppins'),
           onGenerateRoute: appRouter.onGeneratedRoute,
         ),

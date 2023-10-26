@@ -1,77 +1,95 @@
-// // ignore_for_file: public_member_api_docs, sort_constructors_first
-// import 'dart:convert';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
 
-// import 'package:stayfinder_vendor/data/model/model_exports.dart';
+import 'package:stayfinder_vendor/data/model/model_exports.dart';
 
-// class CurrentTier {
-//   final int id;
-//   final Tier tier_id;
-//   final bool paid;
-//   final int added_accomodations;
+class CurrentTier {
+  int? tier;
+  String? paid_amount;
+  String? paid_date;
+  String? paid_till;
+  bool? is_active;
+  String? error;
+  CurrentTier(
+      {this.tier,
+      this.paid_amount,
+      this.paid_date,
+      this.paid_till,
+      this.is_active,
+      this.error});
+  CurrentTier.withError({required String error}) {
+    this.error = error;
+  }
+  CurrentTier copyWith({
+    int? tier,
+    String? paid_amount,
+    String? paid_date,
+    String? paid_till,
+    bool? is_active,
+    String? error,
+  }) {
+    return CurrentTier(
+      tier: tier ?? this.tier,
+      paid_amount: paid_amount ?? this.paid_amount,
+      paid_date: paid_date ?? this.paid_date,
+      paid_till: paid_till ?? this.paid_till,
+      is_active: is_active ?? this.is_active,
+      error: error ?? this.error,
+    );
+  }
 
-//   CurrentTier(
-//       {required this.id,
-//       required this.tier_id,
-//       required this.paid,
-//       required this.added_accomodations});
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'tier': tier,
+      'paid_amount': paid_amount,
+      'paid_date': paid_date,
+      'paid_till': paid_till,
+      'is_active': is_active,
+      'error': error,
+    };
+  }
 
-//   CurrentTier copyWith({
-//     int? id,
-//     Tier? tier_id,
-//     bool? paid,
-//     int? added_accomodations,
-//   }) {
-//     return CurrentTier(
-//       id: id ?? this.id,
-//       tier_id: tier_id ?? this.tier_id,
-//       paid: paid ?? this.paid,
-//       added_accomodations: added_accomodations ?? this.added_accomodations,
-//     );
-//   }
+  factory CurrentTier.fromMap(Map<String, dynamic> map) {
+    return CurrentTier(
+      tier: map['tier'] != null ? map['tier'] as int : null,
+      paid_amount:
+          map['paid_amount'] != null ? map['paid_amount'] as String : null,
+      paid_date: map['paid_date'] != null ? map['paid_date'] as String : null,
+      paid_till: map['paid_till'] != null ? map['paid_till'] as String : null,
+      is_active: map['is_active'] != null ? map['is_active'] as bool : null,
+      error: map['error'] != null ? map['error'] as String : null,
+    );
+  }
 
-//   Map<String, dynamic> toMap() {
-//     return <String, dynamic>{
-//       'id': id,
-//       'tier_id': tier_id.toMap(),
-//       'paid': paid,
-//       'added_accomodations': added_accomodations,
-//     };
-//   }
+  String toJson() => json.encode(toMap());
 
-//   factory CurrentTier.fromMap(Map<String, dynamic> map) {
-//     return CurrentTier(
-//       id: map['id'] as int,
-//       tier_id: Tier.fromMap(map['tier_id'] as Map<String, dynamic>),
-//       paid: map['paid'] as bool,
-//       added_accomodations: map['added_accomodations'] as int,
-//     );
-//   }
+  factory CurrentTier.fromJson(String source) =>
+      CurrentTier.fromMap(json.decode(source) as Map<String, dynamic>);
 
-//   String toJson() => json.encode(toMap());
+  @override
+  String toString() {
+    return 'CurrentTier(tier: $tier, paid_amount: $paid_amount, paid_date: $paid_date, paid_till: $paid_till, is_active: $is_active, error: $error)';
+  }
 
-//   factory CurrentTier.fromJson(String source) =>
-//       CurrentTier.fromMap(json.decode(source) as Map<String, dynamic>);
+  @override
+  bool operator ==(covariant CurrentTier other) {
+    if (identical(this, other)) return true;
 
-//   @override
-//   String toString() {
-//     return 'CurrentTier(id: $id, tier_id: $tier_id, paid: $paid, added_accomodations: $added_accomodations)';
-//   }
+    return other.tier == tier &&
+        other.paid_amount == paid_amount &&
+        other.paid_date == paid_date &&
+        other.paid_till == paid_till &&
+        other.is_active == is_active &&
+        other.error == error;
+  }
 
-//   @override
-//   bool operator ==(covariant CurrentTier other) {
-//     if (identical(this, other)) return true;
-
-//     return other.id == id &&
-//         other.tier_id == tier_id &&
-//         other.paid == paid &&
-//         other.added_accomodations == added_accomodations;
-//   }
-
-//   @override
-//   int get hashCode {
-//     return id.hashCode ^
-//         tier_id.hashCode ^
-//         paid.hashCode ^
-//         added_accomodations.hashCode;
-//   }
-// }
+  @override
+  int get hashCode {
+    return tier.hashCode ^
+        paid_amount.hashCode ^
+        paid_date.hashCode ^
+        paid_till.hashCode ^
+        is_active.hashCode ^
+        error.hashCode;
+  }
+}

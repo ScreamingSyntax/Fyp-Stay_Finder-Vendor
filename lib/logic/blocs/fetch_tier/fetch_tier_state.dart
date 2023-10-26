@@ -11,10 +11,10 @@ final class FetchTierInitialState extends FetchTierState {}
 
 final class FetchTierLoadingState extends FetchTierState {}
 
-class FetchTierLoaedState extends FetchTierState {
+class FetchTierLoadedState extends FetchTierState {
   final List<Tier> tierList;
 
-  FetchTierLoaedState({required this.tierList});
+  FetchTierLoadedState({required this.tierList});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -22,8 +22,8 @@ class FetchTierLoaedState extends FetchTierState {
     };
   }
 
-  factory FetchTierLoaedState.fromMap(Map<String, dynamic> map) {
-    return FetchTierLoaedState(
+  factory FetchTierLoadedState.fromMap(Map<String, dynamic> map) {
+    return FetchTierLoadedState(
       tierList: List<Tier>.from(
         map['tierList'].map((tierMap) => Tier.fromMap(tierMap)),
       ),
@@ -32,8 +32,8 @@ class FetchTierLoaedState extends FetchTierState {
 
   String toJson() => json.encode(toMap());
 
-  factory FetchTierLoaedState.fromJson(String source) {
-    return FetchTierLoaedState.fromMap(
+  factory FetchTierLoadedState.fromJson(String source) {
+    return FetchTierLoadedState.fromMap(
         json.decode(source) as Map<String, dynamic>);
   }
 

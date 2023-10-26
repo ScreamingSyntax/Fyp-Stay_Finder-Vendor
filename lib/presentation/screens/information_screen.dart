@@ -46,7 +46,7 @@ class InformationScreen extends StatelessWidget {
                       title: "Successfully Send",
                       message: "Your data is send for verfication",
                       contentType: ContentType.success);
-                  context
+                  return context
                       .read<ProfileVerificationBloc>()
                       .add(ProfileVerificationResetEvent());
                 }
@@ -56,6 +56,7 @@ class InformationScreen extends StatelessWidget {
                       title: "Error",
                       message: dataProviderState.message,
                       contentType: ContentType.failure);
+                  Navigator.pushNamed(context, "/home");
                 }
               },
               child: Scaffold(
@@ -500,85 +501,107 @@ class InformationScreen extends StatelessWidget {
                                                   .vendorProfile.is_verified ==
                                               "True")
                                           ? SizedBox()
-                                          : AnimatedContainer(
-                                              duration: Duration(seconds: 2),
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              child: MaterialButton(
-                                                  onPressed: () {
-                                                    if (state
-                                                        .formKey!.currentState!
-                                                        .validate()) {
-                                                      var imageState = context
-                                                          .read<
-                                                              DocumentDetailDartBloc>()
-                                                          .state;
-                                                      if (imageState.nagriktaBack == null &&
-                                                          imageState
+                                          : BlocBuilder<ProfileVerificationBloc,
+                                              ProfileVerificationState>(
+                                              builder: (context, profiloState) {
+                                                if (profiloState
+                                                    is ProfileVerificationLoadingState) {
+                                                  return Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        CircularProgressIndicator(),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }
+                                                return AnimatedContainer(
+                                                  duration:
+                                                      Duration(seconds: 2),
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: MaterialButton(
+                                                      onPressed: () {
+                                                        if (state.formKey!
+                                                            .currentState!
+                                                            .validate()) {
+                                                          var imageState = context
+                                                              .read<
+                                                                  DocumentDetailDartBloc>()
+                                                              .state;
+                                                          if (imageState.nagriktaBack == null &&
+                                                              imageState
+                                                                      .nagriktaFront ==
+                                                                  null &&
+                                                              imageState
+                                                                      .profilePicture ==
+                                                                  null) {
+                                                            return customScaffold(
+                                                                context:
+                                                                    context,
+                                                                title:
+                                                                    "No Document photos",
+                                                                message:
+                                                                    "Please attach your document photos above",
+                                                                contentType:
+                                                                    ContentType
+                                                                        .failure);
+                                                          }
+                                                          if (imageState
                                                                   .nagriktaFront ==
-                                                              null &&
-                                                          imageState
+                                                              null) {
+                                                            return customScaffold(
+                                                                context:
+                                                                    context,
+                                                                title:
+                                                                    "Citizenship Picture",
+                                                                message:
+                                                                    "Dear User, Please attach of your citizenship facing front",
+                                                                contentType:
+                                                                    ContentType
+                                                                        .failure);
+                                                          }
+                                                          if (imageState
+                                                                  .nagriktaBack ==
+                                                              null) {
+                                                            return customScaffold(
+                                                                context:
+                                                                    context,
+                                                                title:
+                                                                    "Citizenship Picture",
+                                                                message:
+                                                                    "Dear User, Please attach of your citizenship facing backwards",
+                                                                contentType:
+                                                                    ContentType
+                                                                        .failure);
+                                                          }
+                                                          if (imageState
                                                                   .profilePicture ==
                                                               null) {
-                                                        return customScaffold(
-                                                            context: context,
-                                                            title:
-                                                                "No Document photos",
-                                                            message:
-                                                                "Please attach your document photos above",
-                                                            contentType:
-                                                                ContentType
-                                                                    .failure);
-                                                      }
-                                                      if (imageState
-                                                              .nagriktaFront ==
-                                                          null) {
-                                                        return customScaffold(
-                                                            context: context,
-                                                            title:
-                                                                "Citizenship Picture",
-                                                            message:
-                                                                "Dear User, Please attach of your citizenship facing front",
-                                                            contentType:
-                                                                ContentType
-                                                                    .failure);
-                                                      }
-                                                      if (imageState
-                                                              .nagriktaBack ==
-                                                          null) {
-                                                        return customScaffold(
-                                                            context: context,
-                                                            title:
-                                                                "Citizenship Picture",
-                                                            message:
-                                                                "Dear User, Please attach of your citizenship facing backwards",
-                                                            contentType:
-                                                                ContentType
-                                                                    .failure);
-                                                      }
-                                                      if (imageState
-                                                              .profilePicture ==
-                                                          null) {
-                                                        return customScaffold(
-                                                            context: context,
-                                                            title:
-                                                                "Profile Photo not Added",
-                                                            message:
-                                                                "Dear User, Please add your Picture",
-                                                            contentType:
-                                                                ContentType
-                                                                    .failure);
-                                                      }
-                                                      var state = context
-                                                          .read<LoginBloc>()
-                                                          .state;
-                                                      if (state
-                                                          is LoginLoaded) {
-                                                        context
-                                                            .read<
-                                                                ProfileVerificationBloc>()
-                                                            .add(ProfileVerificationHitEvent(
+                                                            return customScaffold(
+                                                                context:
+                                                                    context,
+                                                                title:
+                                                                    "Profile Photo not Added",
+                                                                message:
+                                                                    "Dear User, Please add your Picture",
+                                                                contentType:
+                                                                    ContentType
+                                                                        .failure);
+                                                          }
+                                                          var state = context
+                                                              .read<LoginBloc>()
+                                                              .state;
+                                                          if (state
+                                                              is LoginLoaded) {
+                                                            context.read<ProfileVerificationBloc>().add(ProfileVerificationHitEvent(
                                                                 token: state
                                                                     .successModel
                                                                     .token!,
@@ -594,22 +617,26 @@ class InformationScreen extends StatelessWidget {
                                                                 address:
                                                                     editingController
                                                                         .text));
-                                                      }
-                                                    }
-                                                  },
-                                                  minWidth:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width,
-                                                  height: 48,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  textColor: Colors.white,
-                                                  color: Color(0xff546464),
-                                                  child: Text(
-                                                      "Submit for verification")),
+                                                          }
+                                                        }
+                                                      },
+                                                      minWidth:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      height: 48,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5)),
+                                                      textColor: Colors.white,
+                                                      color: Color(0xff546464),
+                                                      child: Text(
+                                                          "Submit for verification")),
+                                                );
+                                              },
                                             );
                                     }
                                   },

@@ -26,7 +26,7 @@ class FetchTierBloc extends HydratedBloc<FetchTierEvent, FetchTierState> {
         return;
       }
 
-      emit(FetchTierLoaedState(tierList: tierList));
+      emit(FetchTierLoadedState(tierList: tierList));
       return;
     } catch (err) {
       emit(TierErrorState(errorMessage: "Connection Errrror"));
@@ -44,7 +44,7 @@ class FetchTierBloc extends HydratedBloc<FetchTierEvent, FetchTierState> {
   @override
   FetchTierState? fromJson(Map<String, dynamic> json) {
     try {
-      return FetchTierLoaedState.fromMap(json);
+      return FetchTierLoadedState.fromMap(json);
     } catch (e) {
       return FetchTierInitialState();
     }
@@ -60,7 +60,7 @@ class FetchTierBloc extends HydratedBloc<FetchTierEvent, FetchTierState> {
   // }
   @override
   Map<String, dynamic>? toJson(FetchTierState state) {
-    if (state is FetchTierLoaedState) {
+    if (state is FetchTierLoadedState) {
       return state.toMap();
     }
     return null; // Return null for other states.
