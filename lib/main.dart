@@ -65,6 +65,9 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               FetchCurrentTierBloc(repository: CurrentTierApiRepository()),
         ),
+        BlocProvider(
+            create: (context) => FetchTransactionHistoryBloc(
+                transactionHistoryRepository: TransactionHistoryRepository())),
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

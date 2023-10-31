@@ -12,7 +12,7 @@ final class FetchCurrentTierInitial extends FetchCurrentTierState {}
 final class FetchCurrentTierLoading extends FetchCurrentTierState {}
 
 final class FetchCurrentTierLoaded extends FetchCurrentTierState {
-  final CurrentTier currentTier;
+  final TierTransaction currentTier;
 
   FetchCurrentTierLoaded({required this.currentTier});
   List<Object> get props => [currentTier];

@@ -21,7 +21,8 @@ class FetchCurrentTierBloc
       required CurrentTierApiRepository repository}) async {
     emit(FetchCurrentTierLoading());
     try {
-      CurrentTier tier = await repository.getCurrentTier(token: event.token);
+      TierTransaction tier =
+          await repository.getCurrentTier(token: event.token);
       if (tier.error != null) {
         return emit(FetchCurrentTierError(message: tier.error!));
       }

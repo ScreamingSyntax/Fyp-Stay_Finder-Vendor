@@ -12,3 +12,4 @@ export 'package:stayfinder_vendor/logic/blocs/fetch_profle_bloc/fetch_vendor_pro
 export 'verify_profile/verify_profile_bloc.dart';
 export 'document_detail/document_detail_dart_bloc.dart';
 export 'profile_verification/profile_verification_bloc.dart';
+export 'fetch_transaction_history/fetch_transaction_history_bloc.dart';

@@ -134,84 +134,118 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    onTap: () {
-                      var state = context.read<LoginBloc>().state;
-                      if (state is LoginLoaded) {
-                        context.read<FetchVendorProfileBloc>()
-                          ..add(HitFetchVendorProfileEvent(
-                              token: state.successModel.token!));
-                        Navigator.pushNamed(context, "/info");
-                      }
-                      context
-                          .read<DocumentDetailDartBloc>()
-                          .add(DocumentDataClearEvent());
-                    },
-                    leading: Icon(
-                      CupertinoIcons.doc_checkmark_fill,
-                      color: Color(0xff32454D).withOpacity(0.8),
-                    ),
-                    title: Text(
-                      "My information",
-                      style: TextStyle(
+                      onTap: () {
+                        var state = context.read<LoginBloc>().state;
+                        if (state is LoginLoaded) {
+                          context.read<FetchVendorProfileBloc>()
+                            ..add(HitFetchVendorProfileEvent(
+                                token: state.successModel.token!));
+                          Navigator.pushNamed(context, "/info");
+                        }
+                        context
+                            .read<DocumentDetailDartBloc>()
+                            .add(DocumentDataClearEvent());
+                      },
+                      leading: Icon(
+                        CupertinoIcons.doc_checkmark_fill,
+                        color: Color(0xff32454D).withOpacity(0.8),
+                      ),
+                      title: CustomPoppinsText(
+                        text: "My information",
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Color(0xff32454D).withOpacity(0.8),
                       ),
-                    ),
-                    subtitle: Text(
-                      "View your personal information",
-                      style: TextStyle(
+                      //  Text(
+                      //   "My information",
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.w500,
+                      //     color: Color(0xff32454D).withOpacity(0.8),
+                      //   ),
+                      // ),
+                      subtitle: CustomPoppinsText(
+                        text: "View your personal information",
                         fontSize: 12,
+                        fontWeight: FontWeight.normal,
                         color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                    ),
-                  ),
+                      )),
+                  // Text(
+                  //   "View your personal information",
+                  //   style: TextStyle(
+                  //     fontSize: 12,
+                  //     color: Color(0xff32454D).withOpacity(0.8),
+                  //   ),
+                  // ),
+
                   ListTile(
-                    onTap: () {},
-                    leading: Icon(
-                      CupertinoIcons.lock_fill,
-                      color: Color(0xff32454D).withOpacity(0.8),
-                    ),
-                    title: Text(
-                      "Reset Password",
-                      style: TextStyle(
+                      onTap: () {},
+                      leading: Icon(
+                        CupertinoIcons.lock_fill,
+                        color: Color(0xff32454D).withOpacity(0.8),
+                      ),
+                      title: CustomPoppinsText(
+                        text: "Reset Password",
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Color(0xff32454D).withOpacity(0.8),
                       ),
-                    ),
-                    subtitle: Text(
-                      "Do you want to change your password?",
-                      style: TextStyle(
+                      subtitle: CustomPoppinsText(
+                        text: "Do you want to change your password",
                         fontSize: 12,
+                        fontWeight: FontWeight.normal,
                         color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                    ),
-                  ),
+                      )),
                   ListTile(
-                    onTap: () {
-                      context.read<LoginBloc>().add(LoginClearEvent());
-                      Navigator.pushNamed(context, "/login");
-                    },
-                    leading: Icon(
-                      Icons.door_back_door_rounded,
-                      color: Color(0xff32454D).withOpacity(0.8),
-                    ),
-                    title: Text(
-                      "Log out",
-                      style: TextStyle(
+                      onTap: () {
+                        context.read<LoginBloc>().add(LoginClearEvent());
+                        Navigator.pushNamed(context, "/login");
+                      },
+                      leading: Icon(
+                        Icons.door_back_door_rounded,
+                        color: Color(0xff32454D).withOpacity(0.8),
+                      ),
+                      title: CustomPoppinsText(
+                        text: "Log out",
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Color(0xff32454D).withOpacity(0.8),
                       ),
-                    ),
-                    subtitle: Text(
-                      "Log out from the system bro",
-                      style: TextStyle(
+                      subtitle: CustomPoppinsText(
+                        text: "Log out from the system bro",
                         fontSize: 12,
+                        fontWeight: FontWeight.normal,
                         color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                    ),
+                      )),
+                  BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      return ListTile(
+                        onTap: () {
+                          if (state is LoginLoaded) {
+                            context.read<FetchTransactionHistoryBloc>().add(
+                                FetchTransactionHistoryHitEvent(
+                                    token: state.successModel.token!));
+                            Navigator.pushNamed(context, "/paymentHistory");
+                          }
+                        },
+                        leading: Icon(
+                          Icons.attach_money,
+                          color: Color(0xff32454D).withOpacity(0.8),
+                        ),
+                        subtitle: CustomPoppinsText(
+                          text: "View your payment history",
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: Color(0xff32454D).withOpacity(0.8),
+                        ),
+                        title: CustomPoppinsText(
+                          text: "Payment History",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff32454D).withOpacity(0.8),
+                        ),
+                      );
+                    },
                   )
                 ],
               ),

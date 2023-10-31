@@ -1,3 +1,5 @@
+import 'package:stayfinder_vendor/presentation/screens/transaction_history_screen.dart';
+
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
 import '../../presentation/widgets/widgets_exports.dart';
@@ -36,6 +38,11 @@ class AppRouter {
             child: NavBarMain(),
           ),
         );
+      case "/paymentHistory":
+        return MaterialPageRoute(
+          builder: (_) => TransactionHistoryScreen(),
+        );
+
       case "/profile":
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(),

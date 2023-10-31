@@ -250,7 +250,7 @@ class upperBodyWhenVerifiedandCurrentTier extends StatelessWidget {
   DateTime now = DateTime.now();
   final Tier tier;
 
-  final CurrentTier currentTier;
+  final TierTransaction currentTier;
   @override
   Widget build(BuildContext context) {
     return Row(
