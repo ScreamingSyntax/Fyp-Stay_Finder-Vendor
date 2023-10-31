@@ -128,31 +128,26 @@ class TabBar2 extends StatelessWidget {
                           height: 20,
                         ),
                         Padding(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 140.0),
-                          child: MaterialButton(
-                            onPressed: () {
-                              // context.read<FetchTierBloc>(context)
-                              final state =
-                                  BlocProvider.of<FetchTierBloc>(context);
-                              print(state.state);
-                              final state2 =
-                                  BlocProvider.of<LoginBloc>(context).state;
-                              if (state2 is LoginLoaded) {
-                                return context.read<FetchTierBloc>().add(
-                                    FetchTierHitEvent(
-                                        token: state2.successModel.token!));
-                              }
-                            },
-                            minWidth: MediaQuery.of(context).size.width,
-                            height: 48,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            textColor: Colors.white,
-                            color: Color(0xff546464),
-                            child: Text("Retry"),
-                          ),
-                        ),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 140.0),
+                            child: CustomMaterialButton(
+                              onPressed: () {
+                                final state =
+                                    BlocProvider.of<FetchTierBloc>(context);
+                                print(state.state);
+                                final state2 =
+                                    BlocProvider.of<LoginBloc>(context).state;
+                                if (state2 is LoginLoaded) {
+                                  return context.read<FetchTierBloc>().add(
+                                      FetchTierHitEvent(
+                                          token: state2.successModel.token!));
+                                }
+                              },
+                              child: Text("Retry"),
+                              backgroundColor: Color(0xff29383f),
+                              textColor: Colors.white,
+                              height: 40,
+                            ))
                       ],
                     )
                   : Column(
@@ -168,28 +163,35 @@ class TabBar2 extends StatelessWidget {
                         Padding(
                           padding:
                               const EdgeInsets.symmetric(horizontal: 140.0),
-                          child: MaterialButton(
-                            onPressed: () {
-                              // context.read<FetchTierBloc>(context)
-                              final state =
-                                  BlocProvider.of<FetchTierBloc>(context);
-                              print(state.state);
-                              final state2 =
-                                  BlocProvider.of<LoginBloc>(context).state;
-                              if (state2 is LoginLoaded) {
-                                return context.read<FetchTierBloc>().add(
-                                    FetchTierHitEvent(
-                                        token: state2.successModel.token!));
-                              }
-                            },
-                            minWidth: MediaQuery.of(context).size.width,
-                            height: 48,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            textColor: Colors.white,
-                            color: Color(0xff546464),
-                            child: Text("Retry"),
-                          ),
+                          child: CustomMaterialButton(
+                              onPressed: () {},
+                              child: Text("Retry"),
+                              backgroundColor: Color(0xff546464),
+                              textColor: Colors.white,
+                              height: 40),
+
+                          // MaterialButton(
+                          //   onPressed: () {
+                          //     // context.read<FetchTierBloc>(context)
+                          //     final state =
+                          //         BlocProvider.of<FetchTierBloc>(context);
+                          //     print(state.state);
+                          //     final state2 =
+                          //         BlocProvider.of<LoginBloc>(context).state;
+                          //     if (state2 is LoginLoaded) {
+                          //       return context.read<FetchTierBloc>().add(
+                          //           FetchTierHitEvent(
+                          //               token: state2.successModel.token!));
+                          //     }
+                          //   },
+                          //   minWidth: MediaQuery.of(context).size.width,
+                          //   height: 48,
+                          //   shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(5)),
+                          //   textColor: Colors.white,
+                          //   color: Color(0xff546464),
+                          //   child: Text("Retry"),
+                          // ),
                         ),
                       ],
                     )

@@ -60,42 +60,10 @@ class InformationScreen extends StatelessWidget {
                 }
               },
               child: Scaffold(
-                appBar: AppBar(
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Container(
-                          width: 120,
-                          height: 40,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Color(
-                                0xffDAD7CD,
-                              ),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Icon(
-                                (fetchVendorState.vendorProfile.is_verified ==
-                                        "True")
-                                    ? Icons.verified
-                                    : Icons.error,
-                                size: 20,
-                              ),
-                              (fetchVendorState.vendorProfile.is_verified ==
-                                      "True")
-                                  ? Text("Verified")
-                                  : Text("Unverified")
-                            ],
-                          )),
-                    )
-                  ],
-                  title: Text(
-                    "My Information",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
+                appBar: PreferredSize(
+                    preferredSize: Size.fromHeight(100),
+                    child: InformationScreenAppBar(
+                        fetchVendorState: fetchVendorState)),
                 body: Form(
                   key: context.watch<FormBloc>().state.formKey,
                   child: SingleChildScrollView(
@@ -104,37 +72,8 @@ class InformationScreen extends StatelessWidget {
                         // if (fetchVendorState.vendorProfile.is_rejected ==
                         //     'True')
                         fetchVendorState.vendorProfile.is_rejected == 'True'
-                            ? Container(
-                                decoration: BoxDecoration(
-                                    color: Color(
-                                      0xffDAD7CD,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5)),
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.all(20),
-                                padding: EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Your profile got rejected, Please submit again",
-                                      style: TextStyle(
-                                          color: Colors.red.withOpacity(0.7),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "-  Reason :  ${fetchVendorState.vendorProfile.rejected_message}",
-                                      style: TextStyle(
-                                          color: Color(0xff29383F),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
+                            ? ProfileRejectedMessageWidget(
+                                fetchVendorState: fetchVendorState,
                               )
                             : SizedBox(),
                         Container(
@@ -155,19 +94,21 @@ class InformationScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Text("Document Details",
-                                    style: TextStyle(
-                                        color: Color(0xff29383F),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700)),
+                                CustomPoppinsText(
+                                  text: "Document Details",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xff29383F),
+                                ),
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Text("Profile Photo",
-                                    style: TextStyle(
-                                        color: Color(0xff29383F),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500)),
+                                CustomPoppinsText(
+                                  text: "Profile Photo",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff29383F),
+                                ),
                                 SizedBox(
                                   height: 20,
                                 ),
@@ -257,19 +198,19 @@ class InformationScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Text("Citizenship Photo",
-                                    style: TextStyle(
-                                        color: Color(0xff29383F),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700)),
+                                CustomPoppinsText(
+                                  text: "Citizenship Photo",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xff29383f),
+                                ),
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Text("Front",
-                                    style: TextStyle(
-                                        color: Color(0xff29383F),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500)),
+                                CustomPoppinsText(
+                                    text: "Front",
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
                                 Container(
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
@@ -346,11 +287,12 @@ class InformationScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Text("Back",
-                                    style: TextStyle(
-                                        color: Color(0xff29383F),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500)),
+                                CustomPoppinsText(
+                                  text: "Back",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff29383f),
+                                ),
                                 Container(
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
@@ -427,11 +369,12 @@ class InformationScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Text("Enter Address",
-                                    style: TextStyle(
-                                        color: Color(0xff29383F),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500)),
+                                CustomPoppinsText(
+                                  text: "Enter Address",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff29383f),
+                                ),
                                 SizedBox(
                                   height: 5,
                                 ),
@@ -502,142 +445,127 @@ class InformationScreen extends StatelessWidget {
                                               "True")
                                           ? SizedBox()
                                           : BlocBuilder<ProfileVerificationBloc,
-                                              ProfileVerificationState>(
+                                                  ProfileVerificationState>(
                                               builder: (context, profiloState) {
-                                                if (profiloState
-                                                    is ProfileVerificationLoadingState) {
-                                                  return Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        CircularProgressIndicator(),
-                                                      ],
-                                                    ),
-                                                  );
-                                                }
-                                                return AnimatedContainer(
+                                              if (profiloState
+                                                  is ProfileVerificationLoadingState) {
+                                                return Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      CircularProgressIndicator(),
+                                                    ],
+                                                  ),
+                                                );
+                                              }
+                                              return AnimatedContainer(
                                                   duration:
                                                       Duration(seconds: 2),
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  child: MaterialButton(
-                                                      onPressed: () {
-                                                        if (state.formKey!
-                                                            .currentState!
-                                                            .validate()) {
-                                                          var imageState = context
-                                                              .read<
-                                                                  DocumentDetailDartBloc>()
-                                                              .state;
-                                                          if (imageState.nagriktaBack == null &&
-                                                              imageState
-                                                                      .nagriktaFront ==
-                                                                  null &&
-                                                              imageState
-                                                                      .profilePicture ==
-                                                                  null) {
-                                                            return customScaffold(
-                                                                context:
-                                                                    context,
-                                                                title:
-                                                                    "No Document photos",
-                                                                message:
-                                                                    "Please attach your document photos above",
-                                                                contentType:
-                                                                    ContentType
-                                                                        .failure);
-                                                          }
-                                                          if (imageState
-                                                                  .nagriktaFront ==
-                                                              null) {
-                                                            return customScaffold(
-                                                                context:
-                                                                    context,
-                                                                title:
-                                                                    "Citizenship Picture",
-                                                                message:
-                                                                    "Dear User, Please attach of your citizenship facing front",
-                                                                contentType:
-                                                                    ContentType
-                                                                        .failure);
-                                                          }
-                                                          if (imageState
-                                                                  .nagriktaBack ==
-                                                              null) {
-                                                            return customScaffold(
-                                                                context:
-                                                                    context,
-                                                                title:
-                                                                    "Citizenship Picture",
-                                                                message:
-                                                                    "Dear User, Please attach of your citizenship facing backwards",
-                                                                contentType:
-                                                                    ContentType
-                                                                        .failure);
-                                                          }
-                                                          if (imageState
-                                                                  .profilePicture ==
-                                                              null) {
-                                                            return customScaffold(
-                                                                context:
-                                                                    context,
-                                                                title:
-                                                                    "Profile Photo not Added",
-                                                                message:
-                                                                    "Dear User, Please add your Picture",
-                                                                contentType:
-                                                                    ContentType
-                                                                        .failure);
-                                                          }
-                                                          var state = context
-                                                              .read<LoginBloc>()
-                                                              .state;
-                                                          if (state
-                                                              is LoginLoaded) {
-                                                            context.read<ProfileVerificationBloc>().add(ProfileVerificationHitEvent(
-                                                                token: state
-                                                                    .successModel
-                                                                    .token!,
-                                                                profilePicture:
-                                                                    imageState
-                                                                        .profilePicture!,
-                                                                citizenshipFront:
-                                                                    imageState
-                                                                        .nagriktaFront!,
-                                                                citizenshipBack:
-                                                                    imageState
-                                                                        .nagriktaBack!,
-                                                                address:
-                                                                    editingController
-                                                                        .text));
-                                                          }
+                                                  child: CustomMaterialButton(
+                                                    backgroundColor:
+                                                        Color(0xff546464),
+                                                    height: 40,
+                                                    textColor: Colors.white,
+                                                    onPressed: () {
+                                                      if (state.formKey!
+                                                          .currentState!
+                                                          .validate()) {
+                                                        var imageState = context
+                                                            .read<
+                                                                DocumentDetailDartBloc>()
+                                                            .state;
+                                                        if (imageState.nagriktaBack == null &&
+                                                            imageState
+                                                                    .nagriktaFront ==
+                                                                null &&
+                                                            imageState
+                                                                    .profilePicture ==
+                                                                null) {
+                                                          return customScaffold(
+                                                              context: context,
+                                                              title:
+                                                                  "No Document photos",
+                                                              message:
+                                                                  "Please attach your document photos above",
+                                                              contentType:
+                                                                  ContentType
+                                                                      .failure);
                                                         }
-                                                      },
-                                                      minWidth:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      height: 48,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5)),
-                                                      textColor: Colors.white,
-                                                      color: Color(0xff546464),
-                                                      child: Text(
-                                                          "Submit for verification")),
-                                                );
-                                              },
-                                            );
+                                                        if (imageState
+                                                                .nagriktaFront ==
+                                                            null) {
+                                                          return customScaffold(
+                                                              context: context,
+                                                              title:
+                                                                  "Citizenship Picture",
+                                                              message:
+                                                                  "Dear User, Please attach of your citizenship facing front",
+                                                              contentType:
+                                                                  ContentType
+                                                                      .failure);
+                                                        }
+                                                        if (imageState
+                                                                .nagriktaBack ==
+                                                            null) {
+                                                          return customScaffold(
+                                                              context: context,
+                                                              title:
+                                                                  "Citizenship Picture",
+                                                              message:
+                                                                  "Dear User, Please attach of your citizenship facing backwards",
+                                                              contentType:
+                                                                  ContentType
+                                                                      .failure);
+                                                        }
+                                                        if (imageState
+                                                                .profilePicture ==
+                                                            null) {
+                                                          return customScaffold(
+                                                              context: context,
+                                                              title:
+                                                                  "Profile Photo not Added",
+                                                              message:
+                                                                  "Dear User, Please add your Picture",
+                                                              contentType:
+                                                                  ContentType
+                                                                      .failure);
+                                                        }
+                                                        var state = context
+                                                            .read<LoginBloc>()
+                                                            .state;
+                                                        if (state
+                                                            is LoginLoaded) {
+                                                          context.read<ProfileVerificationBloc>().add(ProfileVerificationHitEvent(
+                                                              token: state
+                                                                  .successModel
+                                                                  .token!,
+                                                              profilePicture:
+                                                                  imageState
+                                                                      .profilePicture!,
+                                                              citizenshipFront:
+                                                                  imageState
+                                                                      .nagriktaFront!,
+                                                              citizenshipBack:
+                                                                  imageState
+                                                                      .nagriktaBack!,
+                                                              address:
+                                                                  editingController
+                                                                      .text));
+                                                        }
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                        "Submit for verification"),
+                                                  ));
+                                            });
                                     }
                                   },
                                 ),
@@ -665,6 +593,96 @@ class InformationScreen extends StatelessWidget {
             ),
           ));
         },
+      ),
+    );
+  }
+}
+
+class ProfileRejectedMessageWidget extends StatelessWidget {
+  final FetchVendorProfileLoaded fetchVendorState;
+  const ProfileRejectedMessageWidget({
+    super.key,
+    required this.fetchVendorState,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Color(
+            0xffDAD7CD,
+          ),
+          borderRadius: BorderRadius.circular(5)),
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Your profile got rejected, Please submit again",
+            style: TextStyle(
+                color: Colors.red.withOpacity(0.7),
+                fontSize: 16,
+                fontWeight: FontWeight.w700),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            "-  Reason :  ${fetchVendorState.vendorProfile.rejected_message}",
+            style: TextStyle(
+                color: Color(0xff29383F),
+                fontSize: 12,
+                fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class InformationScreenAppBar extends StatelessWidget {
+  final FetchVendorProfileLoaded fetchVendorState;
+  const InformationScreenAppBar({
+    super.key,
+    required this.fetchVendorState,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Container(
+              width: 120,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: Color(
+                    0xffDAD7CD,
+                  ),
+                  borderRadius: BorderRadius.circular(50)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(
+                    (fetchVendorState.vendorProfile.is_verified == "True")
+                        ? Icons.verified
+                        : Icons.error,
+                    size: 20,
+                  ),
+                  (fetchVendorState.vendorProfile.is_verified == "True")
+                      ? Text("Verified")
+                      : Text("Unverified")
+                ],
+              )),
+        )
+      ],
+      title: Text(
+        "My Information",
+        style: TextStyle(fontSize: 16),
       ),
     );
   }
