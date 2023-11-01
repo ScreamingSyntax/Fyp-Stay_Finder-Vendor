@@ -311,12 +311,43 @@ class upperBodyWhenVerifiedandCurrentTier extends StatelessWidget {
                                   DateTime paid_till =
                                       DateTime.parse(currentTier.paid_till!);
                                   if (now.isAfter(paid_till)) {
-                                    return CustomPoppinsText(
-                                      text:
-                                          "Ended : ${DateFormat('yyyy-MM-dd').format(DateTime.parse(currentTier.paid_till!))}",
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red,
+                                    return Column(
+                                      children: [
+                                        CustomPoppinsText(
+                                          text:
+                                              "Ended : ${DateFormat('yyyy-MM-dd').format(DateTime.parse(currentTier.paid_till!))}",
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: CustomMaterialButton(
+                                              onPressed: () {
+                                                var state = context
+                                                    .read<LoginBloc>()
+                                                    .state;
+                                                if (state is LoginLoaded) {
+                                                  context
+                                                      .read<
+                                                          FetchTransactionHistoryBloc>()
+                                                      .add(
+                                                          FetchTransactionHistoryHitEvent(
+                                                              token: state
+                                                                  .successModel
+                                                                  .token!));
+                                                  Navigator.pushNamed(context,
+                                                      "/renewSubscription");
+                                                }
+                                              },
+                                              child: Text("Renew"),
+                                              backgroundColor:
+                                                  Color(0xff29383f),
+                                              textColor: Colors.white,
+                                              height: 40),
+                                        )
+                                      ],
                                     );
                                   }
                                   return CustomPoppinsText(

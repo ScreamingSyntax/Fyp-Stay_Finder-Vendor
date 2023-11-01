@@ -29,96 +29,7 @@ class TransactionHistoryScreen extends StatelessWidget {
             if (transactionHistoryState is FetchTransactionHistoryLoaded) {
               return Column(
                 children: [
-                  Container(
-                    height: 170,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SafeArea(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Stay",
-                                      style: TextStyle(
-                                          fontFamily: 'Slackey', fontSize: 24),
-                                    ),
-                                    CustomPoppinsText(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w500,
-                                      text: "finder",
-                                    )
-                                  ],
-                                ),
-                                CustomPoppinsText(
-                                    text: "Transactions",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              ]),
-                        ),
-                        SafeArea(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              BlocBuilder<LoginBloc, LoginState>(
-                                builder: (context, state) {
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(context, "/profile");
-                                    },
-                                    child: BlocBuilder<FetchVendorProfileBloc,
-                                        FetchVendorProfileState>(
-                                      builder: (context, fetchVendorState) {
-                                        if (fetchVendorState
-                                            is FetchVendorProfileLoaded) {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(200),
-                                                border: Border.all(
-                                                    width: 2,
-                                                    color: Colors.black)),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(200),
-                                              child: CachedNetworkImage(
-                                                  width: 88,
-                                                  height: 88,
-                                                  fit: BoxFit.fill,
-                                                  imageUrl:
-                                                      "${getIp()}${fetchVendorState.vendorProfile.profile_picture}"),
-                                            ),
-                                          );
-                                        }
-                                        return SizedBox();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    margin: EdgeInsets.all(0.2),
-                    decoration: BoxDecoration(
-                        color: Color(0xffDAD7CD),
-                        border: Border.all(
-                          color: Color(
-                            0xff29383F,
-                          ),
-                        ),
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(
-                              50,
-                            ),
-                            bottomRight: Radius.circular(50))),
-                  ),
+                  UpperBodyTransaction(),
                   Builder(builder: (context) {
                     var tierState = context.read<FetchTierBloc>().state;
                     if (tierState is FetchTierLoadedState) {
@@ -172,6 +83,101 @@ class TransactionHistoryScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class UpperBodyTransaction extends StatelessWidget {
+  const UpperBodyTransaction({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 170,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SafeArea(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Stay",
+                        style: TextStyle(fontFamily: 'Slackey', fontSize: 24),
+                      ),
+                      CustomPoppinsText(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500,
+                        text: "finder",
+                      )
+                    ],
+                  ),
+                  CustomPoppinsText(
+                      text: "Transactions",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                ]),
+          ),
+          SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<LoginBloc, LoginState>(
+                  builder: (context, state) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/profile");
+                      },
+                      child: BlocBuilder<FetchVendorProfileBloc,
+                          FetchVendorProfileState>(
+                        builder: (context, fetchVendorState) {
+                          if (fetchVendorState is FetchVendorProfileLoaded) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(200),
+                                  border: Border.all(
+                                      width: 2, color: Colors.black)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(200),
+                                child: CachedNetworkImage(
+                                    width: 88,
+                                    height: 88,
+                                    fit: BoxFit.fill,
+                                    imageUrl:
+                                        "${getIp()}${fetchVendorState.vendorProfile.profile_picture}"),
+                              ),
+                            );
+                          }
+                          return SizedBox();
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+      margin: EdgeInsets.all(0.2),
+      decoration: BoxDecoration(
+          color: Color(0xffDAD7CD),
+          border: Border.all(
+            color: Color(
+              0xff29383F,
+            ),
+          ),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(
+                50,
+              ),
+              bottomRight: Radius.circular(50))),
     );
   }
 }

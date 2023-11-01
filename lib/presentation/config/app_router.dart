@@ -1,3 +1,4 @@
+import 'package:stayfinder_vendor/presentation/screens/renew_subscription_screen.dart';
 import 'package:stayfinder_vendor/presentation/screens/transaction_history_screen.dart';
 
 import '../../logic/blocs/bloc_exports.dart';
@@ -42,7 +43,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => TransactionHistoryScreen(),
         );
-
+      case "/renewSubscription":
+        return MaterialPageRoute(
+          builder: (_) => RenewSubscriptionScreen(),
+        );
       case "/profile":
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(),

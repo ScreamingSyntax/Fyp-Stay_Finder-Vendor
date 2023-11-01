@@ -68,6 +68,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => FetchTransactionHistoryBloc(
                 transactionHistoryRepository: TransactionHistoryRepository())),
+        BlocProvider(
+          create: (context) => RadioListTileCubit(),
+        )
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

@@ -78,18 +78,18 @@ class Tier {
     return 'Tier(id: $id, name: $name, description: $description, image: $image, price: $price, accomodationLimit: $accomodationLimit, error: $error)';
   }
 
-  @override
-  bool operator ==(covariant Tier other) {
-    if (identical(this, other)) return true;
+  // @override
+  // bool operator ==(covariant Tier other) {
+  //   if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.name == name &&
-        other.description == description &&
-        other.image == image &&
-        other.price == price &&
-        other.accomodationLimit == accomodationLimit &&
-        other.error == error;
-  }
+  //   return other.id == id &&
+  //       other.name == name &&
+  //       other.description == description &&
+  //       other.image == image &&
+  //       other.price == price &&
+  //       other.accomodationLimit == accomodationLimit &&
+  //       other.error == error;
+  // }
 
   @override
   int get hashCode {
