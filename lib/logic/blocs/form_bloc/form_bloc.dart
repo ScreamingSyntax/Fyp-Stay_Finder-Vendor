@@ -16,11 +16,46 @@ class FormBloc extends Bloc<FormEvent, FormsState> {
     on<PhoneChangedEvent>(onPhoneChanged);
     on<Password1ChangedEvent>(onPassword1Changed);
     on<Password2ChangedEvent>(onPassword2Changed);
+    on<CityChangedEvent>(cityChanged);
+    on<AddressChangedEvent>(addressChanged);
+    on<WashRoomCountChangedEvent>(washRoomChanged);
+    on<RateChangedEvent>(rateChanged);
+  }
+
+  Future<void> washRoomChanged(
+      WashRoomCountChangedEvent event, Emitter<FormsState> emit) async {
+    emit(state.copyWith(
+        formKey: _formKey,
+        washRoomCount: BlocFormItem(value: event.washRoomCount.value)));
+  }
+
+  Future<void> rateChanged(
+      RateChangedEvent event, Emitter<FormsState> emit) async {
+    emit(state.copyWith(
+        formKey: _formKey, rate: BlocFormItem(value: event.rate.value)));
   }
 
   Future<void> initFormState(InitEvent event, Emitter<FormsState> emit) async {
     emit(state.copyWith(formKey: _formKey));
     // emit(FormsState(formKey: _formKey))
+  }
+
+  Future<void> cityChanged(
+      CityChangedEvent event, Emitter<FormsState> emit) async {
+    emit(state.copyWith(
+        formKey: _formKey,
+        city: BlocFormItem(
+            value: event.city.value,
+            error: event.city.value.isValidName ? null : 'Enter Name')));
+  }
+
+  Future<void> addressChanged(
+      AddressChangedEvent event, Emitter<FormsState> emit) async {
+    emit(state.copyWith(
+        formKey: _formKey,
+        address: BlocFormItem(
+            value: event.address.value,
+            error: event.address.value.isValidName ? null : 'Enter Name')));
   }
 
   Future<void> onNameChanged(
@@ -69,4 +104,5 @@ class FormBloc extends Bloc<FormEvent, FormsState> {
           error: event.password2.value.isValidEmail ? null : 'Enter Password'),
     ));
   }
+  // Future<void> onAddressChanged()
 }

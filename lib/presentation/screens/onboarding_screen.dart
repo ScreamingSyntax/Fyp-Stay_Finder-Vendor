@@ -68,20 +68,16 @@ class OnBoardingScreen extends StatelessWidget {
                 initialPage: 0,
               ),
             ),
-            Hero(
-              tag: "htere",
-              child: TextButton(
-                  onPressed: () {
-                    if (this.index == 2) {
-                      Navigator.pushNamed(context, "/");
-                    } else {
-                      buttonCarsouselController.nextPage();
-                      context.read<OnBoardingCubit>()..visitedOnBoarding();
-                    }
-                  },
-                  child:
-                      Text("Next", style: TextStyle(color: Color(0xff29383F)))),
-            )
+            TextButton(
+                onPressed: () {
+                  if (this.index == 2) {
+                    Navigator.pushNamed(context, "/");
+                  } else {
+                    buttonCarsouselController.nextPage();
+                    context.read<OnBoardingCubit>()..visitedOnBoarding();
+                  }
+                },
+                child: Text("Next", style: TextStyle(color: Color(0xff29383F))))
           ],
         ),
       ),
@@ -104,7 +100,7 @@ class templateBoarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(imagePath),
+        Image.asset(imagePath, height: MediaQuery.of(context).size.width / 1.5),
         Text(
           heading,
           textAlign: TextAlign.center,

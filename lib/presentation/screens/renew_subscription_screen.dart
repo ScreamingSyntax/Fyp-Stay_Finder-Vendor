@@ -1,10 +1,8 @@
-import 'dart:ffi';
-
 import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
+import 'package:stayfinder_vendor/presentation/screens/confirm_payment_screen.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 
 import '../../constants/constants_exports.dart';
-import '../../data/model/model_exports.dart';
 import '../../logic/blocs/bloc_exports.dart';
 
 class RenewSubscriptionScreen extends StatelessWidget {
@@ -13,12 +11,24 @@ class RenewSubscriptionScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.0),
-        child: CustomMaterialButton(
-            onPressed: () {},
-            child: Text("Continue to Payment"),
-            backgroundColor: Color(0xff32454D),
-            textColor: Colors.white,
-            height: 50),
+        child: BlocBuilder<RadioListTileCubit, RadioListTileState>(
+          builder: (_, radiolistTileState) {
+            return CustomMaterialButton(
+                onPressed: () {
+                  // payWithKhaltiInApp(
+                  //     context: context, tier: radiolistTileState.currentValue!);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ConfirmPaymentScreen(
+                              tier: radiolistTileState.currentValue!)));
+                },
+                child: Text("Continue to Payment"),
+                backgroundColor: Color(0xff32454D),
+                textColor: Colors.white,
+                height: 50);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),

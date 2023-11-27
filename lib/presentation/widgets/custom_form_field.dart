@@ -10,6 +10,8 @@ class CustomFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool obscureText;
   final IconButton? icon;
+  final Icon? prefixIcon;
+  final String? labelText;
   const CustomFormField(
       {super.key,
       required this.inputFormatters,
@@ -19,28 +21,36 @@ class CustomFormField extends StatelessWidget {
       this.onTapOutside,
       this.keyboardType,
       this.icon,
+      this.prefixIcon,
+      this.labelText,
       this.obscureText = false});
 
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: obscureText,
-      keyboardType: this.keyboardType != null ? keyboardType : null,
-      inputFormatters: inputFormatters,
-      validator: validatior,
-      decoration: InputDecoration(
-          suffixIcon: icon,
-          filled: true,
-          fillColor: Color(0xffe5e5e5),
-          isDense: true,
-          border: borderDecoration(borderColor: Color(0xff878e92), radius: 5),
-          errorBorder: borderDecoration(borderColor: Colors.red, radius: 5),
-          focusedBorder:
-              borderDecoration(borderColor: Color(0xff878e92), radius: 5),
-          enabledBorder:
-              borderDecoration(borderColor: Color(0xff878e92), radius: 5)),
-      onTap: onTap,
-      onChanged: onChange,
-      onTapOutside: onTapOutside,
+    return SizedBox(
+      child: TextFormField(
+        obscureText: obscureText,
+        keyboardType: this.keyboardType != null ? keyboardType : null,
+        inputFormatters: inputFormatters,
+        validator: validatior,
+        decoration: InputDecoration(
+            icon: prefixIcon ?? null,
+            suffixIcon: icon,
+            filled: true,
+            // hintText: "aa",
+
+            labelText: labelText ?? null,
+            fillColor: Color(0xffe5e5e5),
+            isDense: true,
+            border: borderDecoration(borderColor: Color(0xff878e92), radius: 5),
+            errorBorder: borderDecoration(borderColor: Colors.red, radius: 5),
+            focusedBorder:
+                borderDecoration(borderColor: Color(0xff878e92), radius: 5),
+            enabledBorder:
+                borderDecoration(borderColor: Color(0xff878e92), radius: 5)),
+        onTap: onTap,
+        onChanged: onChange,
+        onTapOutside: onTapOutside,
+      ),
     );
   }
 }

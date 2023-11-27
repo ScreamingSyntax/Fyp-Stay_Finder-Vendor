@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import 'package:stayfinder_vendor/data/model/model_exports.dart';
 import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
+import 'package:stayfinder_vendor/logic/cubits/drop_down_value/drop_down_value_cubit.dart';
 
 import '../../../constants/constants_exports.dart';
 import '../../../logic/blocs/bloc_exports.dart';
@@ -100,7 +101,9 @@ class MiddleHomeBody extends StatelessWidget {
                 onTap: () {
                   bool verified = checkVerification(context, loginState);
                   if (verified) {
-                    print("Is Verified to add");
+                    context.read<DropDownValueCubit>().instantiateDropDownValue(
+                        items: ['rental_room', 'hotel', 'hostel']);
+                    Navigator.pushNamed(context, "accommodationMain");
                   }
                 },
                 child: Container(
@@ -122,37 +125,6 @@ class MiddleHomeBody extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  bool checkVerification(BuildContext context, LoginLoaded state) {
-    var currentTierState = context.read<FetchVendorProfileBloc>().state;
-    var currentProfileState = context.read<FetchCurrentTierBloc>().state;
-    if (currentTierState is FetchVendorProfileLoaded) {
-      if (currentTierState.vendorProfile.is_verified != 'True') {
-        customScaffold(
-            context: context,
-            title: 'Oops',
-            message: "Please Verify your profile first",
-            contentType: ContentType.warning);
-        return false;
-      }
-      if (currentTierState.vendorProfile.is_verified == 'True') {
-        if (currentProfileState is FetchCurrentTierLoaded) {
-          DateTime now = DateTime.now();
-          DateTime paidTill =
-              DateTime.parse(currentProfileState.currentTier.paid_till!);
-          if (now.isAfter(paidTill)) {
-            customScaffold(
-                context: context,
-                title: "Subscription Ended",
-                message: "Your Subscription has ended",
-                contentType: ContentType.warning);
-            return false;
-          }
-        }
-      }
-    }
-    return true;
   }
 }
 
@@ -225,6 +197,8 @@ class UpperHomeBody extends StatelessWidget {
                             currentTier: currentTierState.currentTier);
                       }
                       if (state is FetchTierLoadedState) {
+                        print("This is tier list ${state.tierList}");
+
                         return upperBodyWhenNotVerified(
                             tier: state.tierList[0]);
                       }

@@ -7,6 +7,11 @@ class FormsState extends Equatable {
   final GlobalKey<FormState>? formKey;
   final BlocFormItem password1;
   final BlocFormItem password2;
+  final BlocFormItem city;
+  final BlocFormItem address;
+  final BlocFormItem rate;
+  final BlocFormItem washRoomCount;
+
   // const FormsState(this.name, this.email, this.phone);
   const FormsState({
     this.email = const BlocFormItem(error: 'Enter Email '),
@@ -15,6 +20,10 @@ class FormsState extends Equatable {
     this.formKey,
     this.password1 = const BlocFormItem(error: 'Enter Password 1'),
     this.password2 = const BlocFormItem(error: 'Enter Password 2'),
+    this.address = const BlocFormItem(error: 'Enter Address'),
+    this.city = const BlocFormItem(error: 'Enter City'),
+    this.washRoomCount = const BlocFormItem(error: 'Enter WashRoom Count'),
+    this.rate = const BlocFormItem(error: 'Enter Rate'),
   });
 
   FormsState copyWith({
@@ -24,17 +33,35 @@ class FormsState extends Equatable {
     GlobalKey<FormState>? formKey,
     BlocFormItem? password1,
     BlocFormItem? password2,
+    BlocFormItem? city,
+    BlocFormItem? address,
+    BlocFormItem? rate,
+    BlocFormItem? washRoomCount,
   }) {
     return FormsState(
+        rate: rate ?? this.rate,
+        washRoomCount: washRoomCount ?? this.washRoomCount,
         email: email ?? this.email,
         name: name ?? this.name,
         phone: phone ?? this.phone,
         formKey: formKey ?? this.formKey,
         password1: password1 ?? this.password1,
-        password2: password2 ?? this.password2);
+        password2: password2 ?? this.password2,
+        address: address ?? this.address,
+        city: city ?? this.city);
   }
 
   @override
-  List<Object> get props =>
-      [name, phone, email, formKey!, password1, password2];
+  List<Object> get props => [
+        name,
+        phone,
+        email,
+        formKey!,
+        password1,
+        password2,
+        address,
+        city,
+        rate,
+        washRoomCount
+      ];
 }

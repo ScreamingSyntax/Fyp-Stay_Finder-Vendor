@@ -93,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: AssetImage(
-                                              "assets/images/map.png",
+                                              "assets/images/location.png",
                                             ),
                                             fit: BoxFit.contain)),
                                   ),

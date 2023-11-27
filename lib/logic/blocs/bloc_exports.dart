@@ -13,3 +13,4 @@ export 'verify_profile/verify_profile_bloc.dart';
 export 'document_detail/document_detail_dart_bloc.dart';
 export 'profile_verification/profile_verification_bloc.dart';
 export 'fetch_transaction_history/fetch_transaction_history_bloc.dart';
+export 'renew_subscription/renew_subscription_bloc.dart';

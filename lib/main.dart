@@ -6,6 +6,10 @@ import '../../logic/cubits/cubit_exports.dart';
 import '../../presentation/widgets/widgets_exports.dart';
 import '../../presentation/config/config_exports.dart';
 import 'data/repository/repository_exports.dart';
+// import '';
+import 'package:khalti_flutter/khalti_flutter.dart';
+
+import 'logic/blocs/add_rental_room/add_rental_room_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,14 +74,32 @@ class MyApp extends StatelessWidget {
                 transactionHistoryRepository: TransactionHistoryRepository())),
         BlocProvider(
           create: (context) => RadioListTileCubit(),
+        ),
+        BlocProvider(
+          create: (context) => DropDownValueCubit(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              RenewSubscriptionBloc(renewTierRepository: RenewTierRepository()),
+        ),
+        BlocProvider(
+          create: (context) => AddRentalRoomBloc(),
         )
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(useMaterial3: true, fontFamily: 'Poppins'),
-          onGenerateRoute: appRouter.onGeneratedRoute,
+        child: KhaltiScope(
+          publicKey: "test_public_key_d6413422f8ce49868d7c874e68c5f557",
+          enabledDebugging: true,
+          builder: (context, navKey) {
+            return MaterialApp(
+              navigatorKey: navKey,
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(useMaterial3: true, fontFamily: 'Poppins'),
+              onGenerateRoute: appRouter.onGeneratedRoute,
+              localizationsDelegates: const [KhaltiLocalizations.delegate],
+            );
+          },
         ),
       ),
     );

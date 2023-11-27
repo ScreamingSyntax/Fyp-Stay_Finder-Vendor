@@ -13,4 +13,9 @@ extension StringExtension on String {
     final phonePattern = RegExp(r'^\d{10}$'); // 10-digit U.S. phone number
     return phonePattern.hasMatch(this);
   }
+
+  bool get isValidNumber {
+    final numberRegex = RegExp(r'^\d+$');
+    return numberRegex.hasMatch(this);
+  }
 }

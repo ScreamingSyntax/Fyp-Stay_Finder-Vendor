@@ -63,7 +63,7 @@ class TabBar2 extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: SizedBox(
-                        height: 170,
+                        // height: 190,
                         child: Card(
                           elevation: 0,
                           surfaceTintColor: Colors.white,
@@ -90,13 +90,15 @@ class TabBar2 extends StatelessWidget {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700, fontSize: 12),
                               ),
-                              Text(
-                                state.tierList[index].description.toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff9DA8C3),
-                                    fontSize: 11),
+                              Expanded(
+                                child: Text(
+                                  state.tierList[index].description.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff9DA8C3),
+                                      fontSize: 11),
+                                ),
                               ),
                             ]),
                           ),

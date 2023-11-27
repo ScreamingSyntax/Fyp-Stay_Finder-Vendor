@@ -44,3 +44,27 @@ class Password2ChangedEvent extends FormEvent {
 
   Password2ChangedEvent({required this.password2});
 }
+
+class CityChangedEvent extends FormEvent {
+  final BlocFormItem city;
+
+  CityChangedEvent({required this.city});
+}
+
+class AddressChangedEvent extends FormEvent {
+  final BlocFormItem address;
+
+  AddressChangedEvent({required this.address});
+}
+
+class RateChangedEvent extends FormEvent {
+  final BlocFormItem rate;
+
+  RateChangedEvent({required this.rate});
+}
+
+class WashRoomCountChangedEvent extends FormEvent {
+  final BlocFormItem washRoomCount;
+
+  WashRoomCountChangedEvent({required this.washRoomCount});
+}

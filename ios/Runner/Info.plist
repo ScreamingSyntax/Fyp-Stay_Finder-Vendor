@@ -51,5 +51,25 @@
 	<string>Use image as profile photos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Use image as profile photos</string>
+	<key>FlutterDeepLinkingEnabled</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
+<true/>
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>kpg</string>
+        </array>
+        <key>CFBundleURLName</key>0
+        <string>{your package name}</string>
+    </dict>
+</array>
+
 </dict>
 </plist>

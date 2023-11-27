@@ -6,3 +6,4 @@ export 'vendor_profile_api.dart';
 export 'profile_verification_api.dart';
 export 'current_tier_api.dart';
 export 'transaction_history_api.dart';
+export 'renew_tier_api.dart';

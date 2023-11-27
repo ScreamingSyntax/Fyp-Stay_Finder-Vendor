@@ -14,12 +14,6 @@ class ProfileVerificationApi {
       required String address,
       required String token}) async {
     try {
-      print(profilePicture);
-      print(citizenshipBack);
-      print(citizenshipFront);
-      print(address);
-      print(token);
-
       final url = Uri.parse("${getIp()}vendor/verifedData/");
 
       final request = http.MultipartRequest(
@@ -55,9 +49,7 @@ class ProfileVerificationApi {
       ));
 
       final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(
-        streamedResponse,
-      );
+      final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
         return Success.fromMap(jsonDecode(response.body));

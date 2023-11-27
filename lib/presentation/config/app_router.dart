@@ -1,6 +1,3 @@
-import 'package:stayfinder_vendor/presentation/screens/renew_subscription_screen.dart';
-import 'package:stayfinder_vendor/presentation/screens/transaction_history_screen.dart';
-
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
 import '../../presentation/widgets/widgets_exports.dart';
@@ -11,12 +8,6 @@ class AppRouter {
     switch (routeSettings.name) {
       case "/":
         return checkOnBoardingStatus();
-      // return MaterialPageRoute(
-      //   builder: (_) => BlocProvider(
-      //     create: (_) => FormBloc()..add(InitEvent()),
-      //     child: SignUpScreen(),
-      //   ),
-      // );
       case "/login":
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
@@ -51,8 +42,18 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(),
         );
+      case "accommodationMain":
+        return MaterialPageRoute(builder: (_) => AccommodationMainScreen());
+      case "/addRentalScreen":
+        return MaterialPageRoute(
+          builder: (_) => RentalRoomAdditionScreen(),
+        );
       case "/info":
         return MaterialPageRoute(builder: (_) => InformationScreen());
+      case "/addHostelScreen":
+        return MaterialPageRoute(builder: (_) => HostelAdditionScreen());
+      case "/addHotelScreen":
+        return MaterialPageRoute(builder: (_) => HotelAdditionScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

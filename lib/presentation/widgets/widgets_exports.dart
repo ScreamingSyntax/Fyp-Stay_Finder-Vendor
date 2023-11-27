@@ -18,3 +18,8 @@ export 'package:image_cropper/image_cropper.dart';
 export 'package:image_picker/image_picker.dart';
 export 'custom_poppins_text.dart';
 export 'custom_material_button.dart';
+export 'package:khalti_flutter/khalti_flutter.dart';
+export 'khalti_payment_widgets.dart';
+export 'check_verification.dart';
+export 'custom_dropdown_widget.dart';
+export 'custom_checkbox.dart';
