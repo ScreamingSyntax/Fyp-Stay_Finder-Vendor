@@ -7,7 +7,12 @@ class ImageHelperState extends Equatable {
 
   ImageHelperState({this.imageHelper});
   @override
-  List<Object> get props => [imageHelper!];
+  List<Object> get props {
+    if (this.imageHelper != null) {
+      return [this.imageHelper!];
+    }
+    return [];
+  }
 }
 
 class ImageHelperInitial extends ImageHelperState {}

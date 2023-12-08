@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:stayfinder_vendor/data/model/accommodation_model.dart';
 import 'package:stayfinder_vendor/data/model/bloc_form_model.dart';
 import 'package:stayfinder_vendor/data/model/room_model.dart';
+import 'package:stayfinder_vendor/logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/add_rental_room/add_rental_room_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/bloc_exports.dart';
 import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
@@ -12,18 +13,70 @@ import 'package:stayfinder_vendor/presentation/config/image_helper.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 import 'package:stayfinder_vendor/constants/extensions.dart';
 
-void navigateToAccommodation(DropDownValueState state, BuildContext context) {
-  if (state.value == "rental_room") {
+import '../../../logic/blocs/hostel_addition/hostel_addition_bloc.dart';
+
+void navigateToAccommodation(
+    DropDownValueState state, BuildContext context, FormsState formState) {
+  if (state.value == "rent_room") {
+    context.read<AddRentalRoomBloc>().add(
+        InitializeRentalRoomAccommodationEvent(
+            room: Room(
+              fan_availability: false,
+              bed_availability: false,
+              sofa_availability: false,
+              mat_availability: false,
+              carpet_availability: false,
+              dustbin_availability: false,
+            ),
+            accommodationImage:
+                context.read<AccommodationAdditionBloc>().state.image,
+            accommodation: Accommodation(
+                parking_availability: false,
+                trash_dispose_availability: false,
+                address: formState.address.value,
+                name: formState.name.value,
+                city: formState.city.value,
+                type: context.read<DropDownValueCubit>().state.value)));
     context.read<DropDownValueCubit>().instantiateDropDownValue(
         items: ['Excellent', 'Average', 'Adjustable']);
+    context.read<DropDownValueCubit>().changeDropDownValue('Excellent');
     Navigator.pushNamed(context, "/addRentalScreen");
   }
   if (state.value == "hotel") {
     Navigator.pushNamed(context, "/addHotelScreen");
-  }
-  if (state.value == "hostel") {
+    context.read<AccommodationAdditionBloc>().add(AccommodationAdditionHitEvent(
+        accommodation: Accommodation(
+            parking_availability: false,
+            swimming_pool_availability: false,
+            has_tier: false,
+            gym_availability: false,
+            trash_dispose_availability: false,
+            address: formState.address.value,
+            name: formState.name.value,
+            city: formState.city.value,
+            type: context.read<DropDownValueCubit>().state.value)));
     context.read<DropDownValueCubit>().instantiateDropDownValue(
         items: ['Excellent', 'Average', 'Adjustable']);
+
+    context.read<DropDownValueCubit>().changeDropDownValue('Excellent');
+    Navigator.pushNamed(context, "/hotelLandingScren");
+  }
+  if (state.value == "hostel") {
+    context.read<HostelAdditionBloc>()
+      ..add(HostelAddtionHitEvent(
+          accommodationImage:
+              context.read<AccommodationAdditionBloc>().state.image,
+          accommodation: Accommodation(
+              parking_availability: false,
+              trash_dispose_availability: false,
+              address: formState.address.value,
+              name: formState.name.value,
+              city: formState.city.value,
+              type: context.read<DropDownValueCubit>().state.value)));
+    context.read<DropDownValueCubit>().instantiateDropDownValue(
+        items: ['Excellent', 'Average', 'Adjustable']);
+    context.read<HostelAdditionBloc>()..add(ClearRoomsEvent());
+    context.read<DropDownValueCubit>().changeDropDownValue('Excellent');
     Navigator.pushNamed(context, "/addHostelScreen");
   }
 }
@@ -67,11 +120,23 @@ class AccommodationMainScreen extends StatelessWidget {
                   builder: (context, formState) {
                     return CustomMaterialButton(
                         onPressed: () {
+                          var loginState = context.read<LoginBloc>().state;
+                          if (loginState is LoginLoaded) {
+                            bool checkStatus = checkLimit(context, loginState);
+                            if (checkStatus == false) {
+                              int count = 0;
+                              Navigator.of(context)
+                                  .popUntil((_) => count++ >= 1);
+                              context
+                                  .read<AddRentalRoomBloc>()
+                                  .add(ClearRentalRoomAdditionStateEvent());
+                            }
+                          }
                           if (formState.formKey!.currentState!.validate()) {
                             if (context
-                                    .read<AddRentalRoomBloc>()
+                                    .read<AccommodationAdditionBloc>()
                                     .state
-                                    .accommodationImage ==
+                                    .image ==
                                 null) {
                               return customScaffold(
                                   context: context,
@@ -98,29 +163,10 @@ class AccommodationMainScreen extends StatelessWidget {
                                 title: "Confirmation",
                                 noBtnFunction: () => Navigator.pop(context),
                                 yesBtnFunction: () {
-                                  context.read<AddRentalRoomBloc>().add(
-                                      InitializeRentalRoomAccommodationEvent(
-                                          room: Room(
-                                            fan_availability: false,
-                                            bed_availability: false,
-                                            sofa_availability: false,
-                                            mat_availability: false,
-                                            carpet_availability: false,
-                                            dustbin_availability: false,
-                                          ),
-                                          accommodation: Accommodation(
-                                              parking_availability: false,
-                                              trash_dispose_availability: false,
-                                              address: formState.address.value,
-                                              name: formState.name.value,
-                                              city: formState.city.value,
-                                              type: context
-                                                  .read<DropDownValueCubit>()
-                                                  .state
-                                                  .value)));
                                   navigateToAccommodation(
                                       context.read<DropDownValueCubit>().state,
-                                      context);
+                                      context,
+                                      formState);
                                 });
                           }
                         },
@@ -145,9 +191,9 @@ class AccommodationMainScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Color(0xff32454D),
                                 image: context
-                                            .watch<AddRentalRoomBloc>()
+                                            .watch<AccommodationAdditionBloc>()
                                             .state
-                                            .accommodationImage ==
+                                            .image ==
                                         null
                                     ? DecorationImage(
                                         image: AssetImage(
@@ -155,9 +201,9 @@ class AccommodationMainScreen extends StatelessWidget {
                                     : DecorationImage(
                                         fit: BoxFit.cover,
                                         image: FileImage(context
-                                            .watch<AddRentalRoomBloc>()
+                                            .watch<AccommodationAdditionBloc>()
                                             .state
-                                            .accommodationImage!))),
+                                            .image!))),
                           ),
                         ),
                         SizedBox(
@@ -298,14 +344,16 @@ class AccommodationMainScreen extends StatelessWidget {
                                                           file: files.first,
                                                           cropStyle: CropStyle
                                                               .rectangle);
+                                                  print(
+                                                      "This is cropped file ${croppedFile}");
                                                   if (croppedFile != null) {
-                                                    context
-                                                        .read<
-                                                            AddRentalRoomBloc>()
-                                                        .add(InitializeRentalRoomAccommodationEvent(
-                                                            accommodationImage:
-                                                                File(croppedFile
-                                                                    .path)));
+                                                    context.read<
+                                                        AccommodationAdditionBloc>()
+                                                      ..add(
+                                                          AccommodationAdditionHitEvent(
+                                                              image: File(
+                                                                  croppedFile
+                                                                      .path)));
                                                   }
                                                 }
                                               },

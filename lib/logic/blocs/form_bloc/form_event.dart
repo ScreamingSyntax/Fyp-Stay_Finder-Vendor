@@ -68,3 +68,21 @@ class WashRoomCountChangedEvent extends FormEvent {
 
   WashRoomCountChangedEvent({required this.washRoomCount});
 }
+
+class MealsPerDayChangedEvent extends FormEvent {
+  final BlocFormItem mealsPerDay;
+
+  MealsPerDayChangedEvent({required this.mealsPerDay});
+}
+
+class NonMealsPerDayChangedEvent extends FormEvent {
+  final BlocFormItem nonVegMealsPerDay;
+
+  NonMealsPerDayChangedEvent({required this.nonVegMealsPerDay});
+}
+
+class WeeklyLaundaryCyclesChangedEvent extends FormEvent {
+  final BlocFormItem weeklyLaundaryCycles;
+
+  WeeklyLaundaryCyclesChangedEvent({required this.weeklyLaundaryCycles});
+}

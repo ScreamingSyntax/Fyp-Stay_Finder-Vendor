@@ -9,7 +9,10 @@ import 'data/repository/repository_exports.dart';
 // import '';
 import 'package:khalti_flutter/khalti_flutter.dart';
 
+import 'logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';
 import 'logic/blocs/add_rental_room/add_rental_room_bloc.dart';
+import 'logic/blocs/fetch_added_accommodations/fetch_added_accommodations_bloc.dart';
+import 'logic/blocs/hostel_addition/hostel_addition_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,7 +87,17 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AddRentalRoomBloc(),
-        )
+        ),
+        BlocProvider(
+          create: (context) => HostelAdditionBloc(),
+        ),
+        BlocProvider(
+          create: (context) => FetchAddedAccommodationsBloc(
+              repo: AccommodationAdditionRepository()),
+        ),
+        BlocProvider(
+          create: (context) => AccommodationAdditionBloc(),
+        ),
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

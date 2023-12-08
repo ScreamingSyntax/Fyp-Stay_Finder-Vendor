@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:stayfinder_vendor/logic/blocs/fetch_added_accommodations/fetch_added_accommodations_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
 
 import '../../logic/blocs/bloc_exports.dart';
@@ -177,6 +178,9 @@ void callApis(BuildContext context, LoginLoaded loggedInStae) {
     if (currentTierState.vendorProfile.is_verified == 'True') {
       context.read<FetchCurrentTierBloc>().add(
           FetchCurrentTierHitEvent(token: loggedInStae.successModel.token!));
+      context.read<FetchAddedAccommodationsBloc>()
+        ..add(FetchAddedAccommodationHitEvent(
+            token: loggedInStae.successModel.token!));
     }
   }
 }

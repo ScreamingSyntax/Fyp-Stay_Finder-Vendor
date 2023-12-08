@@ -6,3 +6,5 @@ export 'vendor.dart';
 export 'vendor_profile.dart';
 export 'dart:convert';
 export 'transaction_history_model.dart';
+export 'accommodation_model.dart';
+export 'room_model.dart';

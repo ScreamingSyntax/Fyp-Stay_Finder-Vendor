@@ -20,6 +20,30 @@ class FormBloc extends Bloc<FormEvent, FormsState> {
     on<AddressChangedEvent>(addressChanged);
     on<WashRoomCountChangedEvent>(washRoomChanged);
     on<RateChangedEvent>(rateChanged);
+    on<MealsPerDayChangedEvent>(mealsChanged);
+    on<NonMealsPerDayChangedEvent>(nonVegMealsChanged);
+    on<WeeklyLaundaryCyclesChangedEvent>(laundaryChanged);
+  }
+  Future<void> mealsChanged(
+      MealsPerDayChangedEvent event, Emitter<FormsState> emit) async {
+    emit(state.copyWith(
+        formKey: _formKey,
+        mealsPerDay: BlocFormItem(value: event.mealsPerDay.value)));
+  }
+
+  Future<void> nonVegMealsChanged(
+      NonMealsPerDayChangedEvent event, Emitter<FormsState> emit) async {
+    emit(state.copyWith(
+        formKey: _formKey,
+        nonVegMealsPerDay: BlocFormItem(value: event.nonVegMealsPerDay.value)));
+  }
+
+  Future<void> laundaryChanged(
+      WeeklyLaundaryCyclesChangedEvent event, Emitter<FormsState> emit) async {
+    emit(state.copyWith(
+        formKey: _formKey,
+        weeklyLaundaryCycles:
+            BlocFormItem(value: event.weeklyLaundaryCycles.value)));
   }
 
   Future<void> washRoomChanged(

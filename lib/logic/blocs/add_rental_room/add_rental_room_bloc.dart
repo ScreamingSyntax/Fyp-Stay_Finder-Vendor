@@ -33,8 +33,6 @@ class AddRentalRoomBloc extends Bloc<AddRentalRoomEvent, AddRentalRoomState> {
   }
 
   FutureOr<void> intializeRentalRoom(event, emit) {
-    // Accommodation accommodation = event.accommodation ?
-    // print(event.)
     print(event.accommodation);
     return emit(AddRentalRoomState(
         accommodation: event.accommodation ?? state.accommodation,

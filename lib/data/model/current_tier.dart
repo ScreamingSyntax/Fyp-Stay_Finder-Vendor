@@ -10,6 +10,7 @@ class TierTransaction {
   String? paid_till;
   bool? is_active;
   String? error;
+
   TierTransaction(
       {this.tier,
       this.paid_amount,

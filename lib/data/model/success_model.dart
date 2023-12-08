@@ -8,8 +8,8 @@ class Success {
   Success({
     required this.success,
     required this.message,
-    required this.token,
-    required this.error,
+    this.token,
+    this.error,
   });
   Success.withError(String errorMessage) {
     error = errorMessage;

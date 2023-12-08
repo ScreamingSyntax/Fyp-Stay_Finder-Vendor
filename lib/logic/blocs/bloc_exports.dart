@@ -14,3 +14,4 @@ export 'document_detail/document_detail_dart_bloc.dart';
 export 'profile_verification/profile_verification_bloc.dart';
 export 'fetch_transaction_history/fetch_transaction_history_bloc.dart';
 export 'renew_subscription/renew_subscription_bloc.dart';
+export 'add_rental_rom_api_call/add_rental_room_api_call_bloc.dart';

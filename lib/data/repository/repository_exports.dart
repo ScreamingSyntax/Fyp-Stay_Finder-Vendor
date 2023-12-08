@@ -7,3 +7,4 @@ export 'profile_verification_repository.dart';
 export 'current_tier_repository.dart';
 export 'transaction_history_repository.dart';
 export 'renew_tier_repository.dart';
+export 'accommodation_addition_repository.dart';

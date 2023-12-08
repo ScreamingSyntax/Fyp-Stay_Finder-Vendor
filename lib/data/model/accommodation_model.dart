@@ -51,6 +51,9 @@ class Accommodation {
     this.error,
     this.trash_dispose_availability,
   });
+  Accommodation.withError({required String error}) {
+    this.error = error;
+  }
 
   Accommodation copyWith({
     String? name,

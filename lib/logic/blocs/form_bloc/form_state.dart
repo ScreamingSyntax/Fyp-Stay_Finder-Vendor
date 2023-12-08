@@ -11,9 +11,17 @@ class FormsState extends Equatable {
   final BlocFormItem address;
   final BlocFormItem rate;
   final BlocFormItem washRoomCount;
+  final BlocFormItem mealsPerDay;
+  final BlocFormItem nonVegMealsPerDay;
+  final BlocFormItem weeklyLaundaryCycles;
 
   // const FormsState(this.name, this.email, this.phone);
   const FormsState({
+    this.mealsPerDay = const BlocFormItem(error: 'Enter Meals Per Day'),
+    this.nonVegMealsPerDay =
+        const BlocFormItem(error: 'Enter Non Veg Meals Per Day'),
+    this.weeklyLaundaryCycles =
+        const BlocFormItem(error: 'Enter Weekly Laundary Cycles'),
     this.email = const BlocFormItem(error: 'Enter Email '),
     this.name = const BlocFormItem(error: 'Enter Name '),
     this.phone = const BlocFormItem(error: 'Enter Phone '),
@@ -28,6 +36,9 @@ class FormsState extends Equatable {
 
   FormsState copyWith({
     BlocFormItem? name,
+    BlocFormItem? mealsPerDay,
+    BlocFormItem? nonVegMealsPerDay,
+    BlocFormItem? weeklyLaundaryCycles,
     BlocFormItem? email,
     BlocFormItem? phone,
     GlobalKey<FormState>? formKey,
@@ -39,6 +50,9 @@ class FormsState extends Equatable {
     BlocFormItem? washRoomCount,
   }) {
     return FormsState(
+        mealsPerDay: mealsPerDay ?? this.mealsPerDay,
+        nonVegMealsPerDay: nonVegMealsPerDay ?? this.nonVegMealsPerDay,
+        weeklyLaundaryCycles: weeklyLaundaryCycles ?? this.weeklyLaundaryCycles,
         rate: rate ?? this.rate,
         washRoomCount: washRoomCount ?? this.washRoomCount,
         email: email ?? this.email,
@@ -62,6 +76,9 @@ class FormsState extends Equatable {
         address,
         city,
         rate,
-        washRoomCount
+        washRoomCount,
+        weeklyLaundaryCycles,
+        nonVegMealsPerDay,
+        mealsPerDay
       ];
 }

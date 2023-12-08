@@ -1,3 +1,5 @@
+import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hotel_landing_screen.dart';
+
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
 import '../../presentation/widgets/widgets_exports.dart';
@@ -54,6 +56,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => HostelAdditionScreen());
       case "/addHotelScreen":
         return MaterialPageRoute(builder: (_) => HotelAdditionScreen());
+      case "/hotelLandingScren":
+        return MaterialPageRoute(builder: (_) => HotelLandingScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

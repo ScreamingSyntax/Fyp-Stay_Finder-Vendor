@@ -43,6 +43,7 @@ class CustomCheckBoxTile extends StatelessWidget {
             child: Transform.scale(
               scale: 0.8,
               child: Checkbox(
+
                   // visualDensity: VisualDensity(horizontal: -55, vertical: -5),
                   fillColor: MaterialStatePropertyAll(Color(0xff625f66)),
                   overlayColor: MaterialStatePropertyAll(Color(0xffD9D9D9)),

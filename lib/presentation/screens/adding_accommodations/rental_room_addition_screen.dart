@@ -4,6 +4,8 @@ import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:stayfinder_vendor/constants/constants_exports.dart';
 import 'package:stayfinder_vendor/data/model/bloc_form_model.dart';
+import 'package:stayfinder_vendor/data/model/model_exports.dart';
+import 'package:stayfinder_vendor/data/repository/accommodation_addition_repository.dart';
 import 'package:stayfinder_vendor/logic/blocs/add_rental_room/add_rental_room_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/bloc_exports.dart';
 import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
@@ -23,75 +25,147 @@ class RentalRoomAdditionScreen extends StatelessWidget {
         BlocProvider(
           create: (context) => FormBloc()..add(InitEvent()),
         ),
+        BlocProvider(
+          create: (context) =>
+              AddRentalRoomApiCallBloc(repo: AccommodationAdditionRepository()),
+        ),
       ],
       child: Scaffold(
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
           child: Builder(builder: (context) {
-            return CustomMaterialButton(
-                onPressed: () {
-                  if (context
-                      .read<FormBloc>()
-                      .state
-                      .formKey!
-                      .currentState!
-                      .validate()) {
-                    if (context.read<DropDownValueCubit>().state.value ==
-                        null) {
-                      customScaffold(
-                          context: context,
-                          title: "Empty",
-                          message: "Please select washroom status",
-                          contentType: ContentType.failure);
-                      return;
-                    }
-                    var state = context.read<AddRentalRoomBloc>().state;
-                    if (state.roomImage1 == null &&
-                        state.roomImage2 == null &&
-                        state.roomImage3 == null) {
-                      customScaffold(
-                          context: context,
-                          title: "Images",
-                          message: "Please add images",
-                          contentType: ContentType.failure);
-                      return;
-                    }
+            return BlocConsumer<AddRentalRoomApiCallBloc,
+                AddRentalRoomApiCallState>(
+              listener: (context, state) async {
+                if (state is AddRentalRoomApiCallError) {
+                  customScaffold(
+                      context: context,
+                      title: "Error",
+                      message: state.message,
+                      contentType: ContentType.failure);
+                }
+                if (state is AddRentalRoomApiCallSuccess) {
+                  customScaffold(
+                      context: context,
+                      title: "Success",
+                      message: state.message,
+                      contentType: ContentType.success);
+                  int count = 0;
+                  Navigator.of(context).popUntil((_) => count++ >= 3);
+                  await Future.delayed(Duration(seconds: 1));
+                  context.read<DropDownValueCubit>().clearDropDownValue();
+                  context
+                      .read<AddRentalRoomBloc>()
+                      .add(ClearRentalRoomAdditionStateEvent());
+                }
+              },
+              builder: (context, state) {
+                if (state is AddRentalRoomApiCallLoading) {
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [CircularProgressIndicator()],
+                    ),
+                  );
+                }
+                return CustomMaterialButton(
+                    onPressed: () async {
+                      if (context
+                          .read<FormBloc>()
+                          .state
+                          .formKey!
+                          .currentState!
+                          .validate()) {
+                        if (context.read<DropDownValueCubit>().state.value ==
+                            null) {
+                          customScaffold(
+                              context: context,
+                              title: "Empty",
+                              message: "Please select washroom status",
+                              contentType: ContentType.failure);
+                          return;
+                        }
+                        var state = context.read<AddRentalRoomBloc>().state;
+                        if (state.roomImage1 == null &&
+                            state.roomImage2 == null &&
+                            state.roomImage3 == null) {
+                          customScaffold(
+                              context: context,
+                              title: "Images",
+                              message: "Please add images",
+                              contentType: ContentType.failure);
+                          return;
+                        }
 
-                    var formState = context.read<FormBloc>().state;
-                    print(' Washroom count ${formState.washRoomCount.value}');
-                    // if(accommodationState.)
-                    context.read<AddRentalRoomBloc>().add(
-                          UpdateAccommodationEvent(
-                            accommodation: state.accommodation!.copyWith(
-                                number_of_washroom:
-                                    int.parse(formState.washRoomCount.value)),
-                          ),
-                        );
-                    context.read<AddRentalRoomBloc>().add(
-                          UpdateAccommodationEvent(
-                            accommodation: state.accommodation!
-                                .copyWith(monthly_rate: formState.rate.value),
-                          ),
-                        );
-                  }
-                  if (!(context
-                      .read<FormBloc>()
-                      .state
-                      .formKey!
-                      .currentState!
-                      .validate())) {
-                    customScaffold(
-                        context: context,
-                        title: "Oops",
-                        message: "There are some validation errors",
-                        contentType: ContentType.failure);
-                    return;
-                  }
-                },
-                child: Text("Confirm Addition"),
-                backgroundColor: Color(0xff32454D),
-                textColor: Colors.white,
-                height: 50);
+                        var formState = context.read<FormBloc>().state;
+                        // if(accommodationState.)
+                        await context.read<AddRentalRoomBloc>()
+                          ..add(
+                            UpdateAccommodationEvent(
+                              accommodation: state.accommodation!.copyWith(
+                                  monthly_rate: formState.rate.value,
+                                  number_of_washroom:
+                                      int.parse(formState.washRoomCount.value)),
+                            ),
+                          );
+                        Accommodation accommodation = context
+                            .read<AddRentalRoomBloc>()
+                            .state
+                            .accommodation!;
+                        accommodation.monthly_rate = formState.rate.value;
+                        accommodation.number_of_washroom =
+                            int.parse(formState.washRoomCount.value);
+                        Room room =
+                            context.read<AddRentalRoomBloc>().state.room!;
+                        room.washroom_status =
+                            context.read<DropDownValueCubit>().state.value;
+                        var loginState = context.read<LoginBloc>().state;
+
+                        if (loginState is LoginLoaded) {
+                          context.read<AddRentalRoomApiCallBloc>().add(
+                              AddRentalRoomHitEventApi(
+                                  token: loginState.successModel.token!,
+                                  accommodationImage: context
+                                      .read<AddRentalRoomBloc>()
+                                      .state
+                                      .accommodationImage!,
+                                  accommodation: accommodation,
+                                  room: room,
+                                  roomImage1: context
+                                      .read<AddRentalRoomBloc>()
+                                      .state
+                                      .roomImage1!,
+                                  roomImage2: context
+                                      .read<AddRentalRoomBloc>()
+                                      .state
+                                      .roomImage2!,
+                                  roomImage3: context
+                                      .read<AddRentalRoomBloc>()
+                                      .state
+                                      .roomImage3!));
+                        }
+                      }
+                      if (!(context
+                          .read<FormBloc>()
+                          .state
+                          .formKey!
+                          .currentState!
+                          .validate())) {
+                        customScaffold(
+                            context: context,
+                            title: "Oops",
+                            message: "There are some validation errors",
+                            contentType: ContentType.failure);
+                        return;
+                      }
+                    },
+                    child: Text("Confirm Addition"),
+                    backgroundColor: Color(0xff32454D),
+                    textColor: Colors.white,
+                    height: 50);
+              },
+            );
           }),
         ),
         body: SingleChildScrollView(
@@ -138,6 +212,15 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       color: Color(0xff514f53),
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomPoppinsText(
+                      text: "Note: Add three images",
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
@@ -159,7 +242,6 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                                     if (!(p0.isValidNumber)) {
                                       return "Invalid no.";
                                     }
-                                    // if(p0<=2000)
                                     return null;
                                   },
                                   prefixIcon: Icon(Icons.attach_money),
@@ -273,55 +355,64 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 20.0),
-                                              child: CustomMaterialButton(
-                                                  onPressed: () async {
-                                                    print(context
-                                                        .read<
-                                                            AddRentalRoomBloc>()
-                                                        .state
-                                                        .roomImage1);
-                                                    var imageHelper = context
-                                                        .read<
-                                                            ImageHelperCubit>()
-                                                        .state
-                                                        .imageHelper!;
-                                                    final xFiles =
-                                                        await imageHelper
-                                                            .pickImage(
-                                                                multiple: true);
-                                                    List<File> files = [];
-                                                    xFiles.forEach((xFile) {
-                                                      files.add(
-                                                          File(xFile.path));
-                                                    });
+                                              child: Column(
+                                                children: [
+                                                  CustomMaterialButton(
+                                                      onPressed: () async {
+                                                        print(context
+                                                            .read<
+                                                                AddRentalRoomBloc>()
+                                                            .state
+                                                            .roomImage1);
+                                                        var imageHelper = context
+                                                            .read<
+                                                                ImageHelperCubit>()
+                                                            .state
+                                                            .imageHelper!;
+                                                        final xFiles =
+                                                            await imageHelper
+                                                                .pickImage(
+                                                                    multiple:
+                                                                        true);
+                                                        List<File> files = [];
+                                                        xFiles.forEach((xFile) {
+                                                          files.add(
+                                                              File(xFile.path));
+                                                        });
 
-                                                    if (files.length != 3) {
-                                                      customScaffold(
-                                                          context: context,
-                                                          title: "Error",
-                                                          message:
-                                                              "Please provide three images",
-                                                          contentType:
-                                                              ContentType
-                                                                  .failure);
-                                                      return;
-                                                    }
-                                                    context.read<
-                                                        AddRentalRoomBloc>()
-                                                      ..add(
-                                                          InstantiateRoomImageEvent(
-                                                              roomImages:
-                                                                  files));
-                                                  },
-                                                  child: Text(
-                                                    "Add Images",
-                                                    style:
-                                                        TextStyle(fontSize: 12),
-                                                  ),
-                                                  backgroundColor:
-                                                      Color(0xff514f53),
-                                                  textColor: Colors.white,
-                                                  height: 47),
+                                                        if (files.length != 3) {
+                                                          customScaffold(
+                                                              context: context,
+                                                              title: "Error",
+                                                              message:
+                                                                  "Please provide three images",
+                                                              contentType:
+                                                                  ContentType
+                                                                      .failure);
+                                                          return;
+                                                        }
+                                                        context.read<
+                                                            AddRentalRoomBloc>()
+                                                          ..add(
+                                                              InstantiateRoomImageEvent(
+                                                                  roomImages:
+                                                                      files));
+                                                      },
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            "Add Images",
+                                                            style: TextStyle(
+                                                                fontSize: 12),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      backgroundColor:
+                                                          Color(0xff514f53),
+                                                      textColor: Colors.white,
+                                                      height: 47),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ],

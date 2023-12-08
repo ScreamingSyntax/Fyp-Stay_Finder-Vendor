@@ -12,8 +12,10 @@ class CustomFormField extends StatelessWidget {
   final IconButton? icon;
   final Icon? prefixIcon;
   final String? labelText;
+  final String? initialValue;
   const CustomFormField(
       {super.key,
+      this.initialValue,
       required this.inputFormatters,
       this.validatior,
       this.onChange,
@@ -28,6 +30,7 @@ class CustomFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextFormField(
+        initialValue: initialValue ?? "",
         obscureText: obscureText,
         keyboardType: this.keyboardType != null ? keyboardType : null,
         inputFormatters: inputFormatters,
