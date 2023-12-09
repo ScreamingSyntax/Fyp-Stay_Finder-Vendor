@@ -18,6 +18,9 @@ import '../../../logic/blocs/hostel_addition/hostel_addition_bloc.dart';
 void navigateToAccommodation(
     DropDownValueState state, BuildContext context, FormsState formState) {
   if (state.value == "rent_room") {
+    context.read<DropDownValueCubit>().clearDropDownValue();
+
+    context.read<AddRentalRoomBloc>().add(ClearRentalRoomAdditionStateEvent());
     context.read<AddRentalRoomBloc>().add(
         InitializeRentalRoomAccommodationEvent(
             room: Room(
@@ -45,6 +48,7 @@ void navigateToAccommodation(
   if (state.value == "hotel") {
     Navigator.pushNamed(context, "/addHotelScreen");
     context.read<AccommodationAdditionBloc>().add(AccommodationAdditionHitEvent(
+        image: context.read<AccommodationAdditionBloc>().state.image,
         accommodation: Accommodation(
             parking_availability: false,
             swimming_pool_availability: false,

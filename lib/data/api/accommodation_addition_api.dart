@@ -25,6 +25,103 @@ class AccommodationAdditionApi {
     }
   }
 
+  Future<Success> hostelWithoutTierAdditionApi(
+      {required Accommodation accommodation,
+      required List<Room?>? rooms,
+      required File accommodationImage,
+      required Map<int, List> roomImages,
+      required String token}) async {
+    print(token);
+    try {
+      final accommodationUrl = Uri.parse("${getIp()}accommodation/hotel/");
+      print(accommodationUrl);
+      final accommodationRequest =
+          http.MultipartRequest('POST', accommodationUrl);
+      accommodationRequest.headers['Authorization'] = 'Token ${token}';
+      accommodationRequest.fields['name'] = accommodation.name!;
+      accommodationRequest.fields['has_tier'] = 'false';
+      accommodationRequest.fields['parking_availability'] =
+          accommodation.parking_availability.toString();
+      accommodationRequest.fields['swimming_pool_availability'] =
+          accommodation.swimming_pool_availability.toString();
+      accommodationRequest.fields['latitude'] = "ad";
+      accommodationRequest.fields['longitude'] = "ad";
+      accommodationRequest.fields['type'] = "hotel";
+      accommodationRequest.fields['address'] = accommodation.address!;
+      accommodationRequest.fields['gym_availability'] =
+          accommodation.gym_availability!.toString();
+      accommodationRequest.fields['city'] = accommodation.city!.toString();
+      accommodationRequest.files.add(http.MultipartFile(
+        'image',
+        accommodationImage.readAsBytes().asStream(),
+        accommodationImage.lengthSync(),
+        filename: 'accommodation_image.jpg',
+        contentType: MediaType('image', '*'),
+      ));
+      final streamedReponse = await accommodationRequest.send();
+      final response = await http.Response.fromStream(streamedReponse);
+      // print(jsonDecode(response.body));
+      final body = jsonDecode(response.body);
+      // print(body);
+      int id = body['message']['id'];
+      // print(id);
+      final hotelUrl = Uri.parse("${getIp()}accommodation/hotel/nonTier/");
+      final hostelRequest = http.MultipartRequest('POST', hotelUrl);
+      hostelRequest.headers['Authorization'] = 'Token ${token}';
+      hostelRequest.fields['accommodation_id'] = id.toString();
+      for (int i = 0; i <= rooms!.length - 1; i++) {
+        hostelRequest.fields['room[${i}][ac_availability]'] =
+            rooms[i]!.ac_availability!.toString();
+        hostelRequest.fields['room[${i}][water_bottle_availability]'] =
+            rooms[i]!.water_bottle_availability!.toString();
+        hostelRequest.fields['room[${i}][steam_iron_availability]'] =
+            rooms[i]!.steam_iron_availability!.toString();
+        hostelRequest.fields['room[${i}][per_day_rent]'] =
+            rooms[i]!.monthly_rate!.toString();
+        hostelRequest.fields['room[${i}][seater_beds]'] =
+            rooms[i]!.seater_beds!.toString();
+        hostelRequest.fields['room[${i}][fan_availability]'] =
+            rooms[i]!.fan_availability!.toString();
+        hostelRequest.fields['room[${i}][coffee_powder_availability]'] =
+            rooms[i]!.hair_dryer_availability!.toString();
+        hostelRequest.fields['room[${i}][milk_powder_availability]'] =
+            rooms[i]!.milk_powder_availability!.toString();
+        hostelRequest.fields['room[${i}][kettle_availability]'] =
+            rooms[i]!.kettle_availability!.toString();
+        hostelRequest.fields['room[${i}][tv_availability]'] =
+            rooms[i]!.tv_availability!.toString();
+        hostelRequest.fields['room[${i}][tea_powder_availability]'] =
+            rooms[i]!.tea_powder_availability!.toString();
+        hostelRequest.fields['room[${i}][hair_dryer_availability]'] =
+            rooms[i]!.hair_dryer_availability!.toString();
+        hostelRequest.files.add(http.MultipartFile(
+          'room[${i}][image]',
+          roomImages[i]![0].readAsBytes().asStream(),
+          roomImages[i]![0].lengthSync(),
+          filename: 'room_image_${i}.jpg',
+          contentType: MediaType('image', '*'),
+        ));
+      }
+      final streamedReponseTwo = await hostelRequest.send();
+      final finalResponse = await http.Response.fromStream(streamedReponseTwo);
+      print(finalResponse);
+      final finalBody = jsonDecode(finalResponse.body);
+      // print(finalBody);
+      // return Success(success: 0, message: "Connection Error");
+      if (finalBody['success'] == 1) {
+        print("Yello");
+        return Success(success: 1, message: finalBody['message']);
+      }
+      if (finalBody['success'] == 0) {
+        return Success(success: 0, message: finalBody['message']);
+      }
+      return Success(success: 0, message: "Something went wrong");
+    } catch (Exception) {
+      print("a");
+      return Success(success: 0, message: "Connection Error");
+    }
+  }
+
   Future<Success> rentalHostelAddition(
       {required Accommodation accommodation,
       required String token,

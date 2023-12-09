@@ -177,12 +177,8 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                 message: "Do you really want to go back?",
                 title: "Confirmation",
                 yesBtnFunction: () {
-                  context.read<DropDownValueCubit>().clearDropDownValue();
                   int count = 0;
                   Navigator.of(context).popUntil((_) => count++ >= 4);
-                  context
-                      .read<AddRentalRoomBloc>()
-                      .add(ClearRentalRoomAdditionStateEvent());
                 },
                 noBtnFunction: () {
                   Navigator.pop(context);

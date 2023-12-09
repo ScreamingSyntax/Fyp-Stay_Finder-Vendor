@@ -11,6 +11,20 @@ class AccommodationAdditionRepository {
     return accommodationAdditionApi.fetchAccommodation(token: token);
   }
 
+  Future<Success> hotelWithoutTierAddition(
+      {required Accommodation accommodation,
+      required List<Room?>? rooms,
+      required File accommodationImage,
+      required Map<int, List> roomImages,
+      required String token}) {
+    return accommodationAdditionApi.hostelWithoutTierAdditionApi(
+        accommodation: accommodation,
+        rooms: rooms,
+        token: token,
+        accommodationImage: accommodationImage,
+        roomImages: roomImages);
+  }
+
   Future<Success> hostelRoomAddition(
       {required Accommodation accommodation,
       required List<Room?> room,

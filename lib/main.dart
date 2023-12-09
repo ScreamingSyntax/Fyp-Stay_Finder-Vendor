@@ -10,6 +10,7 @@ import 'data/repository/repository_exports.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 
 import 'logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';
+import 'logic/blocs/add_hotel_without_tier_api_callback/add_hotel_without_tier_api_callback_bloc_bloc.dart';
 import 'logic/blocs/add_rental_room/add_rental_room_bloc.dart';
 import 'logic/blocs/fetch_added_accommodations/fetch_added_accommodations_bloc.dart';
 import 'logic/blocs/hostel_addition/hostel_addition_bloc.dart';
@@ -102,6 +103,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AddHotelWithoutTierBloc(),
         ),
+        BlocProvider(
+          create: (context) => AddHotelWithoutTierApiCallbackBlocBloc(
+              repo: AccommodationAdditionRepository()),
+        )
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

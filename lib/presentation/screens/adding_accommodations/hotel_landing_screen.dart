@@ -30,8 +30,15 @@ class HotelLandingScreen extends StatelessWidget {
                       Navigator.pushNamed(context, "/hotelWithTierAddScreen");
                     }
                     if (!hasTier) {
+                      context
+                          .read<AddHotelWithoutTierBloc>()
+                          .add(ClearHotelWithoutTierRoomsEvent());
                       BlocProvider.of<AddHotelWithoutTierBloc>(context)
                         ..add(AddHotelWithoutTierHitEvent(
+                            accommodationImage: context
+                                .read<AccommodationAdditionBloc>()
+                                .state
+                                .image,
                             accommodation: context
                                 .read<AccommodationAdditionBloc>()
                                 .state
