@@ -24,6 +24,8 @@ class RoomAdditionCubit extends Cubit<RoomAdditionState> {
           tea_powder_availability: false,
           tv_availability: false,
           water_bottle_availability: false,
+          monthly_rate: 0,
+          per_day_rent: 0,
         )));
   void RoomUpdate(Room room) {
     return emit(RoomAdditionState(room: room));

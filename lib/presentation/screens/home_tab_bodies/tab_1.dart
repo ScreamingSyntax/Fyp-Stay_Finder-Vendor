@@ -9,6 +9,7 @@ import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_t
 import 'package:stayfinder_vendor/logic/cubits/drop_down_value/drop_down_value_cubit.dart';
 
 import '../../../constants/constants_exports.dart';
+import '../../../logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';
 import '../../../logic/blocs/bloc_exports.dart';
 import '../../../logic/blocs/fetch_added_accommodations/fetch_added_accommodations_bloc.dart';
 import '../../widgets/widgets_exports.dart';
@@ -238,6 +239,8 @@ class CustomAddAccommodationButton extends StatelessWidget {
           context.read<DropDownValueCubit>().instantiateDropDownValue(
             items: ['rent_room', 'hotel', 'hostel'],
           );
+          context.read<AccommodationAdditionBloc>()
+            ..add(AccommodationClearEvent());
           context.read<DropDownValueCubit>()..changeDropDownValue('rent_room');
           Navigator.pushNamed(context, "accommodationMain");
         }

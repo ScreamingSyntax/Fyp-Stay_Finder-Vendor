@@ -5,8 +5,10 @@ class CustomCheckBoxTile extends StatelessWidget {
   final void Function(bool?)? onChanged;
   final bool value;
   final IconData icon;
-  const CustomCheckBoxTile(
+  Color? color;
+  CustomCheckBoxTile(
       {super.key,
+      this.color,
       required this.title,
       required this.onChanged,
       required this.value,
@@ -18,11 +20,11 @@ class CustomCheckBoxTile extends StatelessWidget {
       // width: 10,
       // padding: EdgeInsets.all(),
       decoration: BoxDecoration(
-          color: Color(0xffe5e5e5),
+          color: color ?? Color(0xffe5e5e5),
           borderRadius: BorderRadius.circular(5),
           border: Border.all(width: 2, color: Color(0xffa8abaf))),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -34,7 +36,7 @@ class CustomCheckBoxTile extends StatelessWidget {
           ),
           CustomPoppinsText(
               text: title,
-              fontSize: 12,
+              fontSize: 10,
               color: Color(0xff625f66),
               fontWeight: FontWeight.w500),
           SizedBox(

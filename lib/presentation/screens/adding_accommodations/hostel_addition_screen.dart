@@ -14,6 +14,7 @@ import 'package:stayfinder_vendor/logic/blocs/hostel_addition/hostel_addition_bl
 import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
 import 'package:stayfinder_vendor/logic/cubits/room_addition/room_addition_cubit.dart';
 import 'package:stayfinder_vendor/presentation/config/image_helper.dart';
+import 'package:stayfinder_vendor/presentation/screens/screen_exports.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 
@@ -354,6 +355,7 @@ class HostelAdditionScreen extends StatelessWidget {
                                           room: room,
                                           token: state.successModel.token!,
                                           roomImages: roomImages));
+                                  callApis(context, state);
                                 }
                               }
                             }
@@ -1346,11 +1348,13 @@ Future<dynamic> roomDetailsUpdateSheet(
                                           context: context,
                                           title: "Already Exists",
                                           message:
-                                              "Room with ${state.washRoomCount} beds already exists",
+                                              "Room with ${state.washRoomCount.value} beds already exists",
                                           contentType: ContentType.help);
                                       contains = true;
                                       Navigator.pop(context);
                                       return;
+                                    } else {
+                                      contains = false;
                                     }
                                   });
                                   if (contains == false) {
@@ -1375,11 +1379,10 @@ Future<dynamic> roomDetailsUpdateSheet(
                                           .state
                                           .value,
                                     );
-                                    print(room);
-
                                     context.read<HostelAdditionBloc>()
                                       ..add(HostelUpdateRoomDetailsHitEvent(
                                           room: room, index: index - 1));
+
                                     Navigator.pop(context);
                                   }
                                 }

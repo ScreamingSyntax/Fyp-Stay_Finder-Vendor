@@ -106,7 +106,6 @@ class AccommodationMainScreen extends StatelessWidget {
             yesBtnFunction: () {
               int count = 0;
               Navigator.of(context).popUntil((_) => count++ >= 2);
-
               context
                   .read<AddRentalRoomBloc>()
                   .add(ClearRentalRoomAdditionStateEvent());

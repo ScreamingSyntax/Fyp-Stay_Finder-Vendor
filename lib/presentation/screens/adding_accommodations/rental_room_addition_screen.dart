@@ -10,6 +10,7 @@ import 'package:stayfinder_vendor/logic/blocs/add_rental_room/add_rental_room_bl
 import 'package:stayfinder_vendor/logic/blocs/bloc_exports.dart';
 import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
 import 'package:stayfinder_vendor/presentation/config/image_helper.dart';
+import 'package:stayfinder_vendor/presentation/screens/screen_exports.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 
@@ -144,6 +145,7 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                                       .read<AddRentalRoomBloc>()
                                       .state
                                       .roomImage3!));
+                          callApis(context, loginState);
                         }
                       }
                       if (!(context

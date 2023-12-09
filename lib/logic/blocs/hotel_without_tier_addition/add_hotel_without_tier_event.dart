@@ -13,9 +13,9 @@ class AddHotelWithoutTierHitEvent extends AddHotelWithoutTierEvent {
   Accommodation? accommodation;
   Room? room;
   File? accommodationImage;
-  List<File?>? images;
+  File? roomImage;
   AddHotelWithoutTierHitEvent(
-      {this.accommodation, this.room, this.accommodationImage, this.images});
+      {this.accommodation, this.room, this.accommodationImage, this.roomImage});
 }
 
 class UpdateHotelRoomWithoutTierHitEvent extends AddHotelWithoutTierEvent {
@@ -27,12 +27,10 @@ class UpdateHotelRoomWithoutTierHitEvent extends AddHotelWithoutTierEvent {
 
 class HostelWithoutTierChangePictureHitEvent extends AddHotelWithoutTierEvent {
   final int index;
-  final File image1;
-  final File image2;
+  File? roomImage;
 
   HostelWithoutTierChangePictureHitEvent({
-    required this.image1,
-    required this.image2,
+    required this.roomImage,
     required this.index,
   });
 }

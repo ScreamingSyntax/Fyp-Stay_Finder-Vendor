@@ -43,6 +43,7 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   flutter_slidable: ^3.0.1
   flutter_staggered_animations: ^1.1.1
+  font_awesome_flutter: ^10.6.0
   geocoding: ^2.1.1
   geolocator: ^10.1.0
   hydrated_bloc: ^9.1.2

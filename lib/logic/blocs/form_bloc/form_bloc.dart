@@ -11,6 +11,7 @@ class FormBloc extends Bloc<FormEvent, FormsState> {
   FormBloc() : super(FormsState(formKey: GlobalKey<FormState>())) {
     _formKey = state.formKey!;
     on<InitEvent>(initFormState);
+    on<BedChangedEvent>(onBedChanged);
     on<NameChangedEvent>(onNameChanged);
     on<EmailChangedEvent>(onEmailChanged);
     on<PhoneChangedEvent>(onPhoneChanged);
@@ -24,6 +25,13 @@ class FormBloc extends Bloc<FormEvent, FormsState> {
     on<NonMealsPerDayChangedEvent>(nonVegMealsChanged);
     on<WeeklyLaundaryCyclesChangedEvent>(laundaryChanged);
   }
+  Future<void> onBedChanged(
+      BedChangedEvent event, Emitter<FormsState> emit) async {
+    emit(state.copyWith(
+        formKey: _formKey,
+        bedCount: BlocFormItem(value: event.bedChanged.value)));
+  }
+
   Future<void> mealsChanged(
       MealsPerDayChangedEvent event, Emitter<FormsState> emit) async {
     emit(state.copyWith(

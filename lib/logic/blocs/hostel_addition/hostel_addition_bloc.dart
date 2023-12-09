@@ -48,7 +48,13 @@ class HostelAdditionBloc
     List<Room?>? newRoom = [];
     Map<int, List>? roomImages = {};
     if (event.room != null && state.room != null) {
-      int index = state.room!.length + 1;
+      print("Here is the error ${state.room}");
+      late int index;
+      if (state.room!.isEmpty) {
+        index = 0;
+      } else {
+        index = state.room![state.room!.length - 1]!.id! + 1;
+      }
       event.room!.id = index;
       newRoom = List<Room>.from(state.room!).toList()..add(event.room!);
       roomImages = state.roomImages;

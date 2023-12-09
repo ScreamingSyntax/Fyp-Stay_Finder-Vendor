@@ -1,4 +1,6 @@
+import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hostel_with_tier_screen.dart';
 import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hotel_landing_screen.dart';
+import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hotel_without_tier_screen.dart';
 
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
@@ -58,6 +60,14 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => HotelAdditionScreen());
       case "/hotelLandingScren":
         return MaterialPageRoute(builder: (_) => HotelLandingScreen());
+      case "/hotelWithoutTierAddScreen":
+        return MaterialPageRoute(
+          builder: (_) => HostelWithoutTierScreen(),
+        );
+      case "/hotelWithTierAddScreen":
+        return MaterialPageRoute(
+          builder: (_) => HostelWithTierScreen(),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

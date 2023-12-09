@@ -18,7 +18,7 @@ class AccommodationAdditionBloc
     });
     on<AccommodationClearEvent>(
       (event, emit) =>
-          AccommodationAdditionState(accommodation: null, image: null),
+          emit(AccommodationAdditionState(accommodation: null, image: null)),
     );
     on<AccommodationAdditionUpdateHitEvent>(((event, emit) => emit(
         state.copyWith(

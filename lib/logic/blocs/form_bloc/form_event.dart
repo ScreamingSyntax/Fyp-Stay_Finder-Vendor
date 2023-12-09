@@ -86,3 +86,9 @@ class WeeklyLaundaryCyclesChangedEvent extends FormEvent {
 
   WeeklyLaundaryCyclesChangedEvent({required this.weeklyLaundaryCycles});
 }
+
+class BedChangedEvent extends FormEvent {
+  final BlocFormItem bedChanged;
+
+  BedChangedEvent({required this.bedChanged});
+}

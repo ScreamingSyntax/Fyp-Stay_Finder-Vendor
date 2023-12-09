@@ -23,3 +23,4 @@ export 'khalti_payment_widgets.dart';
 export 'check_verification.dart';
 export 'custom_dropdown_widget.dart';
 export 'custom_checkbox.dart';
+export 'custom_widget_row.dart';

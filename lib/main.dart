@@ -13,6 +13,7 @@ import 'logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';
 import 'logic/blocs/add_rental_room/add_rental_room_bloc.dart';
 import 'logic/blocs/fetch_added_accommodations/fetch_added_accommodations_bloc.dart';
 import 'logic/blocs/hostel_addition/hostel_addition_bloc.dart';
+import 'logic/blocs/hotel_without_tier_addition/add_hotel_without_tier_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,6 +98,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AccommodationAdditionBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AddHotelWithoutTierBloc(),
         ),
       ],
       child: RepositoryProvider(

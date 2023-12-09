@@ -10,15 +10,13 @@ part 'add_hotel_without_tier_state.dart';
 class AddHotelWithoutTierBloc
     extends Bloc<AddHotelWithoutTierEvent, AddHotelWithoutTierState> {
   AddHotelWithoutTierBloc() : super(AddHotelWithoutTierState()) {
-    on<AddHotelWithoutTierEvent>((event, emit) {
-      // TODO: implement event handler
-      on<AddHotelWithoutTierHitEvent>(hostelInitizalization);
-      on<UpdateHotelRoomWithoutTierHitEvent>(updateRoomDetails);
-      on<ClearHotelWithoutTierAdditionEvent>(clearRoomDetails);
-      on<HostelWithoutTierChangePictureHitEvent>(changeImageClear);
-      on<ChangeHotelWithoutTierAccommodationDetailEvent>(changeAccommodation);
-      on<ClearHotelWithoutTierRoomsEvent>(clearRooms);
-    });
+    on<AddHotelWithoutTierEvent>((event, emit) {});
+    on<AddHotelWithoutTierHitEvent>(hostelInitizalization);
+    on<UpdateHotelRoomWithoutTierHitEvent>(updateRoomDetails);
+    on<ClearHotelWithoutTierAdditionEvent>(clearRoomDetails);
+    on<HostelWithoutTierChangePictureHitEvent>(changeImageClear);
+    on<ChangeHotelWithoutTierAccommodationDetailEvent>(changeAccommodation);
+    on<ClearHotelWithoutTierRoomsEvent>(clearRooms);
   }
   Future<void> clearRooms(ClearHotelWithoutTierRoomsEvent event,
       Emitter<AddHotelWithoutTierState> emit) async {
@@ -29,17 +27,16 @@ class AddHotelWithoutTierBloc
       ChangeHotelWithoutTierAccommodationDetailEvent event,
       Emitter<AddHotelWithoutTierState> emit) async {
     Accommodation? accommodation = event.accommodation;
-    emit(state.copyWith(accommodation: accommodation));
+    return emit(state.copyWith(accommodation: accommodation));
   }
 
   Future<void> changeImageClear(HostelWithoutTierChangePictureHitEvent event,
       Emitter<AddHotelWithoutTierState> emit) async {
-    // print(state.roomImages);
-    print("These are the room images ${state.roomImages}");
-    print("These are the room index ${event.index}");
-    Map<int, List> roomImages = Map.from(state.roomImages!);
-    roomImages[event.index] = [event.image2, event.image1];
-    return emit(state.copyWith(roomImages: roomImages));
+    print(state.roomImages);
+    // print("This is state image")
+    // Map<int, List> roomImages = Map.from(state.roomImages!);
+    // roomImages[event.index] = [event.roomImage];
+    // return emit(state.copyWith(roomImages: roomImages));
   }
 
   Future<void> hostelInitizalization(AddHotelWithoutTierHitEvent event,
@@ -49,16 +46,16 @@ class AddHotelWithoutTierBloc
     List<Room?>? newRoom = [];
     Map<int, List>? roomImages = {};
     if (event.room != null && state.room != null) {
-      int index = state.room!.length + 1;
+      int index = state.room![state.room!.length - 1]!.id! + 1;
       event.room!.id = index;
       newRoom = List<Room>.from(state.room!).toList()..add(event.room!);
       roomImages = state.roomImages;
-      roomImages![index] = [event.images![0], event.images![1]];
+      roomImages![index] = [event.roomImage];
     }
     if (event.room != null && state.room == null) {
       int index = 0;
       event.room!.id = index;
-      roomImages[index] = [event.images![0], event.images![1]];
+      roomImages[index] = [event.roomImage];
       newRoom = newRoom..add(event.room);
     }
     if (state.room != null && event.room == null) {
@@ -78,7 +75,11 @@ class AddHotelWithoutTierBloc
     int index = event.index;
     List<Room?>? stateRooms = state.room;
     List<Room?>? rooms = List<Room?>.from(stateRooms!).toList();
-    rooms[index] = event.room;
+    event.room.id = rooms[index - 1]!.id;
+    print(event.room);
+    print(rooms);
+    rooms[index - 1] = event.room;
+    print(rooms);
     return emit(state.copyWith(room: rooms));
   }
 
@@ -89,5 +90,12 @@ class AddHotelWithoutTierBloc
     Map<int, List> images = Map.from(state.roomImages!);
     images.remove(event.room.id);
     return emit(state.copyWith(room: room, roomImages: images));
+  }
+
+  @override
+  void onChange(Change<AddHotelWithoutTierState> change) {
+    print(
+        "The current state is ${change.currentState} and the next state is ${change.nextState}");
+    super.onChange(change);
   }
 }
