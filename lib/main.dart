@@ -1,5 +1,10 @@
 import 'package:stayfinder_vendor/data/repository/vendor_profile_repository.dart';
 import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
+import 'package:stayfinder_vendor/logic/cubits/fetch_hostel/fetch_hostel_details_cubit.dart';
+import 'package:stayfinder_vendor/logic/cubits/fetch_hotel_with_tier/fetch_hotel_with_tier_cubit.dart';
+import 'package:stayfinder_vendor/logic/cubits/fetch_hotel_without_tier/fetch_hotel_without_tier_cubit.dart';
+import 'package:stayfinder_vendor/logic/cubits/update_hotel_with_tier/update_hotel_with_tier_cubit.dart';
+import 'package:stayfinder_vendor/logic/cubits/update_hotel_without_tier/update_hotel_without_tier_cubit.dart';
 
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
@@ -7,14 +12,18 @@ import '../../presentation/widgets/widgets_exports.dart';
 import '../../presentation/config/config_exports.dart';
 import 'data/repository/repository_exports.dart';
 // import '';
-import 'package:khalti_flutter/khalti_flutter.dart';
 
 import 'logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';
+import 'logic/blocs/add_hotel_with_tier/add_hotel_with_tier_bloc_bloc.dart';
 import 'logic/blocs/add_hotel_without_tier_api_callback/add_hotel_without_tier_api_callback_bloc_bloc.dart';
 import 'logic/blocs/add_rental_room/add_rental_room_bloc.dart';
 import 'logic/blocs/fetch_added_accommodations/fetch_added_accommodations_bloc.dart';
 import 'logic/blocs/hostel_addition/hostel_addition_bloc.dart';
 import 'logic/blocs/hotel_without_tier_addition/add_hotel_without_tier_bloc.dart';
+import 'logic/cubits/FetchRentalRoom/fetch_rental_room_cubit.dart';
+import 'logic/cubits/store_rooms/store_rooms_cubit.dart';
+import 'logic/cubits/update_hostel/update_hostel_cubit.dart';
+import 'logic/cubits/update_rental_accommodation/update_accommodation_image_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -106,7 +115,37 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AddHotelWithoutTierApiCallbackBlocBloc(
               repo: AccommodationAdditionRepository()),
-        )
+        ),
+        BlocProvider(
+          create: (context) => AddHotelWithTierBlocBloc(),
+        ),
+        BlocProvider(
+          create: (context) => StoreRoomsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FetchRentalRoomCubit(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateRentalAccommodationCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FetchHostelDetailsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateHostelCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FetchHotelWithoutTierCubit(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateHotelWithoutTierCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FetchHotelWithTierCubit(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateHotelWithTierCubit(),
+        ),
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

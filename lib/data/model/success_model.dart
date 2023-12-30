@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import './model_exports.dart';
 
 class Success {
@@ -5,27 +8,30 @@ class Success {
   String? message;
   String? token;
   String? error;
+  Map? data;
   Success({
-    required this.success,
-    required this.message,
+    this.success,
+    this.message,
     this.token,
     this.error,
+    this.data,
   });
-  Success.withError(String errorMessage) {
-    error = errorMessage;
+  Success.withError(String error) {
+    this.error = error;
   }
-
   Success copyWith({
     int? success,
     String? message,
     String? token,
     String? error,
+    Map? data,
   }) {
     return Success(
       success: success ?? this.success,
       message: message ?? this.message,
       token: token ?? this.token,
       error: error ?? this.error,
+      data: data ?? this.data,
     );
   }
 
@@ -54,7 +60,7 @@ class Success {
 
   @override
   String toString() {
-    return 'Success(success: $success, message: $message, token: $token, error: $error)';
+    return 'Success(success: $success, message: $message, token: $token, error: $error, data: $data)';
   }
 
   @override
@@ -64,7 +70,8 @@ class Success {
     return other.success == success &&
         other.message == message &&
         other.token == token &&
-        other.error == error;
+        other.error == error &&
+        other.data == data;
   }
 
   @override
@@ -72,6 +79,7 @@ class Success {
     return success.hashCode ^
         message.hashCode ^
         token.hashCode ^
-        error.hashCode;
+        error.hashCode ^
+        data.hashCode;
   }
 }

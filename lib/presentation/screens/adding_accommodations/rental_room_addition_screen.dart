@@ -51,6 +51,10 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                       title: "Success",
                       message: state.message,
                       contentType: ContentType.success);
+                  var loginState = context.read<LoginBloc>().state;
+                  if (loginState is LoginLoaded) {
+                    callApis(context, loginState);
+                  }
                   int count = 0;
                   Navigator.of(context).popUntil((_) => count++ >= 3);
                   await Future.delayed(Duration(seconds: 1));
@@ -145,7 +149,6 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                                       .read<AddRentalRoomBloc>()
                                       .state
                                       .roomImage3!));
-                          callApis(context, loginState);
                         }
                       }
                       if (!(context

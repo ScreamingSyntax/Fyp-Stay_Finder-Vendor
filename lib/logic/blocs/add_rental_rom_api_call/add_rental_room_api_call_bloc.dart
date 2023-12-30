@@ -15,6 +15,15 @@ class AddRentalRoomApiCallBloc
     on<AddRentalRoomHitEventApi>(
       (event, emit) async {
         try {
+          print("This is token ${event.token}");
+
+          print("This is accommodation ${event.accommodation}");
+          print("This is image ${event.accommodationImage}");
+          print("This is room ${event.room}");
+          print("This is room image ${event.roomImage1}");
+          print("This is room image ${event.roomImage2}");
+          print("This is room image ${event.roomImage3}");
+
           emit(AddRentalRoomApiCallLoading());
           Success success = await repo.addRentalRoom(
               token: event.token,
@@ -24,6 +33,7 @@ class AddRentalRoomApiCallBloc
               roomImage1: event.roomImage1,
               roomImage2: event.roomImage2,
               roomImage3: event.roomImage3);
+          print(success);
           if (success.success == 0) {
             return emit(AddRentalRoomApiCallError(message: success.message!));
           }
@@ -31,6 +41,7 @@ class AddRentalRoomApiCallBloc
             return emit(AddRentalRoomApiCallSuccess(message: success.message!));
           }
         } catch (Exception) {
+          print("Here is Exception");
           return emit(AddRentalRoomApiCallError(message: "Connection Error"));
         }
       },

@@ -8,3 +8,7 @@ export 'current_tier_repository.dart';
 export 'transaction_history_repository.dart';
 export 'renew_tier_repository.dart';
 export 'accommodation_addition_repository.dart';
+export 'rental_room_repository.dart';
+export 'hotel_with_tier_repository.dart';
+export 'hotel_without_tier_repository.dart';
+export 'hostel_repository.dart';

@@ -13,6 +13,7 @@ class AccommodationAdditionApi {
         'Authorization': 'Token ${token}'
       });
       final Map<String, dynamic> responseData = jsonDecode(response.body);
+      print("This is the response data ${responseData}");
       if (responseData['success'] == 1) {
         List<Accommodation> accommodations = List.from(responseData['data'])
             .map((e) => Accommodation.fromMap(e))
@@ -22,6 +23,97 @@ class AccommodationAdditionApi {
       return [Accommodation.withError(error: "Something wen't wrong")];
     } catch (Exception) {
       return [Accommodation.withError(error: "Connection Error")];
+    }
+  }
+
+  Future<Success> hotelWithTierAdditionApi(
+      {required Accommodation accommodation,
+      required Map<int, Tier>? tier,
+      required Map<int, List<Room>>? rooms,
+      required File? accommodationImage,
+      required Map<int, File> tierImages,
+      required String token}) async {
+    try {
+      final accommodationUrl = Uri.parse("${getIp()}accommodation/hotel/");
+      print(accommodationUrl);
+      final accommodationRequest =
+          http.MultipartRequest('POST', accommodationUrl);
+      accommodationRequest.headers['Authorization'] = 'Token ${token}';
+      accommodationRequest.fields['name'] = accommodation.name!;
+      accommodationRequest.fields['has_tier'] = 'true';
+      accommodationRequest.fields['parking_availability'] =
+          accommodation.parking_availability.toString();
+      accommodationRequest.fields['swimming_pool_availability'] =
+          accommodation.swimming_pool_availability.toString();
+      accommodationRequest.fields['latitude'] = "ad";
+      accommodationRequest.fields['longitude'] = "ad";
+      accommodationRequest.fields['type'] = "hotel";
+      accommodationRequest.fields['address'] = accommodation.address!;
+      accommodationRequest.fields['gym_availability'] =
+          accommodation.gym_availability!.toString();
+      accommodationRequest.fields['city'] = accommodation.city!.toString();
+      accommodationRequest.files.add(http.MultipartFile(
+        'image',
+        accommodationImage!.readAsBytes().asStream(),
+        accommodationImage.lengthSync(),
+        filename: 'accommodation_image.jpg',
+        contentType: MediaType('image', '*'),
+      ));
+      final streamedReponse = await accommodationRequest.send();
+      final response = await http.Response.fromStream(streamedReponse);
+      final body = jsonDecode(response.body);
+      int id = body['message']['id'];
+      List<int> tiersList = tier!.keys.toList();
+      final tierUrl = Uri.parse("${getIp()}accommodation/hotel/tier/");
+      tiersList.forEach((element) async {
+        final hotelTierRequest = http.MultipartRequest('POST', tierUrl);
+        hotelTierRequest.fields['tier_name'] = tier[element]!.name!;
+        hotelTierRequest.fields['accommodation_id'] = id.toString();
+        hotelTierRequest.fields['description'] = tier[element]!.description!;
+        hotelTierRequest.headers['Authorization'] = 'Token ${token}';
+        hotelTierRequest.fields['has_tier'] = 'true';
+
+        hotelTierRequest.files.add(http.MultipartFile(
+          'image',
+          tierImages[element]!.readAsBytes().asStream(),
+          tierImages[element]!.lengthSync(),
+          filename: 'accommodation_image.jpg',
+          contentType: MediaType('image', '*'),
+        ));
+        for (int i = 0; i < rooms![element]!.length; i++) {
+          hotelTierRequest.fields['room[${i}][ac_availability]'] =
+              rooms[element]![i].ac_availability!.toString();
+          hotelTierRequest.fields['room[${i}][water_bottle_availability]'] =
+              rooms[element]![i].water_bottle_availability!.toString();
+          hotelTierRequest.fields['room[${i}][steam_iron_availability]'] =
+              rooms[element]![i].steam_iron_availability!.toString();
+          hotelTierRequest.fields['room[${i}][per_day_rent]'] =
+              rooms[element]![i].monthly_rate!.toString();
+          hotelTierRequest.fields['room[${i}][seater_beds]'] =
+              rooms[element]![i].seater_beds!.toString();
+          hotelTierRequest.fields['room[${i}][fan_availability]'] =
+              rooms[element]![i].fan_availability!.toString();
+          hotelTierRequest.fields['room[${i}][coffee_powder_availability]'] =
+              rooms[element]![i].coffee_powder_availability!.toString();
+          hotelTierRequest.fields['room[${i}][milk_powder_availability]'] =
+              rooms[element]![i].milk_powder_availability!.toString();
+          hotelTierRequest.fields['room[${i}][kettle_availability]'] =
+              rooms[element]![i].kettle_availability!.toString();
+          hotelTierRequest.fields['room[${i}][tv_availability]'] =
+              rooms[element]![i].tv_availability!.toString();
+          hotelTierRequest.fields['room[${i}][tea_powder_availability]'] =
+              rooms[element]![i].tea_powder_availability!.toString();
+          hotelTierRequest.fields['room[${i}][hair_dryer_availability]'] =
+              rooms[element]![i].hair_dryer_availability!.toString();
+        }
+        final streamedReponse2 = await hotelTierRequest.send();
+        final response2 = await http.Response.fromStream(streamedReponse2);
+        final body2 = jsonDecode(response2.body);
+        print(body2);
+      });
+      return Success(success: 1, message: "Successfully Added");
+    } catch (Exception) {
+      return Success(success: 0, message: "Connection Error");
     }
   }
 
@@ -185,8 +277,8 @@ class AccommodationAdditionApi {
       ));
       request.files.add(http.MultipartFile(
         'room_image[2]',
-        roomImage2.readAsBytes().asStream(),
-        roomImage2.lengthSync(),
+        roomImage3.readAsBytes().asStream(),
+        roomImage3.lengthSync(),
         filename: 'room_image_2.jpg',
         contentType: MediaType('image', '*'),
       ));
@@ -194,12 +286,14 @@ class AccommodationAdditionApi {
       final response = await http.Response.fromStream(streamedReponse);
       print(jsonDecode(response.body));
       final body = jsonDecode(response.body);
+      print('This is body ${body}');
       if (body['success'] == 1) {
         return Success(success: 1, message: "Successfully Added");
       }
 
       return Success(success: 0, message: body['message']);
     } catch (Exception) {
+      print(Exception);
       return Success(success: 0, message: "Connection Error");
     }
   }

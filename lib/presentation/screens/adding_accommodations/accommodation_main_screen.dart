@@ -18,9 +18,17 @@ import '../../../logic/blocs/hostel_addition/hostel_addition_bloc.dart';
 void navigateToAccommodation(
     DropDownValueState state, BuildContext context, FormsState formState) {
   if (state.value == "rent_room") {
-    context.read<DropDownValueCubit>().clearDropDownValue();
-
-    context.read<AddRentalRoomBloc>().add(ClearRentalRoomAdditionStateEvent());
+    // context.read<DropDownValueCubit>().clearDropDownValue();
+    var state = context.read<AddRentalRoomBloc>().state;
+    print("This is room ${state.room}");
+    print(state.roomImage1);
+    print(state.roomImage2);
+    print(state.roomImage3);
+    if (state.room != null) {
+      context
+          .read<AddRentalRoomBloc>()
+          .add(ClearRentalRoomAdditionStateEvent());
+    }
     context.read<AddRentalRoomBloc>().add(
         InitializeRentalRoomAccommodationEvent(
             room: Room(

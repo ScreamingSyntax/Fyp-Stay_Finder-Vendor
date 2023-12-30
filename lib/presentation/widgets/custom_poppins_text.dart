@@ -22,6 +22,7 @@ class CustomPoppinsText extends StatelessWidget {
       text,
       textAlign: textAlign == null ? null : textAlign,
       style: TextStyle(
+          overflow: TextOverflow.fade,
           fontSize: fontSize,
           fontWeight: fontWeight,
           color: this.color == null ? null : this.color),

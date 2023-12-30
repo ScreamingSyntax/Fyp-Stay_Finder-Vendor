@@ -8,7 +8,7 @@ class Room {
   bool? ac_availability;
   bool? water_bottle_availability;
   bool? steam_iron_availability;
-  double? per_day_rent;
+  int? per_day_rent;
   bool? fan_availability;
   bool? bed_availability;
   bool? sofa_availability;
@@ -23,6 +23,7 @@ class Room {
   bool? tea_powder_availability;
   bool? hair_dryer_availability;
   bool? tv_availability;
+  int? hotel_tier;
   String? error;
   Room({
     this.id,
@@ -46,6 +47,7 @@ class Room {
     this.tea_powder_availability,
     this.hair_dryer_availability,
     this.tv_availability,
+    this.hotel_tier,
     this.error,
   });
 
@@ -56,7 +58,7 @@ class Room {
     bool? ac_availability,
     bool? water_bottle_availability,
     bool? steam_iron_availability,
-    double? per_day_rent,
+    int? per_day_rent,
     bool? fan_availability,
     bool? bed_availability,
     bool? sofa_availability,
@@ -71,6 +73,7 @@ class Room {
     bool? tea_powder_availability,
     bool? hair_dryer_availability,
     bool? tv_availability,
+    int? hotel_tier,
     String? error,
   }) {
     return Room(
@@ -101,6 +104,7 @@ class Room {
       hair_dryer_availability:
           hair_dryer_availability ?? this.hair_dryer_availability,
       tv_availability: tv_availability ?? this.tv_availability,
+      hotel_tier: hotel_tier ?? this.hotel_tier,
       error: error ?? this.error,
     );
   }
@@ -128,6 +132,7 @@ class Room {
       'tea_powder_availability': tea_powder_availability,
       'hair_dryer_availability': hair_dryer_availability,
       'tv_availability': tv_availability,
+      'hotel_tier': hotel_tier,
       'error': error,
     };
   }
@@ -149,7 +154,7 @@ class Room {
           ? map['steam_iron_availability'] as bool
           : null,
       per_day_rent:
-          map['per_day_rent'] != null ? map['per_day_rent'] as double : null,
+          map['per_day_rent'] != null ? map['per_day_rent'] as int : null,
       fan_availability: map['fan_availability'] != null
           ? map['fan_availability'] as bool
           : null,
@@ -191,6 +196,7 @@ class Room {
       tv_availability: map['tv_availability'] != null
           ? map['tv_availability'] as bool
           : null,
+      hotel_tier: map['hotel_tier'] != null ? map['hotel_tier'] as int : null,
       error: map['error'] != null ? map['error'] as String : null,
     );
   }
@@ -202,7 +208,7 @@ class Room {
 
   @override
   String toString() {
-    return 'Room(id: $id, accommodation: $accommodation, seater_beds: $seater_beds, ac_availability: $ac_availability, water_bottle_availability: $water_bottle_availability, steam_iron_availability: $steam_iron_availability, per_day_rent: $per_day_rent, fan_availability: $fan_availability, bed_availability: $bed_availability, sofa_availability: $sofa_availability, monthly_rate: $monthly_rate, mat_availability: $mat_availability, carpet_availability: $carpet_availability, washroom_status: $washroom_status, dustbin_availability: $dustbin_availability, kettle_availability: $kettle_availability, coffee_powder_availability: $coffee_powder_availability, milk_powder_availability: $milk_powder_availability, tea_powder_availability: $tea_powder_availability, hair_dryer_availability: $hair_dryer_availability, tv_availability: $tv_availability, error: $error)';
+    return 'Room(id: $id, accommodation: $accommodation, seater_beds: $seater_beds, ac_availability: $ac_availability, water_bottle_availability: $water_bottle_availability, steam_iron_availability: $steam_iron_availability, per_day_rent: $per_day_rent, fan_availability: $fan_availability, bed_availability: $bed_availability, sofa_availability: $sofa_availability, monthly_rate: $monthly_rate, mat_availability: $mat_availability, carpet_availability: $carpet_availability, washroom_status: $washroom_status, dustbin_availability: $dustbin_availability, kettle_availability: $kettle_availability, coffee_powder_availability: $coffee_powder_availability, milk_powder_availability: $milk_powder_availability, tea_powder_availability: $tea_powder_availability, hair_dryer_availability: $hair_dryer_availability, tv_availability: $tv_availability, hotel_tier: $hotel_tier, error: $error)';
   }
 
   @override
@@ -230,6 +236,7 @@ class Room {
         other.tea_powder_availability == tea_powder_availability &&
         other.hair_dryer_availability == hair_dryer_availability &&
         other.tv_availability == tv_availability &&
+        other.hotel_tier == hotel_tier &&
         other.error == error;
   }
 
@@ -256,6 +263,7 @@ class Room {
         tea_powder_availability.hashCode ^
         hair_dryer_availability.hashCode ^
         tv_availability.hashCode ^
+        hotel_tier.hashCode ^
         error.hashCode;
   }
 }

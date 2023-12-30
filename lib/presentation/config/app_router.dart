@@ -1,10 +1,15 @@
+import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/add_tier_screen.dart';
 import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hostel_with_tier_screen.dart';
 import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hotel_landing_screen.dart';
 import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hotel_without_tier_screen.dart';
+import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hostel/hostel_view.dart';
+import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hotel/hotel_with_tier_view.dart';
+import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hotel_without_tier.dart/hotel_without_tier_view.dart';
 
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
 import '../../presentation/widgets/widgets_exports.dart';
+import '../screens/adding_accommodations/view_accommoation_screen.dart/rental_room_view.dart';
 import '../screens/screen_exports.dart';
 
 class AppRouter {
@@ -56,8 +61,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => InformationScreen());
       case "/addHostelScreen":
         return MaterialPageRoute(builder: (_) => HostelAdditionScreen());
-      case "/addHotelScreen":
-        return MaterialPageRoute(builder: (_) => HotelAdditionScreen());
+      // case "/addHotelScreen":
+      //   return MaterialPageRoute(builder: (_) => HotelAdditionScreen());
       case "/hotelLandingScren":
         return MaterialPageRoute(builder: (_) => HotelLandingScreen());
       case "/hotelWithoutTierAddScreen":
@@ -67,6 +72,31 @@ class AppRouter {
       case "/hotelWithTierAddScreen":
         return MaterialPageRoute(
           builder: (_) => HostelWithTierScreen(),
+        );
+      case "/hotelWithTierAddTierScreen":
+        return MaterialPageRoute(
+          builder: (_) => AddTierScreen(),
+        );
+      case "/viewRentalRoom":
+        return MaterialPageRoute(
+            builder: (_) => RentalRoomViewScreen(
+                  arguments: routeSettings.arguments!,
+                ));
+      case "/viewHostel":
+        return MaterialPageRoute(
+            builder: (_) => HostelViewScreen(
+                  arguments: routeSettings.arguments!,
+                ));
+      case "/viewHotelWithoutTier":
+        return MaterialPageRoute(
+            builder: (_) => HotelWithoutTierView(
+                  data: routeSettings.arguments! as Map,
+                ));
+      case "/viewHotelWithTier":
+        return MaterialPageRoute(
+          builder: (_) => HotelWithTierView(
+            data: routeSettings.arguments! as Map,
+          ),
         );
       default:
         return MaterialPageRoute(

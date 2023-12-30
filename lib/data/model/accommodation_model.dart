@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 class Accommodation {
+  int? id;
   String? name;
   String? image;
   String? city;
@@ -18,6 +19,7 @@ class Accommodation {
   bool? is_verified;
   bool? is_active;
   bool? is_pending;
+  bool? is_rejected;
 
   int? meals_per_day;
   int? weekly_non_veg_meals;
@@ -27,6 +29,7 @@ class Accommodation {
   String? error;
   bool? trash_dispose_availability;
   Accommodation({
+    this.id,
     this.name,
     this.image,
     this.city,
@@ -43,6 +46,7 @@ class Accommodation {
     this.is_verified,
     this.is_active,
     this.is_pending,
+    this.is_rejected,
     this.meals_per_day,
     this.weekly_non_veg_meals,
     this.weekly_laundry_cycles,
@@ -56,6 +60,7 @@ class Accommodation {
   }
 
   Accommodation copyWith({
+    int? id,
     String? name,
     String? image,
     String? city,
@@ -72,6 +77,7 @@ class Accommodation {
     bool? is_verified,
     bool? is_active,
     bool? is_pending,
+    bool? is_rejected,
     int? meals_per_day,
     int? weekly_non_veg_meals,
     int? weekly_laundry_cycles,
@@ -81,6 +87,7 @@ class Accommodation {
     bool? trash_dispose_availability,
   }) {
     return Accommodation(
+      id: id ?? this.id,
       name: name ?? this.name,
       image: image ?? this.image,
       city: city ?? this.city,
@@ -98,6 +105,7 @@ class Accommodation {
       is_verified: is_verified ?? this.is_verified,
       is_active: is_active ?? this.is_active,
       is_pending: is_pending ?? this.is_pending,
+      is_rejected: is_rejected ?? this.is_rejected,
       meals_per_day: meals_per_day ?? this.meals_per_day,
       weekly_non_veg_meals: weekly_non_veg_meals ?? this.weekly_non_veg_meals,
       weekly_laundry_cycles:
@@ -112,6 +120,7 @@ class Accommodation {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'name': name,
       'image': image,
       'city': city,
@@ -128,6 +137,7 @@ class Accommodation {
       'is_verified': is_verified,
       'is_active': is_active,
       'is_pending': is_pending,
+      'is_rejected': is_rejected,
       'meals_per_day': meals_per_day,
       'weekly_non_veg_meals': weekly_non_veg_meals,
       'weekly_laundry_cycles': weekly_laundry_cycles,
@@ -140,6 +150,7 @@ class Accommodation {
 
   factory Accommodation.fromMap(Map<String, dynamic> map) {
     return Accommodation(
+      id: map['id'] != null ? map['id'] as int : null,
       name: map['name'] != null ? map['name'] as String : null,
       image: map['image'] != null ? map['image'] as String : null,
       city: map['city'] != null ? map['city'] as String : null,
@@ -165,6 +176,8 @@ class Accommodation {
           map['is_verified'] != null ? map['is_verified'] as bool : null,
       is_active: map['is_active'] != null ? map['is_active'] as bool : null,
       is_pending: map['is_pending'] != null ? map['is_pending'] as bool : null,
+      is_rejected:
+          map['is_rejected'] != null ? map['is_rejected'] as bool : null,
       meals_per_day:
           map['meals_per_day'] != null ? map['meals_per_day'] as int : null,
       weekly_non_veg_meals: map['weekly_non_veg_meals'] != null
@@ -192,14 +205,15 @@ class Accommodation {
 
   @override
   String toString() {
-    return 'Accommodation(name: $name, image: $image, city: $city, address: $address, longitude: $longitude, latitude: $latitude, type: $type, monthly_rate: $monthly_rate, number_of_washroom: $number_of_washroom, gym_availability: $gym_availability, swimming_pool_availability: $swimming_pool_availability, has_tier: $has_tier, date_added: $date_added, is_verified: $is_verified, is_active: $is_active, is_pending: $is_pending, meals_per_day: $meals_per_day, weekly_non_veg_meals: $weekly_non_veg_meals, weekly_laundry_cycles: $weekly_laundry_cycles, parking_availability: $parking_availability, admission_rate: $admission_rate, error: $error, trash_dispose_availability: $trash_dispose_availability)';
+    return 'Accommodation(id: $id, name: $name, image: $image, city: $city, address: $address, longitude: $longitude, latitude: $latitude, type: $type, monthly_rate: $monthly_rate, number_of_washroom: $number_of_washroom, gym_availability: $gym_availability, swimming_pool_availability: $swimming_pool_availability, has_tier: $has_tier, date_added: $date_added, is_verified: $is_verified, is_active: $is_active, is_pending: $is_pending, is_rejected: $is_rejected, meals_per_day: $meals_per_day, weekly_non_veg_meals: $weekly_non_veg_meals, weekly_laundry_cycles: $weekly_laundry_cycles, parking_availability: $parking_availability, admission_rate: $admission_rate, error: $error, trash_dispose_availability: $trash_dispose_availability)';
   }
 
   @override
   bool operator ==(covariant Accommodation other) {
     if (identical(this, other)) return true;
 
-    return other.name == name &&
+    return other.id == id &&
+        other.name == name &&
         other.image == image &&
         other.city == city &&
         other.address == address &&
@@ -215,6 +229,7 @@ class Accommodation {
         other.is_verified == is_verified &&
         other.is_active == is_active &&
         other.is_pending == is_pending &&
+        other.is_rejected == is_rejected &&
         other.meals_per_day == meals_per_day &&
         other.weekly_non_veg_meals == weekly_non_veg_meals &&
         other.weekly_laundry_cycles == weekly_laundry_cycles &&
@@ -226,7 +241,8 @@ class Accommodation {
 
   @override
   int get hashCode {
-    return name.hashCode ^
+    return id.hashCode ^
+        name.hashCode ^
         image.hashCode ^
         city.hashCode ^
         address.hashCode ^
@@ -242,6 +258,7 @@ class Accommodation {
         is_verified.hashCode ^
         is_active.hashCode ^
         is_pending.hashCode ^
+        is_rejected.hashCode ^
         meals_per_day.hashCode ^
         weekly_non_veg_meals.hashCode ^
         weekly_laundry_cycles.hashCode ^

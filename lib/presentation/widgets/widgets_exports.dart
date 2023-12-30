@@ -24,3 +24,8 @@ export 'check_verification.dart';
 export 'custom_dropdown_widget.dart';
 export 'custom_checkbox.dart';
 export 'custom_widget_row.dart';
+export 'custom_checkbox_detail_tile.dart';
+export 'custom_image_view_widget.dart';
+export 'custom_edit_delete_button.dart';
+export 'custom_verification_badge.dart';
+export 'custom_verified_widget.dart';

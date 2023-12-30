@@ -3,7 +3,10 @@ import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:stayfinder_vendor/logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';
 import 'package:stayfinder_vendor/logic/blocs/bloc_exports.dart';
 import 'package:stayfinder_vendor/logic/blocs/hotel_without_tier_addition/add_hotel_without_tier_bloc.dart';
+import 'package:stayfinder_vendor/logic/cubits/store_rooms/store_rooms_cubit.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
+
+import '../../../logic/blocs/add_hotel_with_tier/add_hotel_with_tier_bloc_bloc.dart';
 
 class HotelLandingScreen extends StatelessWidget {
   @override
@@ -27,6 +30,20 @@ class HotelLandingScreen extends StatelessWidget {
                   noBtnFunction: () => Navigator.pop(context),
                   yesBtnFunction: () {
                     if (hasTier) {
+                      context.read<AddHotelWithTierBlocBloc>()
+                        ..add(AddAccommodationWithTierEvent(
+                          accommodation: context
+                              .read<AccommodationAdditionBloc>()
+                              .state
+                              .accommodation!,
+                          accommodationImage: context
+                              .read<AccommodationAdditionBloc>()
+                              .state
+                              .image!,
+                        ));
+                      context.read<AddHotelWithTierBlocBloc>()
+                        ..add(ClearEverythingAccommodationWithTierEvent());
+                      context.read<StoreRoomsCubit>().clearEverything();
                       Navigator.pushNamed(context, "/hotelWithTierAddScreen");
                     }
                     if (!hasTier) {

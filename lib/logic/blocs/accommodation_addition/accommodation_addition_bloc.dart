@@ -9,10 +9,13 @@ part 'accommodation_addition_state.dart';
 
 class AccommodationAdditionBloc
     extends Bloc<AccommodationAdditionEvent, AccommodationAdditionState> {
-  AccommodationAdditionBloc() : super(AccommodationAdditionState()) {
-    on<AccommodationAdditionHitEvent>((event, emit) {
+  AccommodationAdditionBloc() : super(AccommodationAdditionState(
+
+            // accommodation: Accommodation(address: "")
+            )) {
+    on<AccommodationAdditionHitEvent>((event, emit) async {
       print(event.image);
-      emit(AccommodationAdditionState(
+      return emit(AccommodationAdditionState(
           accommodation: event.accommodation ?? null,
           image: event.image ?? null));
     });

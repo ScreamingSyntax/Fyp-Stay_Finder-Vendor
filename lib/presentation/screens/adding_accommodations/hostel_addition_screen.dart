@@ -252,6 +252,10 @@ class HostelAdditionScreen extends StatelessWidget {
                             contentType: ContentType.failure);
                       }
                       if (state is AddHostelApiCallSuccess) {
+                        var loginState = context.read<LoginBloc>().state;
+                        if (loginState is LoginLoaded) {
+                          callApis(context, loginState);
+                        }
                         int count = 0;
                         Navigator.of(context).popUntil((_) => count++ >= 3);
                         customScaffold(
@@ -355,7 +359,7 @@ class HostelAdditionScreen extends StatelessWidget {
                                           room: room,
                                           token: state.successModel.token!,
                                           roomImages: roomImages));
-                                  callApis(context, state);
+                                  // callApis(context, state);
                                 }
                               }
                             }

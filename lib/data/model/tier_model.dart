@@ -11,12 +11,12 @@ class Tier {
   int? accomodationLimit;
   String? error;
   Tier(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.image,
-      required this.price,
-      required this.accomodationLimit,
+      {this.id,
+      this.name,
+      this.description,
+      this.image,
+      this.price,
+      this.accomodationLimit,
       this.error});
   Tier.withError({required String error}) {
     this.error = error;

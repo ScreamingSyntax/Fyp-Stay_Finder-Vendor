@@ -33,7 +33,7 @@ dependencies:
   clippy_flutter: ^2.0.0-nullsafety.1
   cupertino_icons: ^1.0.2
   curved_navigation_bar: ^1.0.3
-  dio: ^5.3.3
+  dio: ^5.4.0
   equatable: ^2.0.5
   flutter:
     sdk: flutter
@@ -73,6 +73,7 @@ flutter:
     - assets/on_boarding_images/
     - assets/images/
     - assets/profile/
+    - assets/logos/
 
   fonts:
     - family: Poppins
