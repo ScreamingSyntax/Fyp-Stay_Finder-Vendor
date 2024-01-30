@@ -59,7 +59,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                                         child: CachedNetworkImage(
                                             fit: BoxFit.cover,
                                             imageUrl:
-                                                "${getIp()}${tierState.tierList[0].image!}"),
+                                                "${getIpWithoutSlash()}${tierState.tierList[0].image!}"),
                                       ),
                                       title: Text(
                                           "${tierState.tierList.where((element) => element.id == transactionHistoryState.transactionHistory[index].tier).first.name}"),
@@ -150,7 +150,7 @@ class UpperBodyTransaction extends StatelessWidget {
                                     height: 88,
                                     fit: BoxFit.fill,
                                     imageUrl:
-                                        "${getIp()}${fetchVendorState.vendorProfile.profile_picture}"),
+                                        "${getIpWithoutSlash()}${fetchVendorState.vendorProfile.profile_picture}"),
                               ),
                             );
                           }

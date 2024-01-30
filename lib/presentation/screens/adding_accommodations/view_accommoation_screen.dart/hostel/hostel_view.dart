@@ -130,7 +130,7 @@ class HostelSuccessScreen extends StatelessWidget {
                         children: [
                           CustomMainImageVIew(
                               imageLink:
-                                  "${getIp()}${fetchHostelDetailSuccess.accommodation!.image!}"),
+                                  "${getIpWithoutSlash()}${fetchHostelDetailSuccess.accommodation!.image!}"),
                           Positioned(
                               right: 20,
                               top: 20,
@@ -592,7 +592,7 @@ class HostelSuccessScreen extends StatelessWidget {
                                                 );
                                               },
                                               imageUrl:
-                                                  "${getIp()}${imageLink}"),
+                                                  "${getIpWithoutSlash()}${imageLink}"),
                                         ),
                                         title: Text(
                                           "Room 1",

@@ -58,7 +58,7 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                   int count = 0;
                   Navigator.of(context).popUntil((_) => count++ >= 3);
                   await Future.delayed(Duration(seconds: 1));
-                  context.read<DropDownValueCubit>().clearDropDownValue();
+                  // context.read<DropDownValueCubit>().clearDropDownValue();
                   context
                       .read<AddRentalRoomBloc>()
                       .add(ClearRentalRoomAdditionStateEvent());

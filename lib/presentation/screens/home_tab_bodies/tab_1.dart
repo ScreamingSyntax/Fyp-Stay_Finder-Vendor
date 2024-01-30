@@ -92,186 +92,211 @@ class MiddleHomeBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomPoppinsText(
-            text: "Your accomodations",
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-          ),
-          SizedBox(
-            height: 10,
-          ),
           BlocBuilder<FetchAddedAccommodationsBloc,
               FetchAddedAccommodationsState>(
             builder: (context, state) {
               if (state is FetchAddedAccommodationsLoaded) {
                 bool verified = checkVerification(context, loginState);
+                if (!verified) {
+                  return Column(
+                    children: [
+                      CustomPoppinsText(
+                        text: "Please verify your profile first",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                      SizedBox(),
+                    ],
+                  );
+                }
                 if (verified) {
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Container(
-                      height: 180,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ListView.builder(
-                            itemCount: state.accommodation.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  var loginState =
-                                      context.read<LoginBloc>().state;
-                                  if (loginState is LoginLoaded) {
-                                    Accommodation accommodation =
-                                        state.accommodation[index];
-                                    print(
-                                        "The id of the accommodation is ${accommodation.id}");
-                                    if (accommodation.type == 'rent_room') {
-                                      Navigator.pushNamed(
-                                          context, "/viewRentalRoom",
-                                          arguments: {
-                                            'id': accommodation.id,
-                                            'token':
-                                                loginState.successModel.token
-                                          });
-                                    }
-                                    if (accommodation.type == "hotel") {
-                                      if (accommodation.has_tier == true) {
-                                        context
-                                            .read<FetchHotelWithTierCubit>()
-                                            .fetchHotelWithTierDetails(
-                                                acccommodationID: accommodation
-                                                    .id!
-                                                    .toString(),
-                                                token: loginState
-                                                    .successModel.token!);
-                                        Navigator.pushNamed(
-                                            context, '/viewHotelWithTier',
-                                            arguments: {
-                                              'id': accommodation.id,
-                                              'token':
-                                                  loginState.successModel.token
-                                            });
-                                      }
-                                      if (accommodation.has_tier == false) {
-                                        context
-                                            .read<FetchHotelWithoutTierCubit>()
-                                            .FetchHotel(
-                                                accommodationId:
-                                                    accommodation.id!,
-                                                token: loginState
-                                                    .successModel.token!);
-                                        Navigator.pushNamed(
-                                            context, '/viewHotelWithoutTier',
-                                            arguments: {
-                                              'id': accommodation.id,
-                                              'token':
-                                                  loginState.successModel.token
-                                            });
-                                      }
-                                    }
-                                    if (accommodation.type == "hostel") {
-                                      context
-                                          .read<FetchHostelDetailsCubit>()
-                                          .fetchHostelAccommodation(
-                                              token: loginState
-                                                  .successModel.token!,
-                                              accommodationId:
-                                                  accommodation.id!);
-                                      Navigator.pushNamed(
-                                          context, '/viewHostel', arguments: {
-                                        'id': accommodation.id,
-                                        'token': loginState.successModel.token
-                                      });
-                                    }
-                                  }
-                                },
-                                child: SizedBox(
-                                  width: 127,
-                                  height: 167,
-                                  child: Card(
-                                    elevation: 0,
-                                    surfaceTintColor: Colors.white,
-                                    shadowColor: Colors.white,
-                                    color: Colors.black.withOpacity(0.1),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            child: CachedNetworkImage(
-                                              imageBuilder:
-                                                  (context, imageProvider) {
-                                                return Container(
-                                                  width: 135,
-                                                  height: 100,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius
-                                                          .only(
-                                                              topLeft: Radius
-                                                                  .circular(5),
-                                                              topRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          5)),
-                                                      image: DecorationImage(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          image: imageProvider,
-                                                          fit: BoxFit.cover)),
-                                                );
-                                              },
-                                              width: 167,
-                                              fit: BoxFit.cover,
-                                              alignment: Alignment.center,
-                                              imageUrl:
-                                                  "${getIp()}${state.accommodation[index].image.toString()}",
-                                              height: 95,
-                                              placeholder: (context, url) =>
-                                                  CircularProgressIndicator(),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          CustomPoppinsText(
-                                              text: state
-                                                  .accommodation[index].name
-                                                  .toString(),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w700),
-                                          Expanded(
-                                            child: Text(
-                                              state.accommodation[index].address
-                                                  .toString(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff9DA8C3),
-                                                  fontSize: 11),
-                                            ),
-                                          ),
-                                        ]),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          Row(
+                  return Column(
+                    children: [
+                      CustomPoppinsText(
+                        text: "Your accomodations",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Container(
+                          height: 180,
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              CustomAddAccommodationButton(
-                                  loginState: loginState),
+                              ListView.builder(
+                                itemCount: state.accommodation.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      var loginState =
+                                          context.read<LoginBloc>().state;
+                                      if (loginState is LoginLoaded) {
+                                        Accommodation accommodation =
+                                            state.accommodation[index];
+                                        print(
+                                            "The id of the accommodation is ${accommodation.id}");
+                                        if (accommodation.type == 'rent_room') {
+                                          Navigator.pushNamed(
+                                              context, "/viewRentalRoom",
+                                              arguments: {
+                                                'id': accommodation.id,
+                                                'token': loginState
+                                                    .successModel.token
+                                              });
+                                        }
+                                        if (accommodation.type == "hotel") {
+                                          if (accommodation.has_tier == true) {
+                                            context
+                                                .read<FetchHotelWithTierCubit>()
+                                                .fetchHotelWithTierDetails(
+                                                    acccommodationID:
+                                                        accommodation.id!
+                                                            .toString(),
+                                                    token: loginState
+                                                        .successModel.token!);
+                                            Navigator.pushNamed(
+                                                context, '/viewHotelWithTier',
+                                                arguments: {
+                                                  'id': accommodation.id,
+                                                  'token': loginState
+                                                      .successModel.token
+                                                });
+                                          }
+                                          if (accommodation.has_tier == false) {
+                                            context
+                                                .read<
+                                                    FetchHotelWithoutTierCubit>()
+                                                .FetchHotel(
+                                                    accommodationId:
+                                                        accommodation.id!,
+                                                    token: loginState
+                                                        .successModel.token!);
+                                            Navigator.pushNamed(context,
+                                                '/viewHotelWithoutTier',
+                                                arguments: {
+                                                  'id': accommodation.id,
+                                                  'token': loginState
+                                                      .successModel.token
+                                                });
+                                          }
+                                        }
+                                        if (accommodation.type == "hostel") {
+                                          context
+                                              .read<FetchHostelDetailsCubit>()
+                                              .fetchHostelAccommodation(
+                                                  token: loginState
+                                                      .successModel.token!,
+                                                  accommodationId:
+                                                      accommodation.id!);
+                                          Navigator.pushNamed(
+                                              context, '/viewHostel',
+                                              arguments: {
+                                                'id': accommodation.id,
+                                                'token': loginState
+                                                    .successModel.token
+                                              });
+                                        }
+                                      }
+                                    },
+                                    child: SizedBox(
+                                      width: 127,
+                                      height: 167,
+                                      child: Card(
+                                        elevation: 0,
+                                        surfaceTintColor: Colors.white,
+                                        shadowColor: Colors.white,
+                                        color: Colors.black.withOpacity(0.1),
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: CachedNetworkImage(
+                                                  imageBuilder:
+                                                      (context, imageProvider) {
+                                                    return Container(
+                                                      width: 135,
+                                                      height: 100,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          5),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          5)),
+                                                          image: DecorationImage(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              image:
+                                                                  imageProvider,
+                                                              fit: BoxFit
+                                                                  .cover)),
+                                                    );
+                                                  },
+                                                  width: 167,
+                                                  fit: BoxFit.cover,
+                                                  alignment: Alignment.center,
+                                                  imageUrl:
+                                                      "${getIpWithoutSlash()}${state.accommodation[index].image.toString()}",
+                                                  height: 95,
+                                                  placeholder: (context, url) =>
+                                                      CircularProgressIndicator(),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              CustomPoppinsText(
+                                                  text: state
+                                                      .accommodation[index].name
+                                                      .toString(),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w700),
+                                              Expanded(
+                                                child: Text(
+                                                  state.accommodation[index]
+                                                      .address
+                                                      .toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Color(0xff9DA8C3),
+                                                      fontSize: 11),
+                                                ),
+                                              ),
+                                            ]),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CustomAddAccommodationButton(
+                                      loginState: loginState),
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   );
                 }
               }
@@ -445,7 +470,7 @@ class upperBodyWhenVerifiedandCurrentTier extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CachedNetworkImage(
-              imageUrl: "${getIp()}${tier.image}",
+              imageUrl: "${getIpWithoutSlash()}${tier.image}",
               width: 95,
               height: 95,
               placeholder: (context, url) => CircularProgressIndicator(),
@@ -609,7 +634,7 @@ class upperBodyWhenNotVerified extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CachedNetworkImage(
-              imageUrl: "${getIp()}${tier.image}",
+              imageUrl: "${getIpWithoutSlash()}${tier.image}",
               width: 95,
               height: 95,
               placeholder: (context, url) => CircularProgressIndicator(),

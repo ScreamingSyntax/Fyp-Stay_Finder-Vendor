@@ -74,7 +74,7 @@ class TabBar2 extends StatelessWidget {
                             child: Column(children: [
                               CachedNetworkImage(
                                 imageUrl:
-                                    "${getIp()}${state.tierList[index].image.toString()}",
+                                    "${getIpWithoutSlash()}${state.tierList[index].image.toString()}",
                                 width: 95,
                                 height: 95,
                                 placeholder: (context, url) =>

@@ -439,7 +439,7 @@ class HotelWithoutTierSuccessPage extends StatelessWidget {
               children: [
                 CustomMainImageVIew(
                     imageLink:
-                        "${getIp()}${fetchHostelWithoutTierSuccess.accommodation.image}"),
+                        "${getIpWithoutSlash()}${fetchHostelWithoutTierSuccess.accommodation.image}"),
                 Positioned(
                     right: 20,
                     top: 20,
@@ -784,7 +784,8 @@ class HotelWithoutTierSuccessPage extends StatelessWidget {
                                                   image: imageProvider)),
                                         );
                                       },
-                                      imageUrl: "${getIp()}$imageLink"),
+                                      imageUrl:
+                                          "${getIpWithoutSlash()}$imageLink"),
                                 ),
                                 title: Text(
                                   "Room ${index + 1}",

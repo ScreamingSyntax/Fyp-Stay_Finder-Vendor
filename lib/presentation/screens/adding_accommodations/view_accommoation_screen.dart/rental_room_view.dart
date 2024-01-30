@@ -345,7 +345,7 @@ class RentalRoomViewScreen extends StatelessWidget {
                               children: [
                                 RoomImageRental(
                                     image: NetworkImage(
-                                        "${getIp()}${state.roomImages[index].images}")),
+                                        "${getIpWithoutSlash()}${state.roomImages[index].images}")),
                               ],
                             ),
                           ),
@@ -811,7 +811,7 @@ class RentalRoomViewScreen extends StatelessWidget {
                                 children: [
                                   CustomMainImageVIew(
                                     imageLink:
-                                        "${getIp()}${state.accommodation.image}",
+                                        "${getIpWithoutSlash()}${state.accommodation.image}",
                                   ),
                                   if (state.accommodation.is_verified! ||
                                       state.accommodation.is_rejected!)
@@ -1142,7 +1142,7 @@ class RentalRoomViewScreen extends StatelessWidget {
                                                     children: [
                                                       RoomImageRental(
                                                           image: NetworkImage(
-                                                              "${getIp()}${state.roomImages[index].images}")),
+                                                              "${getIpWithoutSlash()}${state.roomImages[index].images}")),
                                                     ],
                                                   ),
                                                 );

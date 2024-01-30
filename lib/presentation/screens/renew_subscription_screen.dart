@@ -63,7 +63,7 @@ class RenewSubscriptionScreen extends StatelessWidget {
                                       width: 100,
                                       height: 100,
                                       imageUrl:
-                                          "${getIp()}${radioState.groupValue![index].image}",
+                                          "${getIpWithoutSlash()}${radioState.groupValue![index].image}",
                                     ),
                                   ),
                                   title: Padding(
@@ -221,7 +221,7 @@ class UpperRenewSubscriptionBody extends StatelessWidget {
                                         height: 88,
                                         fit: BoxFit.fill,
                                         imageUrl:
-                                            "${getIp()}${fetchVendorState.vendorProfile.profile_picture}"),
+                                            "${getIpWithoutSlash()}${fetchVendorState.vendorProfile.profile_picture}"),
                                   ),
                                 );
                               }

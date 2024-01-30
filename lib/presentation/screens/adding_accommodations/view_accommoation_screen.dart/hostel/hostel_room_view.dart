@@ -104,7 +104,7 @@ class HostelRoomView extends StatelessWidget {
                               children: [
                                 RoomImageRental(
                                     image: NetworkImage(
-                                        "${getIp()}${images[index].images}")),
+                                        "${getIpWithoutSlash()}${images[index].images}")),
                               ],
                             ),
                           ),
@@ -1012,7 +1012,8 @@ class HostelViewCard extends StatelessWidget {
                                 height: 100,
                                 width: 100,
                                 child: CachedNetworkImage(
-                                    imageUrl: "${getIp()}${images[0].images}")
+                                    imageUrl:
+                                        "${getIpWithoutSlash()}${images[0].images}")
                                 //  Image.asset(
                                 //     "assets/profile/citizenship_back.jpeg")
                                 ),
@@ -1020,7 +1021,8 @@ class HostelViewCard extends StatelessWidget {
                                 height: 100,
                                 width: 100,
                                 child: CachedNetworkImage(
-                                    imageUrl: "${getIp()}${images[1].images}")),
+                                    imageUrl:
+                                        "${getIpWithoutSlash()}${images[1].images}")),
                           ],
                           options: CarouselOptions(
                               // controller: buttonCarsouselController,

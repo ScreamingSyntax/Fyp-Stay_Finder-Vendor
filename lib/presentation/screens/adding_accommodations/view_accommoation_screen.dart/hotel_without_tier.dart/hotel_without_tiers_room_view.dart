@@ -1169,7 +1169,7 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                       height: 50,
                       width: 50,
                       child: CachedNetworkImage(
-                        imageUrl: "${getIp()}${image}",
+                        imageUrl: "${getIpWithoutSlash()}${image}",
                         imageBuilder: (context, imageProvider) {
                           return Container(
                             height: 50,

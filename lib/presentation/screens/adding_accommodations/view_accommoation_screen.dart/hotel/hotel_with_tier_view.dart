@@ -873,7 +873,7 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                       children: [
                         CustomMainImageVIew(
                             imageLink:
-                                "${getIp()}${fetchHotelTierSuccess.accommodation.image}"),
+                                "${getIpWithoutSlash()}${fetchHotelTierSuccess.accommodation.image}"),
                         Positioned(
                             right: 20,
                             top: 20,
@@ -1181,7 +1181,7 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                                               height: 150,
                                               child: CachedNetworkImage(
                                                 imageUrl:
-                                                    "${getIp()}${hotelTier.image}",
+                                                    "${getIpWithoutSlash()}${hotelTier.image}",
                                                 imageBuilder:
                                                     (context, imageProvider) {
                                                   return Container(

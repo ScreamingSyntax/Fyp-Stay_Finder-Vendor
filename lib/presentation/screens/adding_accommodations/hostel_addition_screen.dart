@@ -264,7 +264,7 @@ class HostelAdditionScreen extends StatelessWidget {
                             message: state.message,
                             contentType: ContentType.success);
                         await Future.delayed(Duration(seconds: 1));
-                        context.read<DropDownValueCubit>().clearDropDownValue();
+
                         context
                             .read<AddRentalRoomBloc>()
                             .add(ClearRentalRoomAdditionStateEvent());
@@ -385,7 +385,7 @@ class HostelAdditionScreen extends StatelessWidget {
                 message: "Do you really want to go back?",
                 title: "Confirmation",
                 yesBtnFunction: () {
-                  context.read<DropDownValueCubit>().clearDropDownValue();
+                  // context.read<DropDownValueCubit>().clearDropDownValue();
                   int count = 0;
                   Navigator.of(context).popUntil((_) => count++ >= 4);
                   context

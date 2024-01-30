@@ -400,7 +400,7 @@ class UppBody extends StatelessWidget {
                         height: 88,
                         fit: BoxFit.fill,
                         imageUrl:
-                            "${getIp()}${fetchVendorState.vendorProfile.profile_picture}"),
+                            "${getIpWithoutSlash()}${fetchVendorState.vendorProfile.profile_picture}"),
                   ),
                 )
               ],

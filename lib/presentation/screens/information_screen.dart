@@ -181,7 +181,7 @@ class InformationScreen extends StatelessWidget {
                                                           height: 100,
                                                           fit: BoxFit.fill,
                                                           imageUrl:
-                                                              "${getIp()}${fetchVendorState.vendorProfile.profile_picture}")
+                                                              "${getIpWithoutSlash()}${fetchVendorState.vendorProfile.profile_picture}")
                                                       : Image.file(
                                                           context
                                                               .read<
@@ -271,7 +271,7 @@ class InformationScreen extends StatelessWidget {
                                                         height: 100,
                                                         fit: BoxFit.fill,
                                                         imageUrl:
-                                                            "${getIp()}${fetchVendorState.vendorProfile.citizenship_front}")
+                                                            "${getIpWithoutSlash()}${fetchVendorState.vendorProfile.citizenship_front}")
                                                     : Image.file(
                                                         context
                                                             .read<
@@ -353,7 +353,7 @@ class InformationScreen extends StatelessWidget {
                                                         height: 100,
                                                         fit: BoxFit.fill,
                                                         imageUrl:
-                                                            "${getIp()}${fetchVendorState.vendorProfile.citizenship_back}")
+                                                            "${getIpWithoutSlash()}${fetchVendorState.vendorProfile.citizenship_back}")
                                                     : Image.file(
                                                         context
                                                             .read<

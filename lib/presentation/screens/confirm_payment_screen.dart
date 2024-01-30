@@ -55,7 +55,7 @@ class ConfirmPaymentScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CachedNetworkImage(
-                        imageUrl: "${getIp()}${tier.image}",
+                        imageUrl: "${getIpWithoutSlash()}${tier.image}",
                         height: 100,
                         width: 100,
                       ),
