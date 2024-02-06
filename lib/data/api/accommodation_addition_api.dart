@@ -21,7 +21,8 @@ class AccommodationAdditionApi {
         return accommodations;
       }
       return [Accommodation.withError(error: "Something wen't wrong")];
-    } catch (Exception) {
+    } catch (e) {
+      print(e);
       return [Accommodation.withError(error: "Connection Error")];
     }
   }

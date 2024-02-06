@@ -124,6 +124,37 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
                               ],
+                              initialValue: room.room_count.toString(),
+                              prefixIcon: Icon(Icons.bed),
+                              keyboardType: TextInputType.number,
+                              onChange: (p0) {
+                                context.read<FormBloc>()
+                                  ..add(MealsPerDayChangedEvent(
+                                      mealsPerDay: BlocFormItem(value: p0!)));
+                              },
+                              onTapOutside: (p0) =>
+                                  FocusScope.of(context).unfocus(),
+                              validatior: (p0) {
+                                if (p0!.isEmpty || p0 == "") {
+                                  return "Seater Beds cannot be null";
+                                }
+                                if (!(p0.isValidNumber)) {
+                                  return "Invalid Number";
+                                }
+                                if (int.parse(p0) <= 0) {
+                                  return "Invalid Beds";
+                                }
+                                return null;
+                              },
+                              labelText: "Room Count",
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CustomFormField(
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               initialValue: room.per_day_rent.toString(),
                               prefixIcon: Icon(Icons.bed),
                               keyboardType: TextInputType.number,
@@ -352,11 +383,17 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                                                   .state
                                                   .rate
                                                   .value;
+                                              String room_count = context
+                                                  .read<FormBloc>()
+                                                  .state
+                                                  .mealsPerDay
+                                                  .value;
                                               print("The rate is ${rate}");
 
                                               Map<String, String> items = {
                                                 "seaterBeds": seaterBeds,
-                                                "rate": rate
+                                                "rate": rate,
+                                                "room_count": room_count
                                               };
                                               print(items);
                                               // print(
@@ -374,16 +411,25 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                                                 room.per_day_rent =
                                                     int.parse(items['rate']!);
                                               }
-                                              // print(room)
+
                                               if (items['rate'] == "") {
                                                 room.per_day_rent =
                                                     room.per_day_rent!;
                                               }
-                                              print(items);
-                                              print(room);
+                                              if (!(items['room_count'] ==
+                                                  "")) {
+                                                room.room_count = int.parse(
+                                                    items['room_count']!);
+                                              }
+
+                                              if (items['room_count'] == "") {
+                                                room.room_count =
+                                                    room.room_count!;
+                                              }
                                               [
                                                 'ac_availability',
                                                 'seater_beds',
+                                                'room_count',
                                                 'per_day_rent',
                                                 'fan_availability',
                                                 'kettle_availability',
@@ -432,19 +478,15 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                                                     .toString(),
                                                 'water_bottle_availability': room
                                                     .water_bottle_availability
-                                                    .toString()
+                                                    .toString(),
+                                                'room_count':
+                                                    room.room_count.toString()
                                               };
                                               context.read<
                                                   UpdateHotelWithoutTierCubit>()
                                                 ..updateRoomDetails(
                                                     token: token,
                                                     data: items_data);
-                                              // context.read<
-                                              //     AddHotelWithoutTierBloc>()
-                                              //   ..add(
-                                              //       UpdateHotelRoomWithoutTierHitEvent(
-                                              //           index: index + 1,
-                                              //           room: room));
                                               Navigator.pop(context);
                                             }
                                           },
@@ -1123,8 +1165,6 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
               SlidableAction(
                 onPressed: (context) async {
                   await updateNonTierHotelRooms(context, room, data['token']);
-                  // await updateNonTierHotelRooms(
-                  //     context, index, state.room![index]!);
                 },
                 foregroundColor: Color(0xff878e92),
                 icon: Icons.edit,
@@ -1181,13 +1221,7 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                           );
                         },
                       ),
-                    )
-                    // Image.file(state.roomImages?[context
-                    //     .watch<AddHotelWithoutTierBloc>()
-                    //     .state
-                    //     .room![index]!
-                    //     .id]![0])
-                    ,
+                    ),
                     subtitle: CustomPoppinsText(
                         text:
                             "This room has ${room.seater_beds!} beds at ${room.per_day_rent} ruppess",
@@ -1199,14 +1233,26 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500),
                   ),
                   expandedAlignment: Alignment.center,
-
-                  // expandedCrossAxisAlignment: CrossAxisAlignment.center,
-                  // childrenPadding: EdgeInsets.symmetric(horizontal: 25),
                   children: [
                     Container(
                       padding: EdgeInsets.all(25),
                       child: Column(
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CustomPoppinsText(
+                                    text: "Room count: ${room.room_count}",
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w400),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

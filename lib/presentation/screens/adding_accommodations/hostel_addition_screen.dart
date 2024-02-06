@@ -333,7 +333,7 @@ class HostelAdditionScreen extends StatelessWidget {
                                     int.parse(washRoomCount);
                                 accommodation.weekly_non_veg_meals =
                                     int.parse(nonVegMealsPerWeek);
-                                accommodation.monthly_rate = rate;
+                                accommodation.monthly_rate = int.parse(rate);
                                 accommodation.weekly_laundry_cycles =
                                     int.parse(laundaryCycles);
                                 // context.read<()

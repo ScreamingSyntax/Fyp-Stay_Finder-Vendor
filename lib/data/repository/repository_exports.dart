@@ -12,3 +12,4 @@ export 'rental_room_repository.dart';
 export 'hotel_with_tier_repository.dart';
 export 'hotel_without_tier_repository.dart';
 export 'hostel_repository.dart';
+export 'booking_repository.dart';

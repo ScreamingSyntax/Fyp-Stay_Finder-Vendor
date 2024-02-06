@@ -10,7 +10,7 @@ class Accommodation {
   String? longitude;
   String? latitude;
   String? type;
-  String? monthly_rate;
+  int? monthly_rate;
   int? number_of_washroom;
   bool? gym_availability;
   bool? swimming_pool_availability;
@@ -68,7 +68,7 @@ class Accommodation {
     String? longitude,
     String? latitude,
     String? type,
-    String? monthly_rate,
+    int? monthly_rate,
     int? number_of_washroom,
     bool? gym_availability,
     bool? swimming_pool_availability,
@@ -159,7 +159,7 @@ class Accommodation {
       latitude: map['latitude'] != null ? map['latitude'] as String : null,
       type: map['type'] != null ? map['type'] as String : null,
       monthly_rate:
-          map['monthly_rate'] != null ? map['monthly_rate'] as String : null,
+          map['monthly_rate'] != null ? map['monthly_rate'] as int : null,
       number_of_washroom: map['number_of_washroom'] != null
           ? map['number_of_washroom'] as int
           : null,

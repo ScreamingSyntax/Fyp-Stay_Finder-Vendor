@@ -146,6 +146,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => UpdateHotelWithTierCubit(),
         ),
+        BlocProvider(
+          create: (context) => FetchBookingRequestCubit(),
+        ),
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

@@ -109,7 +109,7 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                           ..add(
                             UpdateAccommodationEvent(
                               accommodation: state.accommodation!.copyWith(
-                                  monthly_rate: formState.rate.value,
+                                  monthly_rate: int.parse(formState.rate.value),
                                   number_of_washroom:
                                       int.parse(formState.washRoomCount.value)),
                             ),
@@ -118,7 +118,8 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                             .read<AddRentalRoomBloc>()
                             .state
                             .accommodation!;
-                        accommodation.monthly_rate = formState.rate.value;
+                        accommodation.monthly_rate =
+                            int.parse(formState.rate.value);
                         accommodation.number_of_washroom =
                             int.parse(formState.washRoomCount.value);
                         Room room =

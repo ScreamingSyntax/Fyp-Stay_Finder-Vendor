@@ -16,3 +16,4 @@ export 'hotel_with_out_tier_api.dart';
 export 'hotel_with_tier_api.dart';
 // export 'current_tier_api.dart';
 // export 'accommodation_addition_api.dart';
+export 'booking_api.dart';

@@ -9,3 +9,5 @@ export 'transaction_history_model.dart';
 export 'accommodation_model.dart';
 export 'room_model.dart';
 export 'hotel_tier.dart';
+export 'booking_request_model.dart';
+export 'room_accommodation_model.dart';

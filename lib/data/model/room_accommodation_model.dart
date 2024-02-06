@@ -1,8 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class Room {
+import 'package:stayfinder_vendor/data/model/accommodation_model.dart';
+
+class RoomAccommodation {
   int? id;
-  int? accommodation;
+  Accommodation? accommodation;
   int? seater_beds;
   bool? ac_availability;
   bool? water_bottle_availability;
@@ -25,7 +28,7 @@ class Room {
   int? hotel_tier;
   String? error;
   int? room_count;
-  Room({
+  RoomAccommodation({
     this.id,
     this.accommodation,
     this.seater_beds,
@@ -52,9 +55,9 @@ class Room {
     this.room_count,
   });
 
-  Room copyWith({
+  RoomAccommodation copyWith({
     int? id,
-    int? accommodation,
+    Accommodation? accommodation,
     int? seater_beds,
     bool? ac_availability,
     bool? water_bottle_availability,
@@ -78,7 +81,7 @@ class Room {
     String? error,
     int? room_count,
   }) {
-    return Room(
+    return RoomAccommodation(
       id: id ?? this.id,
       accommodation: accommodation ?? this.accommodation,
       seater_beds: seater_beds ?? this.seater_beds,
@@ -115,7 +118,7 @@ class Room {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'accommodation': accommodation,
+      'accommodation': accommodation?.toMap(),
       'seater_beds': seater_beds,
       'ac_availability': ac_availability,
       'water_bottle_availability': water_bottle_availability,
@@ -141,11 +144,12 @@ class Room {
     };
   }
 
-  factory Room.fromMap(Map<String, dynamic> map) {
-    return Room(
+  factory RoomAccommodation.fromMap(Map<String, dynamic> map) {
+    return RoomAccommodation(
       id: map['id'] != null ? map['id'] as int : null,
-      accommodation:
-          map['accommodation'] != null ? map['accommodation'] as int : null,
+      accommodation: map['accommodation'] != null
+          ? Accommodation.fromMap(map['accommodation'] as Map<String, dynamic>)
+          : null,
       seater_beds:
           map['seater_beds'] != null ? map['seater_beds'] as int : null,
       ac_availability: map['ac_availability'] != null
@@ -208,16 +212,16 @@ class Room {
 
   String toJson() => json.encode(toMap());
 
-  factory Room.fromJson(String source) =>
-      Room.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory RoomAccommodation.fromJson(String source) =>
+      RoomAccommodation.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Room(id: $id, accommodation: $accommodation, seater_beds: $seater_beds, ac_availability: $ac_availability, water_bottle_availability: $water_bottle_availability, steam_iron_availability: $steam_iron_availability, per_day_rent: $per_day_rent, fan_availability: $fan_availability, bed_availability: $bed_availability, sofa_availability: $sofa_availability, monthly_rate: $monthly_rate, mat_availability: $mat_availability, carpet_availability: $carpet_availability, washroom_status: $washroom_status, dustbin_availability: $dustbin_availability, kettle_availability: $kettle_availability, coffee_powder_availability: $coffee_powder_availability, milk_powder_availability: $milk_powder_availability, tea_powder_availability: $tea_powder_availability, hair_dryer_availability: $hair_dryer_availability, tv_availability: $tv_availability, hotel_tier: $hotel_tier, error: $error, room_count: $room_count)';
+    return 'RoomAccommodation(id: $id, accommodation: $accommodation, seater_beds: $seater_beds, ac_availability: $ac_availability, water_bottle_availability: $water_bottle_availability, steam_iron_availability: $steam_iron_availability, per_day_rent: $per_day_rent, fan_availability: $fan_availability, bed_availability: $bed_availability, sofa_availability: $sofa_availability, monthly_rate: $monthly_rate, mat_availability: $mat_availability, carpet_availability: $carpet_availability, washroom_status: $washroom_status, dustbin_availability: $dustbin_availability, kettle_availability: $kettle_availability, coffee_powder_availability: $coffee_powder_availability, milk_powder_availability: $milk_powder_availability, tea_powder_availability: $tea_powder_availability, hair_dryer_availability: $hair_dryer_availability, tv_availability: $tv_availability, hotel_tier: $hotel_tier, error: $error, room_count: $room_count)';
   }
 
   @override
-  bool operator ==(covariant Room other) {
+  bool operator ==(covariant RoomAccommodation other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&

@@ -20,6 +20,7 @@ class NavBarMain extends StatelessWidget {
           color: Color(0xffdff7e6),
           items: getNavBarItems(),
           onTap: (index) {
+            print(index);
             context.read<NavBarIndexCubit>().changeIndex(index);
           },
         ),

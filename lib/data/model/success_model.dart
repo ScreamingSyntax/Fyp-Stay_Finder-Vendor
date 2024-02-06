@@ -41,6 +41,7 @@ class Success {
       'message': message,
       'token': token,
       'error': error,
+      'data': data,
     };
   }
 
@@ -50,6 +51,7 @@ class Success {
       message: map['message'] != null ? map['message'] as String : null,
       token: map['token'] != null ? map['token'] as String : null,
       error: map['error'] != null ? map['error'] as String : null,
+      data: map['data'] != null ? map['data'] as Map<String, dynamic> : null,
     );
   }
 

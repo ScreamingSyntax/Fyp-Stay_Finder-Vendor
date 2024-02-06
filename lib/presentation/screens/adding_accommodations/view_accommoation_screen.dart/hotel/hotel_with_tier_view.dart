@@ -1284,7 +1284,7 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                                                       .spaceBetween,
                                               children: [
                                                 SizedBox(
-                                                  width: 160,
+                                                  // width: /,
                                                   // height: 30,
                                                   child: CustomPoppinsText(
                                                       text:
@@ -1293,49 +1293,52 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                                                       fontWeight:
                                                           FontWeight.w400),
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.bed,
-                                                          color: Colors.brown,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        CustomPoppinsText(
-                                                            text: room_count
-                                                                .toString(),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Expanded(
+                                                  child: Row(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.bed,
                                                             color: Colors.brown,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          CupertinoIcons
-                                                              .money_dollar,
-                                                          color: Colors.red,
-                                                          // size: 15,
-                                                        ),
-                                                        CustomPoppinsText(
-                                                            text:
-                                                                "${startingPrice} - ${endingPrice}",
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          CustomPoppinsText(
+                                                              text: room_count
+                                                                  .toString(),
+                                                              color:
+                                                                  Colors.brown,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            CupertinoIcons
+                                                                .money_dollar,
                                                             color: Colors.red,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                            // size: 15,
+                                                          ),
+                                                          CustomPoppinsText(
+                                                              text:
+                                                                  "${startingPrice} - ${endingPrice}",
+                                                              color: Colors.red,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 )
                                               ],
                                             ),

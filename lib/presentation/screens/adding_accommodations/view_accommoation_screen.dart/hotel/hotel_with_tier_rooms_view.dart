@@ -545,6 +545,41 @@ class HotelWithTierRoomsView extends StatelessWidget {
                                 SizedBox(
                                   height: 20,
                                 ),
+                                CustomFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  initialValue: room.room_count.toString(),
+                                  prefixIcon: Icon(Icons.bed),
+                                  keyboardType: TextInputType.number,
+                                  onChange: (p0) {
+                                    context.read<FormBloc>()
+                                      ..add(MealsPerDayChangedEvent(
+                                          mealsPerDay:
+                                              BlocFormItem(value: p0!)));
+                                  },
+                                  onTapOutside: (p0) =>
+                                      FocusScope.of(context).unfocus(),
+                                  validatior: (p0) {
+                                    if (p0!.isEmpty || p0 == "") {
+                                      return "Room Count cannot be null";
+                                    }
+                                    if (!(p0.isValidNumber)) {
+                                      return "Invalid Number";
+                                    }
+                                    if (int.parse(p0) < 0) {
+                                      return "Invalid Room Count";
+                                    }
+                                    return null;
+                                  },
+                                  labelText: "Room Count",
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: BlocBuilder<RoomAdditionCubit,
@@ -761,9 +796,15 @@ class HotelWithTierRoomsView extends StatelessWidget {
                                                       .state
                                                       .rate
                                                       .value;
+                                                  String room_count = context
+                                                      .read<FormBloc>()
+                                                      .state
+                                                      .mealsPerDay
+                                                      .value;
                                                   Map<String, String> items = {
                                                     "seaterBeds": seaterBeds,
-                                                    "rate": rate
+                                                    "rate": rate,
+                                                    "room_count": room_count
                                                   };
                                                   print(items);
                                                   // print(
@@ -787,6 +828,16 @@ class HotelWithTierRoomsView extends StatelessWidget {
                                                   if (items['rate'] == "") {
                                                     room.per_day_rent =
                                                         room.per_day_rent!;
+                                                  }
+                                                  if (!(items['room_count'] ==
+                                                      "")) {
+                                                    room.room_count = int.parse(
+                                                        items['room_count']!);
+                                                  }
+                                                  if (items['room_count'] ==
+                                                      "") {
+                                                    room.room_count =
+                                                        room.room_count!;
                                                   }
                                                   Map dataL = {
                                                     'room_id': room.id,
@@ -829,6 +880,9 @@ class HotelWithTierRoomsView extends StatelessWidget {
                                                     'tv_availability': room
                                                         .tv_availability
                                                         .toString(),
+                                                    'room_count': room
+                                                        .room_count
+                                                        .toString()
                                                   };
                                                   // print(items);
                                                   print(dataL);
@@ -938,6 +992,16 @@ class HotelWithTierRoomsView extends StatelessWidget {
                   padding: EdgeInsets.all(25),
                   child: Column(
                     children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: CustomPoppinsText(
+                            text: "Room Count ${room.room_count}",
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

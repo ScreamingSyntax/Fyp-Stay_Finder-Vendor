@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import './model_exports.dart';
 
 class Vendor {
@@ -7,18 +9,24 @@ class Vendor {
   String? phoneNumber;
   bool? isVerified;
   String? fullName;
+  String? full_name;
+
   String? error;
   String? password;
   String? otp;
-  Vendor(
-      {required this.id,
-      required this.email,
-      required this.phoneNumber,
-      required this.isVerified,
-      required this.fullName,
-      this.error,
-      this.password,
-      this.otp});
+  String? image;
+  Vendor({
+    this.id,
+    this.email,
+    this.phoneNumber,
+    this.isVerified,
+    this.fullName,
+    this.full_name,
+    this.error,
+    this.password,
+    this.otp,
+    this.image,
+  });
   Vendor.withError({required error}) {
     this.error = error;
   }
@@ -28,9 +36,11 @@ class Vendor {
     String? phoneNumber,
     bool? isVerified,
     String? fullName,
+    String? full_name,
     String? error,
     String? password,
     String? otp,
+    String? image,
   }) {
     return Vendor(
       id: id ?? this.id,
@@ -38,9 +48,11 @@ class Vendor {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       isVerified: isVerified ?? this.isVerified,
       fullName: fullName ?? this.fullName,
+      full_name: full_name ?? this.full_name,
       error: error ?? this.error,
       password: password ?? this.password,
       otp: otp ?? this.otp,
+      image: image ?? this.image,
     );
   }
 
@@ -51,9 +63,11 @@ class Vendor {
       'phoneNumber': phoneNumber,
       'isVerified': isVerified,
       'fullName': fullName,
+      'full_name': full_name,
       'error': error,
       'password': password,
       'otp': otp,
+      'image': image,
     };
   }
 
@@ -65,9 +79,11 @@ class Vendor {
           map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
       isVerified: map['isVerified'] != null ? map['isVerified'] as bool : null,
       fullName: map['fullName'] != null ? map['fullName'] as String : null,
+      full_name: map['full_name'] != null ? map['full_name'] as String : null,
       error: map['error'] != null ? map['error'] as String : null,
       password: map['password'] != null ? map['password'] as String : null,
       otp: map['otp'] != null ? map['otp'] as String : null,
+      image: map['image'] != null ? map['image'] as String : null,
     );
   }
 
@@ -78,7 +94,7 @@ class Vendor {
 
   @override
   String toString() {
-    return 'Vendor(id: $id, email: $email, phoneNumber: $phoneNumber, isVerified: $isVerified, fullName: $fullName, error: $error, password: $password, otp: $otp)';
+    return 'Vendor(id: $id, email: $email, phoneNumber: $phoneNumber, isVerified: $isVerified, fullName: $fullName, full_name: $full_name, error: $error, password: $password, otp: $otp, image: $image)';
   }
 
   @override
@@ -90,9 +106,11 @@ class Vendor {
         other.phoneNumber == phoneNumber &&
         other.isVerified == isVerified &&
         other.fullName == fullName &&
+        other.full_name == full_name &&
         other.error == error &&
         other.password == password &&
-        other.otp == otp;
+        other.otp == otp &&
+        other.image == image;
   }
 
   @override
@@ -102,8 +120,10 @@ class Vendor {
         phoneNumber.hashCode ^
         isVerified.hashCode ^
         fullName.hashCode ^
+        full_name.hashCode ^
         error.hashCode ^
         password.hashCode ^
-        otp.hashCode;
+        otp.hashCode ^
+        image.hashCode;
   }
 }

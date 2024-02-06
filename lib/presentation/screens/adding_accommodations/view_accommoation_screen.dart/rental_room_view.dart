@@ -426,7 +426,7 @@ class RentalRoomViewScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CustomFormField(
-                        initialValue: accommodation.monthly_rate,
+                        initialValue: accommodation.monthly_rate.toString(),
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -957,7 +957,8 @@ class RentalRoomViewScreen extends StatelessWidget {
                                                 ),
                                                 CustomPoppinsText(
                                                     text: state.accommodation
-                                                        .monthly_rate!,
+                                                        .monthly_rate!
+                                                        .toString(),
                                                     fontSize: 23,
                                                     color: Color(0xff4c4c4c),
                                                     fontWeight:
