@@ -264,10 +264,6 @@ class HostelAdditionScreen extends StatelessWidget {
                             message: state.message,
                             contentType: ContentType.success);
                         await Future.delayed(Duration(seconds: 1));
-
-                        context
-                            .read<AddRentalRoomBloc>()
-                            .add(ClearRentalRoomAdditionStateEvent());
                       }
                     },
                     builder: (context, state) {

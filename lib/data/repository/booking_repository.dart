@@ -7,6 +7,11 @@ class BookingRepository {
     return bookingApiProvider.fetchBookRequests(token: token);
   }
 
+  Future<Success> viewParticularBookingDetails(
+      {required String token, required String id}) async {
+    return bookingApiProvider.viewParicularBooking(token: token, id: id);
+  }
+
   Future<Success> verifyBookingRequest(
       {required int roomId,
       required bookRequestId,

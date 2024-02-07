@@ -7,7 +7,6 @@ import 'package:stayfinder_vendor/logic/cubits/update_hotel_with_tier/update_hot
 import 'package:stayfinder_vendor/presentation/config/config_exports.dart';
 import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hotel/api_call.dart';
 import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hotel/hotel_with_tier_rooms_view.dart';
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hotel_without_tier.dart/hotel_without_tier_view.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 
 import '../../../../../constants/constants_exports.dart';
@@ -15,7 +14,6 @@ import '../../../../../data/model/model_exports.dart';
 import '../../../../../logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';
 import '../../../../../logic/blocs/bloc_exports.dart';
 import '../../../../../logic/cubits/cubit_exports.dart';
-import '../../../../../logic/cubits/room_addition/room_addition_cubit.dart';
 import '../../../../../logic/cubits/store_images/store_images_cubit.dart';
 
 class HotelWithTierView extends StatelessWidget {

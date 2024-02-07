@@ -14,9 +14,11 @@ class FetchBookingRequestLoading extends FetchBookingRequestState {}
 class FetchBookingRequestSuccesss extends FetchBookingRequestState {
   final List<BookingRequest> bookingRequests;
   final List<Booked> bookedCustomers;
-
+  final List<Booked> pastBooking;
   FetchBookingRequestSuccesss(
-      {required this.bookingRequests, required this.bookedCustomers});
+      {required this.bookingRequests,
+      required this.bookedCustomers,
+      required this.pastBooking});
 }
 
 class FetchBookingRequestError extends FetchBookingRequestState {

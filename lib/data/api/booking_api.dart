@@ -22,6 +22,22 @@ class BookingApiProvider {
     }
   }
 
+  Future<Success> viewParicularBooking(
+      {required String token, required String id}) async {
+    try {
+      final url = Uri.parse("${getIp()}book/details/?id=${id}");
+      final request = await http.get(url, headers: {
+        "Authorization": "Token ${token}",
+        'Content-Type': 'application/json; charset=UTF-8',
+      });
+      final response = json.decode(request.body);
+      Success success = Success.fromMap(response);
+      return success;
+    } catch (e) {
+      return Success(success: 0, message: "Check your internet connection");
+    }
+  }
+
   Future<Success> verifyBookingRequest(
       {required int roomId,
       required bookRequestId,

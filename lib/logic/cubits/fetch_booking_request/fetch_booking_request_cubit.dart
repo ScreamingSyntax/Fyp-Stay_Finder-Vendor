@@ -11,6 +11,7 @@ class FetchBookingRequestCubit extends Cubit<FetchBookingRequestState> {
   BookingRepository _bookingRepository = new BookingRepository();
   void fetchBookingRequests({required String token}) async {
     try {
+      emit(FetchBookingRequestLoading());
       Success success =
           await _bookingRepository.fetchBookRequests(token: token);
       if (success.success == 0) {
@@ -22,12 +23,18 @@ class FetchBookingRequestCubit extends Cubit<FetchBookingRequestState> {
 
         final requests = success.data!['requests'];
         final bookings = success.data!['booking'];
+        final past_bookings = success.data!["past_bookings"];
+        print(past_bookings);
         List<BookingRequest> bookingRequests =
             List.from(requests).map((e) => BookingRequest.fromMap(e)).toList();
         List<Booked> booked =
             List.from(bookings).map((e) => Booked.fromMap(e)).toList();
-        emit(FetchBookingRequestSuccesss(
-            bookingRequests: bookingRequests, bookedCustomers: booked));
+        List<Booked> past =
+            List.from(past_bookings).map((e) => Booked.fromMap(e)).toList();
+        return emit(FetchBookingRequestSuccesss(
+            bookingRequests: bookingRequests,
+            bookedCustomers: booked,
+            pastBooking: past));
       }
     } catch (e) {
       print(e);

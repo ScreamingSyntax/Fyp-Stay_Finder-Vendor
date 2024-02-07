@@ -24,6 +24,7 @@ import 'logic/cubits/FetchRentalRoom/fetch_rental_room_cubit.dart';
 import 'logic/cubits/store_rooms/store_rooms_cubit.dart';
 import 'logic/cubits/update_hostel/update_hostel_cubit.dart';
 import 'logic/cubits/update_rental_accommodation/update_accommodation_image_cubit.dart';
+import 'logic/cubits/verify_book_request/verify_booking_request_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -149,6 +150,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => FetchBookingRequestCubit(),
         ),
+        BlocProvider(create: (context) => VerifyBookingRequestCubit()),
+        BlocProvider(create: (context) => FetchParticularBookingDetailsCubit())
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),
