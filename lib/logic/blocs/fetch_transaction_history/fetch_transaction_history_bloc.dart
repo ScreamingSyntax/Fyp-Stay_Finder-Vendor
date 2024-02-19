@@ -15,7 +15,12 @@ class FetchTransactionHistoryBloc
       return await fetchTransactionHistory(
           event, emit, transactionHistoryRepository);
     });
+    on<FetchTransactionHistoryClearEvent>(clearTransactionHistory);
   }
+
+  Future<void> clearTransactionHistory(FetchTransactionHistoryClearEvent event,
+          Emitter<FetchTransactionHistoryState> emit) async =>
+      emit(FetchTransactionHistoryInitial());
   Future<void> fetchTransactionHistory(
       FetchTransactionHistoryHitEvent event,
       Emitter<FetchTransactionHistoryState> emit,

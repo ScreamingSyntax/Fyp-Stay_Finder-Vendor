@@ -130,7 +130,8 @@ class HostelApiProvider {
       // if(response[])
       // print("This is resposne ${response.body}");
       return Success.fromMap(jsonDecode(response.body));
-    } catch (Exception) {
+    } catch (e) {
+      print("This is a exception ${e}");
       return Success(success: 0, message: "Connection Error");
     }
   }

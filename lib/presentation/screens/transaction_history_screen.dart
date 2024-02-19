@@ -39,7 +39,12 @@ class TransactionHistoryScreen extends StatelessWidget {
                         margin: EdgeInsets.all(0.2),
                         child: Column(
                           children: [
+                            // Suzed\
+                            SizedBox(
+                              height: 20,
+                            ),
                             ListView.builder(
+                              padding: EdgeInsets.all(0),
                               itemCount: transactionHistoryState
                                   .transactionHistory.length,
                               shrinkWrap: true,
@@ -49,9 +54,10 @@ class TransactionHistoryScreen extends StatelessWidget {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 5.0),
                                   child: ListTile(
-                                      tileColor:
-                                          Color(0xff29383f).withOpacity(0.3),
+                                      tileColor: Color(0xffF5F5F5),
                                       dense: true,
+                                      // style: ListTileStyle.list,
+
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10)),
@@ -62,11 +68,20 @@ class TransactionHistoryScreen extends StatelessWidget {
                                                 "${getIpWithoutSlash()}${tierState.tierList[0].image!}"),
                                       ),
                                       title: Text(
-                                          "${tierState.tierList.where((element) => element.id == transactionHistoryState.transactionHistory[index].tier).first.name}"),
+                                        "${tierState.tierList.where((element) => element.id == transactionHistoryState.transactionHistory[index].tier).first.name}",
+                                        style:
+                                            TextStyle(color: Color(0xff212121)),
+                                      ),
                                       subtitle: Text(
-                                          "${DateFormat('yyyy-MM-dd').format(DateTime.parse(transactionHistoryState.transactionHistory[index].paid_date!))}"),
+                                        "${DateFormat('yyyy-MM-dd').format(DateTime.parse(transactionHistoryState.transactionHistory[index].paid_date!))}",
+                                        style:
+                                            TextStyle(color: Color(0xff212121)),
+                                      ),
                                       trailing: Text(
-                                          "${transactionHistoryState.transactionHistory[index].paid_amount}")),
+                                        "${transactionHistoryState.transactionHistory[index].paid_amount}",
+                                        style:
+                                            TextStyle(color: Color(0xff212121)),
+                                      )),
                                 );
                               },
                             )
@@ -109,18 +124,24 @@ class UpperBodyTransaction extends StatelessWidget {
                     children: [
                       Text(
                         "Stay",
-                        style: TextStyle(fontFamily: 'Slackey', fontSize: 24),
+                        style: TextStyle(
+                          fontFamily: 'Slackey',
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
                       ),
                       CustomPoppinsText(
                         fontSize: 22,
                         fontWeight: FontWeight.w500,
                         text: "finder",
+                        color: Colors.white,
                       )
                     ],
                   ),
                   CustomPoppinsText(
                       text: "Transactions",
                       fontSize: 16,
+                      color: Colors.white,
                       fontWeight: FontWeight.w500),
                 ]),
           ),
@@ -142,12 +163,12 @@ class UpperBodyTransaction extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(200),
                                   border: Border.all(
-                                      width: 2, color: Colors.black)),
+                                      width: 2, color: Colors.white)),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(200),
                                 child: CachedNetworkImage(
-                                    width: 88,
-                                    height: 88,
+                                    width: 66,
+                                    height: 66,
                                     fit: BoxFit.fill,
                                     imageUrl:
                                         "${getIpWithoutSlash()}${fetchVendorState.vendorProfile.profile_picture}"),
@@ -167,7 +188,9 @@ class UpperBodyTransaction extends StatelessWidget {
       ),
       margin: EdgeInsets.all(0.2),
       decoration: BoxDecoration(
-          color: Color(0xffDAD7CD),
+          color: Color(
+            0xff263238,
+          ),
           border: Border.all(
             color: Color(
               0xff29383F,

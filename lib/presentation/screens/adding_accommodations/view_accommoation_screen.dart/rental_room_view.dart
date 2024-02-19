@@ -737,204 +737,223 @@ class RentalRoomViewScreen extends StatelessWidget {
           onRefresh: () {
             return callRentalRoomApis(args, context);
           },
-          child: SafeArea(
-            child:
-                BlocListener<UpdateRentalAccommodationCubit, UpdateRentalState>(
-              listener: (context, state) {
-                if (state is UpdateRentalLoading) {
-                  return customScaffold(
-                      context: context,
-                      title: "Loading",
-                      message: "Please wait",
-                      contentType: ContentType.warning);
-                }
-                if (state is UpdateRentalError) {
-                  return customScaffold(
-                      context: context,
-                      title: "Error",
-                      message: state.message,
-                      contentType: ContentType.failure);
-                }
-                if (state is UpdateRentalSuccess) {
-                  return customScaffold(
-                      context: context,
-                      title: "Success",
-                      message: state.message,
-                      contentType: ContentType.success);
-                }
-                // TODO: implement listener
-              },
-              child: Scaffold(
-                backgroundColor: Color(0xffe5e5e5),
-                body: BlocBuilder<FetchRentalRoomCubit, FetchRentalRoomState>(
-                  builder: (context, state) {
-                    if (state is FetchRentalRoomInitial) {
-                      callRentalRoomApis(args, context);
-                    }
-                    if (state is FetchRentalRoomLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (state is FetchRentalRoomError) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(state.message),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3,
-                              child: CustomMaterialButton(
-                                  onPressed: () {
-                                    callRentalRoomApis(args, context);
-                                  },
-                                  child: Text("Retry"),
-                                  backgroundColor: Color(0xff32454D),
-                                  textColor: Colors.white,
-                                  height: 45),
-                            )
-                          ],
-                        ),
-                      );
-                    }
-                    if (state is FetchRentalRoomSuccess) {
-                      return SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 270,
-                              child: Stack(
-                                children: [
-                                  CustomMainImageVIew(
-                                    imageLink:
-                                        "${getIpWithoutSlash()}${state.accommodation.image}",
-                                  ),
-                                  if (state.accommodation.is_verified! ||
-                                      state.accommodation.is_rejected!)
-                                    Positioned(
-                                        right: 20,
-                                        top: 20,
-                                        child: EditDeleteButtonWidget(
-                                          editOnTap: () async {
-                                            var imageHelper = context
-                                                .read<ImageHelperCubit>()
-                                                .state
-                                                .imageHelper!;
-                                            final files =
-                                                await imageHelper.pickImage();
-                                            if (files.isNotEmpty) {
-                                              final croppedFile =
-                                                  await imageHelper.crop(
-                                                      file: files.first,
-                                                      cropStyle:
-                                                          CropStyle.rectangle);
-                                              print("This is cropped file ");
-                                              if (croppedFile != null) {
-                                                var loginState = context
-                                                    .read<LoginBloc>()
-                                                    .state;
-                                                print(
-                                                    "The file is ${File(croppedFile.path)}");
-                                                File file =
-                                                    File(croppedFile.path);
-                                                if (loginState is LoginLoaded) {
-                                                  // print(
-                                                  //     "The file is ${state.accommodation}");
-                                                  // print(
-                                                  //     "The file is ${loginState.successModel.token}");
-                                                  await context.read<
-                                                      UpdateRentalAccommodationCubit>()
-                                                    ..updateAccommodationImage(
-                                                        image: file,
-                                                        token: loginState
-                                                            .successModel
-                                                            .token!,
-                                                        accommodationId: state
-                                                            .accommodation.id!);
-                                                }
+          child: MultiBlocListener(
+            listeners: [
+              BlocListener<UpdateRentalAccommodationCubit, UpdateRentalState>(
+                listener: (context, state) {
+                  if (state is UpdateRentalLoading) {
+                    return customScaffold(
+                        context: context,
+                        title: "Loading",
+                        message: "Please wait",
+                        contentType: ContentType.warning);
+                  }
+                  if (state is UpdateRentalError) {
+                    return customScaffold(
+                        context: context,
+                        title: "Error",
+                        message: state.message,
+                        contentType: ContentType.failure);
+                  }
+                  if (state is UpdateRentalSuccess) {
+                    return customScaffold(
+                        context: context,
+                        title: "Success",
+                        message: state.message,
+                        contentType: ContentType.success);
+                  }
+                  // TODO: implement listener
+                },
+              ),
+              BlocListener<ResumbitAccommodationVerificationCubit,
+                  ResumbitAccommodationVerificationState>(
+                listener: (context, state) {
+                  if (state is ResubmitAccommodationVerificationSuccess) {
+                    customScaffold(
+                        context: context,
+                        title: "Success",
+                        message: state.message,
+                        contentType: ContentType.success);
+                    callRentalRoomApis(args, context);
+                  }
+                  if (state is ResubmitAccommodationVerificationError) {
+                    customScaffold(
+                        context: context,
+                        title: "Error",
+                        message: state.message,
+                        contentType: ContentType.failure);
+                  }
+                },
+              ),
+            ],
+            child: Scaffold(
+              backgroundColor: Color(0xffe5e5e5),
+              body: BlocBuilder<FetchRentalRoomCubit, FetchRentalRoomState>(
+                builder: (context, state) {
+                  if (state is FetchRentalRoomInitial) {
+                    callRentalRoomApis(args, context);
+                  }
+                  if (state is FetchRentalRoomLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (state is FetchRentalRoomError) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(state.message),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: CustomMaterialButton(
+                                onPressed: () {
+                                  callRentalRoomApis(args, context);
+                                },
+                                child: Text("Retry"),
+                                backgroundColor: Color(0xff32454D),
+                                textColor: Colors.white,
+                                height: 45),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                  if (state is FetchRentalRoomSuccess) {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 270,
+                            child: Stack(
+                              children: [
+                                CustomMainImageVIew(
+                                  imageLink:
+                                      "${getIpWithoutSlash()}${state.accommodation.image}",
+                                ),
+                                if (state.accommodation.is_verified! ||
+                                    state.accommodation.is_rejected!)
+                                  Positioned(
+                                      right: 20,
+                                      top: 20,
+                                      child: EditDeleteButtonWidget(
+                                        editOnTap: () async {
+                                          var imageHelper = context
+                                              .read<ImageHelperCubit>()
+                                              .state
+                                              .imageHelper!;
+                                          final files =
+                                              await imageHelper.pickImage();
+                                          if (files.isNotEmpty) {
+                                            final croppedFile =
+                                                await imageHelper.crop(
+                                                    file: files.first,
+                                                    cropStyle:
+                                                        CropStyle.rectangle);
+                                            print("This is cropped file ");
+                                            if (croppedFile != null) {
+                                              var loginState = context
+                                                  .read<LoginBloc>()
+                                                  .state;
+                                              print(
+                                                  "The file is ${File(croppedFile.path)}");
+                                              File file =
+                                                  File(croppedFile.path);
+                                              if (loginState is LoginLoaded) {
+                                                // print(
+                                                //     "The file is ${state.accommodation}");
+                                                // print(
+                                                //     "The file is ${loginState.successModel.token}");
+                                                await context.read<
+                                                    UpdateRentalAccommodationCubit>()
+                                                  ..updateAccommodationImage(
+                                                      image: file,
+                                                      token: loginState
+                                                          .successModel.token!,
+                                                      accommodationId: state
+                                                          .accommodation.id!);
                                               }
                                             }
-                                          },
-                                          deleteOnTap: () {},
-                                        )),
-                                  Positioned(
-                                      left: 1,
-                                      bottom: -1,
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            if (state.accommodation.is_pending!)
-                                              VerificationBadgeRentalRoom(
-                                                w1: Icon(
-                                                  Icons.verified_outlined,
-                                                  color: Colors.white,
-                                                ),
-                                                w2: CustomPoppinsText(
-                                                  text: "Pending",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
-                                                ),
+                                          }
+                                        },
+                                        deleteOnTap: () {},
+                                      )),
+                                Positioned(
+                                    left: 1,
+                                    bottom: -1,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          if (state.accommodation.is_pending!)
+                                            VerificationBadgeRentalRoom(
+                                              w1: Icon(
+                                                Icons.verified_outlined,
+                                                color: Colors.white,
                                               ),
-                                            if (state
-                                                .accommodation.is_verified!)
-                                              VerificationBadgeRentalRoom(
-                                                w1: Icon(
-                                                  Icons.verified,
-                                                  color: Colors.white,
-                                                ),
-                                                w2: CustomPoppinsText(
-                                                  text: "Verified",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
-                                                ),
+                                              w2: CustomPoppinsText(
+                                                text: "Pending",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
                                               ),
-                                            if (state
-                                                .accommodation.is_rejected!)
-                                              VerificationBadgeRentalRoom(
-                                                w1: Icon(
-                                                  Icons.cancel,
-                                                  color: Colors.white,
-                                                ),
-                                                w2: CustomPoppinsText(
-                                                  text: "Rejected",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.white,
-                                                ),
+                                            ),
+                                          if (state.accommodation.is_verified!)
+                                            VerificationBadgeRentalRoom(
+                                              w1: Icon(
+                                                Icons.verified,
+                                                color: Colors.white,
                                               ),
-                                          ],
-                                        ),
-                                      ))
-                                ],
-                              ),
+                                              w2: CustomPoppinsText(
+                                                text: "Verified",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          if (state.accommodation.is_rejected!)
+                                            VerificationBadgeRentalRoom(
+                                              w1: Icon(
+                                                Icons.cancel,
+                                                color: Colors.white,
+                                              ),
+                                              w2: CustomPoppinsText(
+                                                text: "Rejected",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ))
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(20),
-                                // color: Colors.amber,
-                                width: MediaQuery.of(context).size.width,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: EdgeInsets.all(20),
+                              // color: Colors.amber,
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
                                           children: [
                                             CustomPoppinsText(
                                                 text: state.accommodation.name!,
@@ -967,364 +986,396 @@ class RentalRoomViewScreen extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        if (state.accommodation.is_rejected! ||
-                                            state.accommodation.is_verified!)
-                                          InkWell(
-                                            onTap: () {
-                                              updateRentalAccommodation(
-                                                  context: context,
-                                                  accommodation:
-                                                      state.accommodation);
-                                            },
+                                      ),
+                                      if (state.accommodation.is_rejected! ||
+                                          state.accommodation.is_verified!)
+                                        InkWell(
+                                          onTap: () {
+                                            updateRentalAccommodation(
+                                                context: context,
+                                                accommodation:
+                                                    state.accommodation);
+                                          },
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.red,
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Divider(
+                                    color: Color(0xff4c4c4c).withOpacity(0.5),
+                                    height: 0.5,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Boxicons.bx_map_pin,
+                                        size: 14,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      CustomPoppinsText(
+                                          text:
+                                              "${state.accommodation.city}, ${state.accommodation.address}",
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.toilet,
+                                            size: 14,
+                                            color: Color(0xffFFAB1C),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          CustomPoppinsText(
+                                              text: state.accommodation
+                                                  .number_of_washroom
+                                                  .toString(),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.dumpster,
+                                            size: 14,
+                                            color: Color(0xffFF5833),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          CustomVerifiedWidget(
+                                              value: state.accommodation
+                                                  .trash_dispose_availability!),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.parking,
+                                            size: 14,
+                                            color: Color(0xff4C4C4C),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          CustomVerifiedWidget(
+                                              value: state.accommodation
+                                                  .parking_availability!)
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+
+                                  // ListView.builder(
+                                  //   itemCount: 5,
+                                  //   itemBuilder: (context, index) {
+                                  //   return
+                                  // },)
+
+                                  // CustomPoppinsText(text: "", fontSize: fontSize, fontWeight: fontWeight)
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 19,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: CustomReviewSection(
+                              context: context,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomPoppinsText(
+                                          text: "Room Images",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                      if (state.accommodation.is_verified! ||
+                                          state.accommodation.is_rejected!)
+                                        InkWell(
+                                          onTap: () {
+                                            updateRoomImage(
+                                                context: context, state: state);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
                                             child: Icon(
                                               Icons.edit,
                                               color: Colors.red,
                                             ),
-                                          )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Divider(
-                                      color: Color(0xff4c4c4c).withOpacity(0.5),
-                                      height: 0.5,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Boxicons.bx_map_pin,
-                                          size: 14,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        CustomPoppinsText(
-                                            text:
-                                                "${state.accommodation.city}, ${state.accommodation.address}",
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              FontAwesomeIcons.toilet,
-                                              size: 14,
-                                              color: Color(0xffFFAB1C),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            CustomPoppinsText(
-                                                text: state.accommodation
-                                                    .number_of_washroom
-                                                    .toString(),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              FontAwesomeIcons.dumpster,
-                                              size: 14,
-                                              color: Color(0xffFF5833),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            CustomVerifiedWidget(
-                                                value: state.accommodation
-                                                    .trash_dispose_availability!),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              FontAwesomeIcons.parking,
-                                              size: 14,
-                                              color: Color(0xff4C4C4C),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            CustomVerifiedWidget(
-                                                value: state.accommodation
-                                                    .parking_availability!)
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-
-                                    // ListView.builder(
-                                    //   itemCount: 5,
-                                    //   itemBuilder: (context, index) {
-                                    //   return
-                                    // },)
-
-                                    // CustomPoppinsText(text: "", fontSize: fontSize, fontWeight: fontWeight)
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomPoppinsText(
-                                            text: "Room Images",
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400),
-                                        if (state.accommodation.is_verified! ||
-                                            state.accommodation.is_rejected!)
-                                          InkWell(
-                                            onTap: () {
-                                              updateRoomImage(
-                                                  context: context,
-                                                  state: state);
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Container(
+                                      height: 100,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: state.roomImages.length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(6.0),
+                                                child: Row(
+                                                  children: [
+                                                    RoomImageRental(
+                                                        image: NetworkImage(
+                                                            "${getIpWithoutSlash()}${state.roomImages[index].images}")),
+                                                  ],
+                                                ),
+                                              );
                                             },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0),
-                                              child: Icon(
-                                                Icons.edit,
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                          )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Container(
-                                        height: 100,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount:
-                                                  state.roomImages.length,
-                                              shrinkWrap: true,
-                                              itemBuilder: (context, index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(6.0),
-                                                  child: Row(
-                                                    children: [
-                                                      RoomImageRental(
-                                                          image: NetworkImage(
-                                                              "${getIpWithoutSlash()}${state.roomImages[index].images}")),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(20),
-                                // color: Colors.amber,
-                                width: MediaQuery.of(context).size.width,
+                                  ),
+                                ],
                               ),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: EdgeInsets.all(20),
+                              // color: Colors.amber,
+                              width: MediaQuery.of(context).size.width,
                             ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomPoppinsText(
-                                            text: "Room Details",
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400),
-                                        if (state.accommodation.is_verified! ||
-                                            state.accommodation.is_rejected!)
-                                          InkWell(
-                                            onTap: () async {
-                                              var loginState = context
-                                                  .read<LoginBloc>()
-                                                  .state;
-                                              if (loginState is LoginLoaded) {
-                                                await context
-                                                    .read<DropDownValueCubit>()
-                                                  ..instantiateDropDownValue(
-                                                      items: [
-                                                        "Average",
-                                                        "Excellent",
-                                                        "Adjustable"
-                                                      ]);
-                                                await context
-                                                    .read<DropDownValueCubit>()
-                                                    .changeDropDownValue(state
-                                                        .room.washroom_status
-                                                        .toString());
-                                                return updateRoomDetails(
-                                                    context: context,
-                                                    room: state.room,
-                                                    token: loginState
-                                                        .successModel.token!
-                                                        .toString());
-                                              }
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0),
-                                              child: Icon(
-                                                Icons.edit,
-                                                color: Colors.red,
-                                              ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomPoppinsText(
+                                          text: "Room Details",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                      if (state.accommodation.is_verified! ||
+                                          state.accommodation.is_rejected!)
+                                        InkWell(
+                                          onTap: () async {
+                                            var loginState =
+                                                context.read<LoginBloc>().state;
+                                            if (loginState is LoginLoaded) {
+                                              await context
+                                                  .read<DropDownValueCubit>()
+                                                ..instantiateDropDownValue(
+                                                    items: [
+                                                      "Average",
+                                                      "Excellent",
+                                                      "Adjustable"
+                                                    ]);
+                                              await context
+                                                  .read<DropDownValueCubit>()
+                                                  .changeDropDownValue(state
+                                                      .room.washroom_status
+                                                      .toString());
+                                              return updateRoomDetails(
+                                                  context: context,
+                                                  room: state.room,
+                                                  token: loginState
+                                                      .successModel.token!
+                                                      .toString());
+                                            }
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Icon(
+                                              Icons.edit,
+                                              color: Colors.red,
                                             ),
-                                          )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    RoomDetailWidgetRental(
-                                      text: "Bed",
-                                      value: state.room.bed_availability!,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    RoomDetailWidgetRental(
-                                      text: "Fan",
-                                      value: state.room.fan_availability!,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    RoomDetailWidgetRental(
-                                      text: "Sofa",
-                                      value: state.room.sofa_availability!,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    RoomDetailWidgetRental(
-                                      text: "Mat",
-                                      value: state.room.mat_availability!,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    RoomDetailWidgetRental(
-                                      text: "Carpet",
-                                      value: state.room.carpet_availability!,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        CustomPoppinsText(
-                                            text: '\u2022 Washroom Status :',
-                                            fontSize: 13,
-                                            color:
-                                                Colors.black.withOpacity(0.6),
-                                            fontWeight: FontWeight.w600),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        CustomPoppinsText(
-                                            text: state.room.washroom_status!,
-                                            fontSize: 13,
-                                            color:
-                                                Colors.black.withOpacity(0.6),
-                                            fontWeight: FontWeight.w600),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    RoomDetailWidgetRental(
-                                      text: "Dustbin",
-                                      value: state.room.dustbin_availability!,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    RoomDetailWidgetRental(
-                                      text: "Trash Disposable",
-                                      value: state.accommodation
-                                          .trash_dispose_availability!,
-                                    ),
-                                  ],
-                                ),
-                                // color: Colors.amber,
-
-                                width: MediaQuery.of(context).size.width,
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  RoomDetailWidgetRental(
+                                    text: "Bed",
+                                    value: state.room.bed_availability!,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  RoomDetailWidgetRental(
+                                    text: "Fan",
+                                    value: state.room.fan_availability!,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  RoomDetailWidgetRental(
+                                    text: "Sofa",
+                                    value: state.room.sofa_availability!,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  RoomDetailWidgetRental(
+                                    text: "Mat",
+                                    value: state.room.mat_availability!,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  RoomDetailWidgetRental(
+                                    text: "Carpet",
+                                    value: state.room.carpet_availability!,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      CustomPoppinsText(
+                                          text: '\u2022 Washroom Status :',
+                                          fontSize: 13,
+                                          color: Colors.black.withOpacity(0.6),
+                                          fontWeight: FontWeight.w600),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      CustomPoppinsText(
+                                          text: state.room.washroom_status!,
+                                          fontSize: 13,
+                                          color: Colors.black.withOpacity(0.6),
+                                          fontWeight: FontWeight.w600),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  RoomDetailWidgetRental(
+                                    text: "Dustbin",
+                                    value: state.room.dustbin_availability!,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  RoomDetailWidgetRental(
+                                    text: "Trash Disposable",
+                                    value: state.accommodation
+                                        .trash_dispose_availability!,
+                                  ),
+                                ],
                               ),
+                              // color: Colors.amber,
+
+                              width: MediaQuery.of(context).size.width,
                             ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            if (state.accommodation.is_rejected!)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10),
-                                child: CustomMaterialButton(
-                                    onPressed: () {},
-                                    child: Text("Resubmit for Verification"),
-                                    backgroundColor: Color(0xff29383f),
-                                    textColor: Colors.white,
-                                    height: 45),
-                              )
-                          ],
-                        ),
-                      );
-                    }
-                    return SizedBox();
-                  },
-                ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          if (state.accommodation.is_rejected!)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10),
+                              child: Column(
+                                children: [
+                                  BlocBuilder<
+                                      ResumbitAccommodationVerificationCubit,
+                                      ResumbitAccommodationVerificationState>(
+                                    builder: (context, resubState) {
+                                      if (resubState
+                                          is ResubmitAccommodationVerificationLoading) {
+                                        return SizedBox();
+                                      }
+                                      return CustomMaterialButton(
+                                          onPressed: () {
+                                            var loginState =
+                                                context.read<LoginBloc>().state;
+                                            if (loginState is LoginLoaded) {
+                                              context.read<
+                                                  ResumbitAccommodationVerificationCubit>()
+                                                ..resubmitForVerification(
+                                                    token: loginState
+                                                        .successModel.token!,
+                                                    accommodationId: state
+                                                        .accommodation.id!);
+                                            }
+                                          },
+                                          child:
+                                              Text("Resubmit for Verification"),
+                                          backgroundColor: Color(0xff29383f),
+                                          textColor: Colors.white,
+                                          height: 45);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                  )
+                                ],
+                              ),
+                            )
+                        ],
+                      ),
+                    );
+                  }
+                  return SizedBox();
+                },
               ),
             ),
           ),

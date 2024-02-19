@@ -13,4 +13,6 @@ class RememberMeCubit extends Cubit<RememberMeState> with HydratedMixin {
   Map<String, dynamic>? toJson(RememberMeState state) {
     return state.toMap();
   }
+
+  void reset() => emit(RememberMeState(rememberMe: false));
 }

@@ -17,6 +17,7 @@ class RenewSubscriptionBloc
           tier: event.tier,
           methodOfPayment: event.methodOfPayment,
           transactionId: event.transactionId,
+          paidTill: event.paidTill,
           paidAmount: event.paidAmount,
           token: event.token);
       if (success.success == 0) {

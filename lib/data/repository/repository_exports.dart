@@ -13,3 +13,5 @@ export 'hotel_with_tier_repository.dart';
 export 'hotel_without_tier_repository.dart';
 export 'hostel_repository.dart';
 export 'booking_repository.dart';
+export 'review_repository.dart';
+export 'revenue_repository.dart';

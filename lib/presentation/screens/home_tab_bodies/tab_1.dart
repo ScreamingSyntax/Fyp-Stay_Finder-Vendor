@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:stayfinder_vendor/data/model/model_exports.dart';
 import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
 import 'package:stayfinder_vendor/logic/cubits/drop_down_value/drop_down_value_cubit.dart';
+import 'package:stayfinder_vendor/logic/cubits/fetch_accommodation_review/fetch_accommodation_reviews_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/fetch_hostel/fetch_hostel_details_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/fetch_hotel_without_tier/fetch_hotel_without_tier_cubit.dart';
 import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/rental_room_view.dart';
@@ -112,6 +113,7 @@ class MiddleHomeBody extends StatelessWidget {
                 }
                 if (verified) {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomPoppinsText(
                         text: "Your accomodations",
@@ -136,6 +138,10 @@ class MiddleHomeBody extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
+                                      context.read<
+                                          FetchAccommodationReviewsCubit>()
+                                        ..fetchAccommodationReviews(
+                                            id: state.accommodation[index].id!);
                                       var loginState =
                                           context.read<LoginBloc>().state;
                                       if (loginState is LoginLoaded) {
@@ -210,10 +216,10 @@ class MiddleHomeBody extends StatelessWidget {
                                       width: 127,
                                       height: 167,
                                       child: Card(
-                                        elevation: 0,
+                                        elevation: 0.4,
                                         surfaceTintColor: Colors.white,
-                                        shadowColor: Colors.white,
-                                        color: Colors.black.withOpacity(0.1),
+                                        shadowColor: Colors.black,
+                                        color: Color(0xffF5F5F5),
                                         child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -260,12 +266,32 @@ class MiddleHomeBody extends StatelessWidget {
                                               SizedBox(
                                                 height: 10,
                                               ),
-                                              CustomPoppinsText(
-                                                  text: state
-                                                      .accommodation[index].name
-                                                      .toString(),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w700),
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: Container(
+                                                  // color: Colors.black,
+                                                  width: 100,
+                                                  child: Text(
+                                                    state.accommodation[index]
+                                                        .name!,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        fontSize: 12,
+                                                        color:
+                                                            Color(0xff212121),
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                              ),
+                                              // CustomPoppinsText(
+                                              //     text: state
+                                              //         .accommodation[index].name
+                                              //         .toString(),
+                                              //     fontSize: 12,
+                                              //     fontWeight: FontWeight.w700),
                                               Expanded(
                                                 child: Text(
                                                   state.accommodation[index]
@@ -275,7 +301,8 @@ class MiddleHomeBody extends StatelessWidget {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w400,
-                                                      color: Color(0xff9DA8C3),
+                                                      color: Color(0xff212121)
+                                                          .withOpacity(0.5),
                                                       fontSize: 11),
                                                 ),
                                               ),
@@ -411,7 +438,19 @@ class UpperHomeBody extends StatelessWidget {
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: Color(0xffC9C9C9),
+                color: Color(0xffFFFFFF),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0,
+                        0.1), // Semi-transparent black for a subtle shadow
+                    offset:
+                        Offset(0, 2), // Shadow is slightly shifted downwards
+                    blurRadius:
+                        8.0, // Moderate blur radius for a soft shadow effect
+                    spreadRadius:
+                        -1.0, // Negative spread radius to fine-tune the shadow size
+                  ),
+                ],
               ),
               padding: EdgeInsets.all(10),
               height: 153,
@@ -479,7 +518,8 @@ class upperBodyWhenVerifiedandCurrentTier extends StatelessWidget {
             CustomPoppinsText(
               text: "${tier.name} (Current)",
               fontSize: 12,
-              fontWeight: FontWeight.w700,
+              color: Color(0xff212121),
+              fontWeight: FontWeight.w500,
             ),
             SizedBox(
               width: 10,
@@ -495,13 +535,22 @@ class upperBodyWhenVerifiedandCurrentTier extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CustomPoppinsText(
-                  text: "${tier.description}",
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+                Text(
+                  tier.description!,
                   textAlign: TextAlign.center,
-                  color: Color(0xff383a3f),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xff212121).withOpacity(0.6),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
+                // CustomRed(
+                //   text: "${tier.description}",
+                //   fontSize: 12,
+                //   fontWeight: FontWeight.w600,
+                //   textAlign: TextAlign.center,
+                //   color: Color(0xff383a3f),
+                // ),
                 BlocBuilder<FetchCurrentTierBloc, FetchCurrentTierState>(
                   builder: (context, currenTierState) {
                     return BlocBuilder<FetchVendorProfileBloc,
@@ -525,7 +574,7 @@ class upperBodyWhenVerifiedandCurrentTier extends StatelessWidget {
                                           text:
                                               "Ended : ${DateFormat('yyyy-MM-dd').format(DateTime.parse(currentTier.paid_till!))}",
                                           fontSize: 12,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.red,
                                         ),
                                         Padding(
@@ -563,8 +612,8 @@ class upperBodyWhenVerifiedandCurrentTier extends StatelessWidget {
                                     text:
                                         " Ends: ${DateFormat('yyyy-MM-dd').format(DateTime.parse(currentTier.paid_till!))}",
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xff383A3F),
+                                    color: Color(0xff212121).withOpacity(0.6),
+                                    fontWeight: FontWeight.w500,
                                   );
                                 })
                               ],
@@ -643,7 +692,8 @@ class upperBodyWhenNotVerified extends StatelessWidget {
             CustomPoppinsText(
                 text: "${tier.name} (Current)",
                 fontSize: 12,
-                fontWeight: FontWeight.w700),
+                color: Color(0xff212121),
+                fontWeight: FontWeight.w600),
             SizedBox(
               width: 10,
             ),
@@ -662,8 +712,8 @@ class upperBodyWhenNotVerified extends StatelessWidget {
                   textAlign: TextAlign.center,
                   text: "${tier.description}",
                   fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xff383A3F),
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff212121),
                 ),
                 BlocBuilder<FetchVendorProfileBloc, FetchVendorProfileState>(
                   builder: (context, state) {
@@ -690,7 +740,7 @@ class upperBodyWhenNotVerified extends StatelessWidget {
                               text: "Get Verified",
                               fontSize: 12,
                               fontWeight: FontWeight.normal),
-                          backgroundColor: Color(0xff29383f),
+                          backgroundColor: Colors.red,
                           textColor: Colors.white,
                           height: 40,
                         ),

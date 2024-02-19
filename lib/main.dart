@@ -151,7 +151,16 @@ class MyApp extends StatelessWidget {
           create: (context) => FetchBookingRequestCubit(),
         ),
         BlocProvider(create: (context) => VerifyBookingRequestCubit()),
-        BlocProvider(create: (context) => FetchParticularBookingDetailsCubit())
+        BlocProvider(create: (context) => FetchParticularBookingDetailsCubit()),
+        BlocProvider(create: (context) => FetchAccommodationReviewsCubit()),
+        BlocProvider(create: (context) => ResetPasswordCubit()),
+        BlocProvider(
+            create: (context) => ResumbitAccommodationVerificationCubit()),
+        BlocProvider(create: (context) => FetchRevenueDataCubit()),
+        BlocProvider(create: (context) => ForgotPassCubit()),
+        BlocProvider(create: (context) => StoreTempUserDetailsCubit()),
+        BlocProvider(create: (context) => BooleanChangeCubit()),
+        BlocProvider(create: (context) => FetchNotificationsCubit()),
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

@@ -129,24 +129,6 @@ class HostelRoomView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(Icons.arrow_back)),
-                    InkWell(
-                        onTap: () {
-                          context.read<DropDownValueCubit>()
-                            ..changeDropDownValue("Average");
-                          customHostelRoomAddition(context, data['id']);
-                        },
-                        child: Icon(Icons.add))
-                  ],
-                ),
-              ),
               BlocBuilder<FetchHostelDetailsCubit, FetchHostelDetailsState>(
                   builder: (context, state) {
                 if (state is FetchHostelDetailLoading) {
@@ -165,52 +147,78 @@ class HostelRoomView extends StatelessWidget {
                     onRefresh: () async {
                       return await callHostelApis(data, context);
                     },
-                    child: ListView.builder(
-                      itemCount: state.rooms!.length,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        Room room = state.rooms![index];
-                        List<RoomImage> images = [];
-                        print(images);
-                        var one = state.images!.where((element) {
-                          return element.room == room.id;
-                        });
-                        List<RoomImage> list =
-                            List<RoomImage>.from(one).toList();
-                        print("The sate is ${list}");
-                        return HostelViewCard(
-                          images: list,
-                          id: room.id!,
-                          onEdit: (p0) {
-                            context.read<DropDownValueCubit>()
-                              ..changeDropDownValue(room.washroom_status!);
-                            roomDetailsUpdateSheet(
-                                id: room.id!,
-                                context: context,
-                                beds: room.seater_beds!,
-                                fanAvailable: room.fan_availability!,
-                                rate: room.monthly_rate!,
-                                washroom: room.washroom_status!);
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                  onTap: () => Navigator.pop(context),
+                                  child: Icon(Icons.arrow_back)),
+                              if (state.accommodation!.is_pending! == false)
+                                InkWell(
+                                    onTap: () {
+                                      context.read<DropDownValueCubit>()
+                                        ..changeDropDownValue("Average");
+                                      customHostelRoomAddition(
+                                          context, data['id']);
+                                    },
+                                    child: Icon(Icons.add))
+                            ],
+                          ),
+                        ),
+                        ListView.builder(
+                          itemCount: state.rooms!.length,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            Room room = state.rooms![index];
+                            List<RoomImage> images = [];
+                            print(images);
+                            var one = state.images!.where((element) {
+                              return element.room == room.id;
+                            });
+                            List<RoomImage> list =
+                                List<RoomImage>.from(one).toList();
+                            print("The sate is ${list}");
+                            return HostelViewCard(
+                              isPending:
+                                  state.accommodation!.is_pending ?? false,
+                              images: list,
+                              id: room.id!,
+                              onEdit: (p0) {
+                                context.read<DropDownValueCubit>()
+                                  ..changeDropDownValue(room.washroom_status!);
+                                roomDetailsUpdateSheet(
+                                    id: room.id!,
+                                    context: context,
+                                    beds: room.seater_beds!,
+                                    fanAvailable: room.fan_availability!,
+                                    rate: room.monthly_rate!,
+                                    washroom: room.washroom_status!);
+                              },
+                              onChangePhoto: (p0) async {
+                                await updateRoomImage(
+                                    roomId: room.id!,
+                                    context: context,
+                                    images: list);
+                              },
+                              bedCount: room.seater_beds.toString(),
+                              fanAvailability: room.fan_availability!,
+                              onDelete: (p0) {
+                                context.read<UpdateHostelCubit>()
+                                  ..deleteRoom(
+                                      token: data['token'], room: room.id!);
+                              },
+                              ruppes: room.monthly_rate.toString(),
+                              roomIndex: index + 1,
+                              washRoomStatus: room.washroom_status.toString(),
+                            );
                           },
-                          onChangePhoto: (p0) async {
-                            await updateRoomImage(
-                                roomId: room.id!,
-                                context: context,
-                                images: list);
-                          },
-                          bedCount: room.seater_beds.toString(),
-                          fanAvailability: room.fan_availability!,
-                          onDelete: (p0) {
-                            context.read<UpdateHostelCubit>()
-                              ..deleteRoom(
-                                  token: data['token'], room: room.id!);
-                          },
-                          ruppes: room.monthly_rate.toString(),
-                          roomIndex: index + 1,
-                          washRoomStatus: room.washroom_status.toString(),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -945,12 +953,14 @@ class HostelViewCard extends StatelessWidget {
   final String washRoomStatus;
   final String ruppes;
   final int id;
+  final bool isPending;
 
-  const HostelViewCard({
+  HostelViewCard({
     required this.images,
     super.key,
     required this.id,
     required this.onEdit,
+    required this.isPending,
     required this.onDelete,
     required this.onChangePhoto,
     required this.roomIndex,
@@ -968,29 +978,31 @@ class HostelViewCard extends StatelessWidget {
         endActionPane: ActionPane(
           extentRatio: 1,
           motion: ScrollMotion(),
-          children: [
-            SlidableAction(
-              backgroundColor: Colors.transparent,
-              onPressed: onEdit,
-              foregroundColor: Color(0xff878e92),
-              icon: Icons.edit,
-              label: 'Edit',
-            ),
-            SlidableAction(
-              onPressed: onChangePhoto,
-              backgroundColor: Colors.transparent,
-              foregroundColor: Color(0xff514f53),
-              icon: Icons.photo,
-              label: 'Change',
-            ),
-            SlidableAction(
-              onPressed: onDelete,
-              backgroundColor: Colors.transparent,
-              foregroundColor: Colors.red,
-              icon: Icons.delete,
-              label: 'Delete',
-            ),
-          ],
+          children: this.isPending == true
+              ? []
+              : [
+                  SlidableAction(
+                    backgroundColor: Colors.transparent,
+                    onPressed: onEdit,
+                    foregroundColor: Color(0xff878e92),
+                    icon: Icons.edit,
+                    label: 'Edit',
+                  ),
+                  SlidableAction(
+                    onPressed: onChangePhoto,
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Color(0xff514f53),
+                    icon: Icons.photo,
+                    label: 'Change',
+                  ),
+                  SlidableAction(
+                    onPressed: onDelete,
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.red,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  ),
+                ],
         ),
         // endActionPane: ActionPane(motion: motion, children: children),
         child: Padding(

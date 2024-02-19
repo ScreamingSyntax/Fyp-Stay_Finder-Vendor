@@ -12,3 +12,5 @@ class FetchTransactionHistoryHitEvent extends FetchTransactionHistoryEvent {
 
   FetchTransactionHistoryHitEvent({required this.token});
 }
+
+class FetchTransactionHistoryClearEvent extends FetchTransactionHistoryEvent {}

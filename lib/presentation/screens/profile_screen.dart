@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:stayfinder_vendor/constants/ip.dart';
+import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
+import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 
 import '../../logic/blocs/bloc_exports.dart';
+import '../../logic/blocs/fetch_added_accommodations/fetch_added_accommodations_bloc.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffECEFF1),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -131,123 +136,216 @@ class ProfileScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 27.0),
-              child: Column(
-                children: [
-                  ListTile(
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    ListTile(
+                        onTap: () {
+                          var state = context.read<LoginBloc>().state;
+                          if (state is LoginLoaded) {
+                            context.read<FetchVendorProfileBloc>()
+                              ..add(HitFetchVendorProfileEvent(
+                                  token: state.successModel.token!));
+                            Navigator.pushNamed(context, "/info");
+                          }
+                          context
+                              .read<DocumentDetailDartBloc>()
+                              .add(DocumentDataClearEvent());
+                        },
+                        leading: Icon(
+                          CupertinoIcons.doc_checkmark_fill,
+                          color: Color(0xff455A64).withOpacity(0.8),
+                        ),
+                        title: CustomPoppinsText(
+                            text: "My information",
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff2E3D49)),
+                        //  Text(
+                        //   "My information",
+                        //   style: TextStyle(
+                        //     fontSize: 16,
+                        //     fontWeight: FontWeight.w500,
+                        //     color: Color(0xff32454D).withOpacity(0.8),
+                        //   ),
+                        // ),
+                        subtitle: CustomPoppinsText(
+                          text: "View your personal information",
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: Color(0xff607D8B),
+                        )),
+                    ListTile(
                       onTap: () {
                         var state = context.read<LoginBloc>().state;
                         if (state is LoginLoaded) {
-                          context.read<FetchVendorProfileBloc>()
-                            ..add(HitFetchVendorProfileEvent(
-                                token: state.successModel.token!));
-                          Navigator.pushNamed(context, "/info");
+                          context.read<FetchRevenueDataCubit>()
+                            ..getRevenue(token: state.successModel.token!);
+                          Navigator.pushNamed(context, "/revenue");
                         }
-                        context
-                            .read<DocumentDetailDartBloc>()
-                            .add(DocumentDataClearEvent());
                       },
                       leading: Icon(
-                        CupertinoIcons.doc_checkmark_fill,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                      title: CustomPoppinsText(
-                        text: "My information",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                      //  Text(
-                      //   "My information",
-                      //   style: TextStyle(
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.w500,
-                      //     color: Color(0xff32454D).withOpacity(0.8),
-                      //   ),
-                      // ),
-                      subtitle: CustomPoppinsText(
-                        text: "View your personal information",
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      )),
-                  // Text(
-                  //   "View your personal information",
-                  //   style: TextStyle(
-                  //     fontSize: 12,
-                  //     color: Color(0xff32454D).withOpacity(0.8),
-                  //   ),
-                  // ),
-
-                  ListTile(
-                      onTap: () {},
-                      leading: Icon(
-                        CupertinoIcons.lock_fill,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                      title: CustomPoppinsText(
-                        text: "Reset Password",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        Icons.monetization_on,
                         color: Color(0xff32454D).withOpacity(0.8),
                       ),
                       subtitle: CustomPoppinsText(
-                        text: "Do you want to change your password",
+                        text: "View your income",
                         fontSize: 12,
                         fontWeight: FontWeight.normal,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      )),
-                  ListTile(
-                      onTap: () {
-                        context.read<LoginBloc>().add(LoginClearEvent());
-                        Navigator.pushNamed(context, "/login");
+                        color: Color(0xff607D8B),
+                      ),
+                      title: CustomPoppinsText(
+                          text: "Revenue",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff2E3D49)),
+                    ),
+                    BlocBuilder<LoginBloc, LoginState>(
+                      builder: (context, state) {
+                        return ListTile(
+                          onTap: () {
+                            if (state is LoginLoaded) {
+                              context.read<FetchTransactionHistoryBloc>().add(
+                                  FetchTransactionHistoryHitEvent(
+                                      token: state.successModel.token!));
+                              Navigator.pushNamed(context, "/paymentHistory");
+                            }
+                          },
+                          leading: Icon(
+                            Icons.attach_money,
+                            color: Color(0xff32454D).withOpacity(0.8),
+                          ),
+                          subtitle: CustomPoppinsText(
+                            text: "View your payment history",
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            color: Color(0xff607D8B),
+                          ),
+                          title: CustomPoppinsText(
+                            text: "Payment History",
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff2E3D49),
+                          ),
+                        );
                       },
-                      leading: Icon(
-                        Icons.door_back_door_rounded,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                      title: CustomPoppinsText(
-                        text: "Log out",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                      subtitle: CustomPoppinsText(
-                        text: "Log out from the system bro",
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      )),
-                  BlocBuilder<LoginBloc, LoginState>(
-                    builder: (context, state) {
-                      return ListTile(
+                    ),
+                    ListTile(
                         onTap: () {
-                          if (state is LoginLoaded) {
-                            context.read<FetchTransactionHistoryBloc>().add(
-                                FetchTransactionHistoryHitEvent(
-                                    token: state.successModel.token!));
-                            Navigator.pushNamed(context, "/paymentHistory");
-                          }
+                          showExitPopup(
+                              context: context,
+                              message: "This will remove your current tier",
+                              title: "Confirmation",
+                              noBtnFunction: () {
+                                Navigator.pop(context);
+                              },
+                              yesBtnFunction: () {
+                                var profileState = context
+                                    .read<FetchVendorProfileBloc>()
+                                    .state;
+
+                                if (profileState is FetchVendorProfileLoaded) {
+                                  if (profileState.vendorProfile.is_verified ==
+                                      'True') {
+                                    var state = context.read<LoginBloc>().state;
+                                    if (state is LoginLoaded) {
+                                      context
+                                          .read<FetchTransactionHistoryBloc>()
+                                          .add(FetchTransactionHistoryHitEvent(
+                                              token:
+                                                  state.successModel.token!));
+                                      Navigator.pushNamed(
+                                          context, "/renewSubscription");
+                                    }
+                                  } else {
+                                    customScaffold(
+                                        context: context,
+                                        title: "Error",
+                                        message: "Verify your profile first",
+                                        contentType: ContentType.failure);
+                                  }
+                                }
+                              });
                         },
                         leading: Icon(
-                          Icons.attach_money,
-                          color: Color(0xff32454D).withOpacity(0.8),
-                        ),
-                        subtitle: CustomPoppinsText(
-                          text: "View your payment history",
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
+                          Boxicons.bx_medal,
                           color: Color(0xff32454D).withOpacity(0.8),
                         ),
                         title: CustomPoppinsText(
-                          text: "Payment History",
+                          text: "Change Tier",
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
+                          color: Color(0xff2E3D49),
+                        ),
+                        subtitle: CustomPoppinsText(
+                          text: "Change your current Tier",
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: Color(0xff607D8B),
+                        )),
+                    ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/resetPass");
+                        },
+                        leading: Icon(
+                          CupertinoIcons.lock_fill,
                           color: Color(0xff32454D).withOpacity(0.8),
                         ),
-                      );
-                    },
-                  )
-                ],
+                        title: CustomPoppinsText(
+                          text: "Reset Password",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff2E3D49),
+                        ),
+                        subtitle: CustomPoppinsText(
+                          text: "Do you want to change your password",
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: Color(0xff607D8B),
+                        )),
+                    ListTile(
+                        onTap: () {
+                          context
+                              .read<FetchAddedAccommodationsBloc>()
+                              .add(FetchAddedAccommodationResetEvent());
+                          context
+                              .read<FetchCurrentTierBloc>()
+                              .add(FetchCurrentTierClearEvent());
+                          context
+                              .read<FetchVendorProfileBloc>()
+                              .add(ClearVendorProfileEvent());
+                          context
+                              .read<FetchTierBloc>()
+                              .add(FetchTierClearEvent());
+                          context
+                              .read<FetchTransactionHistoryBloc>()
+                              .add(FetchTransactionHistoryClearEvent());
+                          context.read<LoginBloc>().add(LoginClearEvent());
+                          context
+                              .read<FetchBookingRequestCubit>()
+                              .resetBookings();
+                          context.read<RememberMeCubit>().reset();
+                          Navigator.pushNamed(context, "/login");
+                        },
+                        leading: Icon(
+                          Icons.door_back_door_rounded,
+                          color: Color(0xff32454D).withOpacity(0.8),
+                        ),
+                        title: CustomPoppinsText(
+                          text: "Log out",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff2E3D49),
+                        ),
+                        subtitle: CustomPoppinsText(
+                          text: "Log out from the system bro",
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: Color(0xff607D8B),
+                        )),
+                  ],
+                ),
               ),
             )
           ],
@@ -267,7 +365,7 @@ class UppBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 224,
+      height: 240,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -284,14 +382,22 @@ class UppBody extends StatelessWidget {
                     ),
                     Text(
                       "Stay",
-                      style: TextStyle(fontFamily: 'Slackey', fontSize: 24),
+                      style: TextStyle(
+                          fontFamily: 'Slackey',
+                          fontSize: 24,
+                          color: Colors.white),
                     ),
                     Text(
                       "finder",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 12),
@@ -303,7 +409,7 @@ class UppBody extends StatelessWidget {
                           Icon(
                             CupertinoIcons.person_crop_circle,
                             fill: 0.5,
-                            color: Color(0xff32454D),
+                            color: Colors.white,
                           ),
                           SizedBox(
                             width: 10,
@@ -315,7 +421,7 @@ class UppBody extends StatelessWidget {
                                 return Text(
                                   "${state.vendorModel.fullName}",
                                   style: TextStyle(
-                                      color: Color(0xff32454D),
+                                      color: Colors.white,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400),
                                 );
@@ -333,7 +439,7 @@ class UppBody extends StatelessWidget {
                           Icon(
                             CupertinoIcons.mail,
                             fill: 0.5,
-                            color: Color(0xff32454D),
+                            color: Colors.white,
                           ),
                           SizedBox(
                             width: 10,
@@ -345,7 +451,7 @@ class UppBody extends StatelessWidget {
                                 return Text(
                                   "${state.vendorModel.email}",
                                   style: TextStyle(
-                                      color: Color(0xff32454D),
+                                      color: Colors.white,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400),
                                 );
@@ -360,11 +466,8 @@ class UppBody extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Icon(
-                            Icons.verified_outlined,
-                            fill: 0.5,
-                            color: Color(0xff32454D),
-                          ),
+                          Icon(Icons.verified_outlined,
+                              fill: 0.5, color: Colors.white),
                           SizedBox(
                             width: 10,
                           ),
@@ -373,7 +476,7 @@ class UppBody extends StatelessWidget {
                                 ? "Verified"
                                 : "Unverifed",
                             style: TextStyle(
-                                color: Color(0xff32454D),
+                                color: Colors.white,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400),
                           ),
@@ -392,7 +495,7 @@ class UppBody extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(200),
-                      border: Border.all(width: 2, color: Colors.black)),
+                      border: Border.all(width: 2, color: Colors.white)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(200),
                     child: CachedNetworkImage(
@@ -410,7 +513,7 @@ class UppBody extends StatelessWidget {
       ),
       margin: EdgeInsets.all(0.2),
       decoration: BoxDecoration(
-          color: Color(0xffDAD7CD),
+          color: Color(0xff263238),
           border: Border.all(
             color: Color(
               0xff29383F,

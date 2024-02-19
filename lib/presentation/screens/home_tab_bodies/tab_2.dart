@@ -45,71 +45,85 @@ class TabBar2 extends StatelessWidget {
         );
       }
       if (state is FetchTierLoadedState) {
-        return AnimationLimiter(
-          child: GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: state.tierList.length,
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              return AnimationConfiguration.staggeredGrid(
-                position: index,
-                columnCount: 2,
-                duration: Duration(seconds: 2),
-                child: SlideAnimation(
-                  child: SlideAnimation(
-                    delay: Duration(seconds: 1),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: SizedBox(
-                        // height: 190,
-                        child: Card(
-                          elevation: 0,
-                          surfaceTintColor: Colors.white,
-                          shadowColor: Colors.white,
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(children: [
-                              CachedNetworkImage(
-                                imageUrl:
-                                    "${getIpWithoutSlash()}${state.tierList[index].image.toString()}",
-                                width: 95,
-                                height: 95,
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+        return Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            AnimationLimiter(
+              child: GridView.builder(
+                padding: EdgeInsets.all(0),
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: state.tierList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, mainAxisSpacing: 15),
+                itemBuilder: (context, index) {
+                  return AnimationConfiguration.staggeredGrid(
+                    position: index,
+                    columnCount: 2,
+                    duration: Duration(seconds: 2),
+                    child: SlideAnimation(
+                      child: SlideAnimation(
+                        delay: Duration(seconds: 1),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                          child: SizedBox(
+                            // height: 190,
+                            child: Card(
+                              elevation: 0,
+                              surfaceTintColor: Colors.white,
+                              shadowColor: Colors.white,
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(children: [
+                                  CachedNetworkImage(
+                                    imageUrl:
+                                        "${getIpWithoutSlash()}${state.tierList[index].image.toString()}",
+                                    width: 95,
+                                    height: 95,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    state.tierList[index].name.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 10),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      state.tierList[index].description
+                                          .toString(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff9DA8C3),
+                                          fontSize: 10),
+                                    ),
+                                  ),
+                                ]),
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                state.tierList[index].name.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 12),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  state.tierList[index].description.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff9DA8C3),
-                                      fontSize: 11),
-                                ),
-                              ),
-                            ]),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
+                  );
+                },
+              ),
+            ),
+          ],
         );
       } else {
         return Container(

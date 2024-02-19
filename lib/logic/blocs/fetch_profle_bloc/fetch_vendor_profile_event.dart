@@ -12,3 +12,5 @@ class HitFetchVendorProfileEvent extends FetchVendorProfileEvent {
 
   HitFetchVendorProfileEvent({required this.token});
 }
+
+class ClearVendorProfileEvent extends FetchVendorProfileEvent {}

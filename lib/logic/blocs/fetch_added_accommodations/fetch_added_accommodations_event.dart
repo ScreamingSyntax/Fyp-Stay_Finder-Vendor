@@ -12,3 +12,5 @@ class FetchAddedAccommodationHitEvent extends FetchAddedAccommodationsEvent {
 
   FetchAddedAccommodationHitEvent({required this.token});
 }
+
+class FetchAddedAccommodationResetEvent extends FetchAddedAccommodationsEvent {}

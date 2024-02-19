@@ -1022,10 +1022,10 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xffe5e5e5),
-        body: RefreshIndicator(
+    return Scaffold(
+      backgroundColor: Color(0xffe5e5e5),
+      body: SafeArea(
+        child: RefreshIndicator(
           onRefresh: () async {
             await callHotelWithoutTierApis(
                 context: context,
@@ -1058,17 +1058,20 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                             InkWell(
                                 onTap: () => Navigator.pop(context),
                                 child: Icon(Icons.arrow_back)),
-                            InkWell(
-                                onTap: () {
-                                  context.read<DropDownValueCubit>()
-                                    ..changeDropDownValue("Average");
-                                  addNonTierHotelRooms(
-                                      context: context,
-                                      accommodationId: data['id'],
-                                      token: data['token']);
-                                  // customHostelRoomAddition(context, data['id']);
-                                },
-                                child: Icon(Icons.add))
+                            if (hotelWithoutTierState
+                                    .accommodation.is_pending !=
+                                true)
+                              InkWell(
+                                  onTap: () {
+                                    context.read<DropDownValueCubit>()
+                                      ..changeDropDownValue("Average");
+                                    addNonTierHotelRooms(
+                                        context: context,
+                                        accommodationId: data['id'],
+                                        token: data['token']);
+                                    // customHostelRoomAddition(context, data['id']);
+                                  },
+                                  child: Icon(Icons.add))
                           ],
                         ),
                       ),
@@ -1090,6 +1093,8 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
                               return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: customRoomCard(
+                                      isPending: hotelWithoutTierState
+                                          .accommodation.is_pending!,
                                       context: context,
                                       index: index + 1,
                                       room: room,
@@ -1149,6 +1154,7 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
 
   Widget customRoomCard(
       {required BuildContext context,
+      required bool isPending,
       required int index,
       required Room room,
       required String image}) {
@@ -1161,38 +1167,41 @@ class HotelWithoutTierRoomViewScreen extends StatelessWidget {
           endActionPane: ActionPane(
             extentRatio: 1,
             motion: ScrollMotion(),
-            children: [
-              SlidableAction(
-                onPressed: (context) async {
-                  await updateNonTierHotelRooms(context, room, data['token']);
-                },
-                foregroundColor: Color(0xff878e92),
-                icon: Icons.edit,
-                label: 'Edit',
-              ),
-              SlidableAction(
-                onPressed: (context) {
-                  context.read<UpdateHotelWithoutTierCubit>()
-                    ..deleteRoom(token: data['token'], roomId: room.id!);
-                  // customScaffold(
-                  //     context: context,
-                  //     title: "Success",
-                  //     message: "Successfully Deleted",
-                  //     contentType: ContentType.success);
-                },
-                foregroundColor: Color(0xff514f53),
-                icon: Icons.delete,
-                label: 'Delete',
-              ),
-              SlidableAction(
-                onPressed: (context) async {
-                  roomImageChanger(context, room, data['token']);
-                },
-                foregroundColor: Color(0xff514f53),
-                icon: Icons.image,
-                label: 'Change',
-              ),
-            ],
+            children: isPending
+                ? []
+                : [
+                    SlidableAction(
+                      onPressed: (context) async {
+                        await updateNonTierHotelRooms(
+                            context, room, data['token']);
+                      },
+                      foregroundColor: Color(0xff878e92),
+                      icon: Icons.edit,
+                      label: 'Edit',
+                    ),
+                    SlidableAction(
+                      onPressed: (context) {
+                        context.read<UpdateHotelWithoutTierCubit>()
+                          ..deleteRoom(token: data['token'], roomId: room.id!);
+                        // customScaffold(
+                        //     context: context,
+                        //     title: "Success",
+                        //     message: "Successfully Deleted",
+                        //     contentType: ContentType.success);
+                      },
+                      foregroundColor: Color(0xff514f53),
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                    SlidableAction(
+                      onPressed: (context) async {
+                        roomImageChanger(context, room, data['token']);
+                      },
+                      foregroundColor: Color(0xff514f53),
+                      icon: Icons.image,
+                      label: 'Change',
+                    ),
+                  ],
           ),
           child: Container(
               padding: EdgeInsets.all(10),

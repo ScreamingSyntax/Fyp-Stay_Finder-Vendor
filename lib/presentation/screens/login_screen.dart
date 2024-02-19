@@ -59,111 +59,81 @@ class LoginScreen extends StatelessWidget {
                 ? Builder(
                     builder: (context) {
                       return Scaffold(
+                        backgroundColor: Color(0xffECEFF1),
                         resizeToAvoidBottomInset: false,
-                        body: SafeArea(
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.all(20),
-                            child: Form(
-                              key: state.formKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: context
-                                        .watch<ClickedItemCubit>()
-                                        .state
-                                        .clicked
-                                    ? MainAxisAlignment.center
-                                    : MainAxisAlignment.start,
-                                children: [
-                                  AnimatedContainer(
-                                    height: context
-                                            .watch<ClickedItemCubit>()
-                                            .state
-                                            .clicked
-                                        ? 200
-                                        : 0,
-                                    width: context
-                                            .watch<ClickedItemCubit>()
-                                            .state
-                                            .clicked
-                                        ? 200
-                                        : 0,
-                                    duration: Duration(seconds: 1),
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                              "assets/images/location.png",
+                        body: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          child: Form(
+                            key: state.formKey,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top: 0,
+                                  child: Container(
+                                    height: 180,
+                                    alignment: Alignment.bottomLeft,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 40, horizontal: 30),
+                                      child: Text(
+                                        "Login In",
+                                        style: TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Color(0xff29383F),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 160,
+                                  child: Container(
+                                    padding: EdgeInsets.all(30),
+                                    child: SingleChildScrollView(
+                                      physics: AlwaysScrollableScrollPhysics(),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Welcome Back",
+                                            style: TextStyle(
+                                              fontSize: 21,
+                                              color: Color(0xff212121),
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                            fit: BoxFit.contain)),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  TextFieldLabel(
-                                    label: "Email :",
-                                  ),
-                                  CustomFormField(
-                                    inputFormatters: [],
-                                    onChange: (p0) => context.read<FormBloc>()
-                                      ..add(EmailChangedEvent(
-                                          email: BlocFormItem(value: p0!))),
-                                    onTap: () => context
-                                        .read<ClickedItemCubit>()
-                                        .clicked(),
-                                    onTapOutside: (event) {
-                                      context.read<ClickedItemCubit>()
-                                        ..unclicked();
-                                      FocusScope.of(context).unfocus();
-                                    },
-                                    validatior: (p0) {
-                                      if (p0!.isEmpty) {
-                                        return "The Email Field cannot be null";
-                                      }
-                                      if (!p0.isValidEmail) {
-                                        return "Please Enter Valid Email";
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  TextFieldLabel(
-                                    label: "Password :",
-                                  ),
-                                  BlocProvider(
-                                    create: (_) => EyeButtonCubit(),
-                                    child: Builder(builder: (context) {
-                                      return BlocBuilder<EyeButtonCubit,
-                                          EyeButtonState>(
-                                        builder: (context, state) {
-                                          bool obscureText = state.clickedEye;
-                                          return CustomFormField(
-                                            icon: IconButton(
-                                                onPressed: () {
-                                                  context
-                                                      .read<EyeButtonCubit>()
-                                                      .pressedEyeButton(
-                                                          !obscureText);
-                                                },
-                                                icon: !obscureText
-                                                    ? Icon(CupertinoIcons.eye)
-                                                    : Icon(CupertinoIcons
-                                                        .eye_slash)),
-                                            obscureText: obscureText,
-                                            validatior: (p0) {
-                                              if (p0!.isEmpty) {
-                                                return "The password field cannot be null";
-                                              }
-                                              return null;
-                                            },
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            "To proceed, kindly enter your login credentials.",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xffB0BEC5),
+                                              // .withOpacity(0.5),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          TextFieldLabel(
+                                            label: "Email :",
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          CustomFormField(
+                                            inputFormatters: [],
                                             onChange: (p0) =>
                                                 context.read<FormBloc>()
-                                                  ..add(Password1ChangedEvent(
-                                                      password: BlocFormItem(
+                                                  ..add(EmailChangedEvent(
+                                                      email: BlocFormItem(
                                                           value: p0!))),
-                                            inputFormatters: [],
                                             onTap: () => context
                                                 .read<ClickedItemCubit>()
                                                 .clicked(),
@@ -172,102 +142,420 @@ class LoginScreen extends StatelessWidget {
                                                 ..unclicked();
                                               FocusScope.of(context).unfocus();
                                             },
-                                          );
-                                        },
-                                      );
-                                    }),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Row(
-                                      children: [
-                                        Checkbox(
-                                          fillColor: MaterialStatePropertyAll(
-                                              Color(0xffD9D9D9)),
-                                          side: BorderSide(
-                                              color: Colors.transparent),
-                                          value: context
-                                              .watch<RememberMeCubit>()
-                                              .state
-                                              .rememberMe,
-                                          onChanged: (value) => context
-                                              .read<RememberMeCubit>()
-                                              .rememberMeTicked(value!),
-                                        ),
-                                        TextFieldLabel(label: "Remember Me")
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  AnimatedContainer(
-                                    duration: Duration(seconds: 2),
-                                    width: !(context.watch<LoginBloc>().state ==
-                                            LoginLoading())
-                                        ? MediaQuery.of(context).size.width
-                                        : 0,
-                                    child: MaterialButton(
-                                      onPressed: !(context
-                                                  .watch<LoginBloc>()
-                                                  .state ==
-                                              LoginLoading())
-                                          ? () {
-                                              if (state.formKey!.currentState!
-                                                  .validate()) {
-                                                context.read<LoginBloc>().add(
-                                                    LoginClickedEvent(
-                                                        rememberMe: context
-                                                            .read<
-                                                                RememberMeCubit>()
-                                                            .state
-                                                            .rememberMe,
-                                                        email:
-                                                            state.email.value,
-                                                        password: state
-                                                            .password1.value));
+                                            validatior: (p0) {
+                                              if (p0!.isEmpty) {
+                                                return "The Email Field cannot be null";
                                               }
-                                            }
-                                          : null,
-                                      minWidth:
-                                          MediaQuery.of(context).size.width,
-                                      height: 48,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      textColor: Colors.white,
-                                      color: Color(0xff546464),
-                                      child: Text("Login"),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("Not an User? "),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, "/signUp");
-                                            state.formKey!.currentState!
-                                                .reset();
-                                          },
-                                          child: Text(
-                                            "Register",
-                                            style: TextStyle(
-                                                color: Color(0xff29383F),
-                                                fontWeight: FontWeight.w700),
+                                              if (!p0.isValidEmail) {
+                                                return "Please Enter Valid Email";
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                        )
-                                      ])
-                                ],
-                              ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          TextFieldLabel(
+                                            label: "Password :",
+                                          ),
+                                          BlocProvider(
+                                            create: (_) => EyeButtonCubit(),
+                                            child: Builder(builder: (context) {
+                                              return BlocBuilder<EyeButtonCubit,
+                                                  EyeButtonState>(
+                                                builder: (context, state) {
+                                                  bool obscureText =
+                                                      state.clickedEye;
+                                                  return CustomFormField(
+                                                    icon: IconButton(
+                                                        onPressed: () {
+                                                          context
+                                                              .read<
+                                                                  EyeButtonCubit>()
+                                                              .pressedEyeButton(
+                                                                  !obscureText);
+                                                        },
+                                                        icon: !obscureText
+                                                            ? Icon(
+                                                                CupertinoIcons
+                                                                    .eye)
+                                                            : Icon(CupertinoIcons
+                                                                .eye_slash)),
+                                                    obscureText: obscureText,
+                                                    validatior: (p0) {
+                                                      if (p0!.isEmpty) {
+                                                        return "The password field cannot be null";
+                                                      }
+                                                      return null;
+                                                    },
+                                                    onChange: (p0) => context
+                                                        .read<FormBloc>()
+                                                      ..add(
+                                                          Password1ChangedEvent(
+                                                              password:
+                                                                  BlocFormItem(
+                                                                      value:
+                                                                          p0!))),
+                                                    inputFormatters: [],
+                                                    onTap: () => context
+                                                        .read<
+                                                            ClickedItemCubit>()
+                                                        .clicked(),
+                                                    onTapOutside: (event) {
+                                                      context.read<
+                                                          ClickedItemCubit>()
+                                                        ..unclicked();
+                                                      FocusScope.of(context)
+                                                          .unfocus();
+                                                    },
+                                                  );
+                                                },
+                                              );
+                                            }),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Checkbox(
+                                                fillColor:
+                                                    MaterialStatePropertyAll(
+                                                        Color(0xffD9D9D9)),
+                                                side: BorderSide(
+                                                    color: Colors.transparent),
+                                                value: context
+                                                    .watch<RememberMeCubit>()
+                                                    .state
+                                                    .rememberMe,
+                                                onChanged: (value) => context
+                                                    .read<RememberMeCubit>()
+                                                    .rememberMeTicked(value!),
+                                              ),
+                                              TextFieldLabel(
+                                                  label: "Remember Me"),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          AnimatedContainer(
+                                            duration: Duration(seconds: 2),
+                                            width: !(context
+                                                        .watch<LoginBloc>()
+                                                        .state ==
+                                                    LoginLoading())
+                                                ? MediaQuery.of(context)
+                                                    .size
+                                                    .width
+                                                : 0,
+                                            child: MaterialButton(
+                                              onPressed: !(context
+                                                          .watch<LoginBloc>()
+                                                          .state ==
+                                                      LoginLoading())
+                                                  ? () {
+                                                      if (state.formKey!
+                                                          .currentState!
+                                                          .validate()) {
+                                                        context
+                                                            .read<LoginBloc>()
+                                                            .add(LoginClickedEvent(
+                                                                rememberMe: context
+                                                                    .read<
+                                                                        RememberMeCubit>()
+                                                                    .state
+                                                                    .rememberMe,
+                                                                email: state
+                                                                    .email
+                                                                    .value,
+                                                                password: state
+                                                                    .password1
+                                                                    .value));
+                                                      }
+                                                    }
+                                                  : null,
+                                              minWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: 48,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              textColor: Colors.white,
+                                              color: Color(0xff546464),
+                                              child: Text("Login"),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(
+                                                        context, "/forgotPass");
+                                                  },
+                                                  child: Text(
+                                                    "Forgot Password",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xff29383F),
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                )
+                                              ]),
+                                          SizedBox(
+                                            height: 70,
+                                          ),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text("Donot have and account?"),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(
+                                                        context, "/signUp");
+                                                    state.formKey!.currentState!
+                                                        .reset();
+                                                  },
+                                                  child: Text(
+                                                    "Register",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xff29383F),
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                )
+                                              ]),
+                                        ],
+                                      ),
+                                    ),
+                                    // height: 700,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffECEFF1),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10))),
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
+                                )
+                                // AnimatedContainer(
+                                //   height: context
+                                //           .watch<ClickedItemCubit>()
+                                //           .state
+                                //           .clicked
+                                //       ? 200
+                                //       : 0,
+                                //   width: context
+                                //           .watch<ClickedItemCubit>()
+                                //           .state
+                                //           .clicked
+                                //       ? 200
+                                //       : 0,
+                                //   duration: Duration(seconds: 1),
+                                //   decoration: BoxDecoration(
+                                //       image: DecorationImage(
+                                //           image: AssetImage(
+                                //             "assets/images/location.png",
+                                //           ),
+                                //           fit: BoxFit.contain)),
+                                // ),
+                                // SizedBox(
+                                //   height: 20,
+                                // ),
+                                // TextFieldLabel(
+                                //   label: "Email :",
+                                // ),
+                                // CustomFormField(
+                                //   inputFormatters: [],
+                                //   onChange: (p0) => context.read<FormBloc>()
+                                //     ..add(EmailChangedEvent(
+                                //         email: BlocFormItem(value: p0!))),
+                                //   onTap: () => context
+                                //       .read<ClickedItemCubit>()
+                                //       .clicked(),
+                                //   onTapOutside: (event) {
+                                //     context.read<ClickedItemCubit>()
+                                //       ..unclicked();
+                                //     FocusScope.of(context).unfocus();
+                                //   },
+                                //   validatior: (p0) {
+                                //     if (p0!.isEmpty) {
+                                //       return "The Email Field cannot be null";
+                                //     }
+                                //     if (!p0.isValidEmail) {
+                                //       return "Please Enter Valid Email";
+                                //     }
+                                //     return null;
+                                //   },
+                                // ),
+                                // SizedBox(
+                                //   height: 20,
+                                // ),
+                                // TextFieldLabel(
+                                //   label: "Password :",
+                                // ),
+                                // BlocProvider(
+                                //   create: (_) => EyeButtonCubit(),
+                                //   child: Builder(builder: (context) {
+                                //     return BlocBuilder<EyeButtonCubit,
+                                //         EyeButtonState>(
+                                //       builder: (context, state) {
+                                //         bool obscureText = state.clickedEye;
+                                //         return CustomFormField(
+                                //           icon: IconButton(
+                                //               onPressed: () {
+                                //                 context
+                                //                     .read<EyeButtonCubit>()
+                                //                     .pressedEyeButton(
+                                //                         !obscureText);
+                                //               },
+                                //               icon: !obscureText
+                                //                   ? Icon(CupertinoIcons.eye)
+                                //                   : Icon(CupertinoIcons
+                                //                       .eye_slash)),
+                                //           obscureText: obscureText,
+                                //           validatior: (p0) {
+                                //             if (p0!.isEmpty) {
+                                //               return "The password field cannot be null";
+                                //             }
+                                //             return null;
+                                //           },
+                                //           onChange: (p0) =>
+                                //               context.read<FormBloc>()
+                                //                 ..add(Password1ChangedEvent(
+                                //                     password: BlocFormItem(
+                                //                         value: p0!))),
+                                //           inputFormatters: [],
+                                //           onTap: () => context
+                                //               .read<ClickedItemCubit>()
+                                //               .clicked(),
+                                //           onTapOutside: (event) {
+                                //             context.read<ClickedItemCubit>()
+                                //               ..unclicked();
+                                //             FocusScope.of(context).unfocus();
+                                //           },
+                                //         );
+                                //       },
+                                //     );
+                                //   }),
+                                // ),
+                                // SizedBox(
+                                //   height: 10,
+                                // ),
+                                // Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Row(
+                                //     children: [
+                                //       Checkbox(
+                                //         fillColor: MaterialStatePropertyAll(
+                                //             Color(0xffD9D9D9)),
+                                //         side: BorderSide(
+                                //             color: Colors.transparent),
+                                //         value: context
+                                //             .watch<RememberMeCubit>()
+                                //             .state
+                                //             .rememberMe,
+                                //         onChanged: (value) => context
+                                //             .read<RememberMeCubit>()
+                                //             .rememberMeTicked(value!),
+                                //       ),
+                                //       TextFieldLabel(label: "Remember Me")
+                                //     ],
+                                //   ),
+                                // ),
+                                // SizedBox(
+                                //   height: 10,
+                                // ),
+                                // AnimatedContainer(
+                                //   duration: Duration(seconds: 2),
+                                //   width: !(context.watch<LoginBloc>().state ==
+                                //           LoginLoading())
+                                //       ? MediaQuery.of(context).size.width
+                                //       : 0,
+                                //   child: MaterialButton(
+                                //     onPressed: !(context
+                                //                 .watch<LoginBloc>()
+                                //                 .state ==
+                                //             LoginLoading())
+                                //         ? () {
+                                //             if (state.formKey!.currentState!
+                                //                 .validate()) {
+                                //               context.read<LoginBloc>().add(
+                                //                   LoginClickedEvent(
+                                //                       rememberMe: context
+                                //                           .read<
+                                //                               RememberMeCubit>()
+                                //                           .state
+                                //                           .rememberMe,
+                                //                       email:
+                                //                           state.email.value,
+                                //                       password: state
+                                //                           .password1.value));
+                                //             }
+                                //           }
+                                //         : null,
+                                //     minWidth:
+                                //         MediaQuery.of(context).size.width,
+                                //     height: 48,
+                                //     shape: RoundedRectangleBorder(
+                                //         borderRadius:
+                                //             BorderRadius.circular(5)),
+                                //     textColor: Colors.white,
+                                //     color: Color(0xff546464),
+                                //     child: Text("Login"),
+                                //   ),
+                                // ),
+                                // SizedBox(
+                                //   height: 10,
+                                // ),
+                                // Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       TextButton(
+                                //         onPressed: () {
+                                //           Navigator.pushNamed(
+                                //               context, "/forgotPass");
+                                //         },
+                                //         child: Text(
+                                //           "Forgot Password",
+                                //           style: TextStyle(
+                                //               color: Color(0xff29383F),
+                                //               fontWeight: FontWeight.w500),
+                                //         ),
+                                //       )
+                                //     ]),
+                                // Row(
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.start,
+                                //     children: [
+                                //       Text("Not an User? "),
+                                //       TextButton(
+                                //         onPressed: () {
+                                //           Navigator.pushNamed(
+                                //               context, "/signUp");
+                                //           state.formKey!.currentState!
+                                //               .reset();
+                                //         },
+                                //         child: Text(
+                                //           "Register",
+                                //           style: TextStyle(
+                                //               color: Color(0xff29383F),
+                                //               fontWeight: FontWeight.w500),
+                                //         ),
+                                //       )
+                                //     ])
+                              ],
                             ),
                           ),
                         ),

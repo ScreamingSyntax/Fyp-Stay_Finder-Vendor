@@ -17,10 +17,18 @@ class NavBarMain extends StatelessWidget {
         bottomNavigationBar: CurvedNavigationBar(
           index: context.watch<NavBarIndexCubit>().state.index,
           backgroundColor: Colors.transparent,
-          color: Color(0xffdff7e6),
+          color: Color(0xff263238),
           items: getNavBarItems(),
           onTap: (index) {
             print(index);
+
+            if (index == 2) {
+              var state = context.read<LoginBloc>().state;
+              if (state is LoginLoaded) {
+                context.read<FetchBookingRequestCubit>()
+                  ..fetchBookingRequests(token: state.successModel.token!);
+              }
+            }
             context.read<NavBarIndexCubit>().changeIndex(index);
           },
         ),

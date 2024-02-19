@@ -1,5 +1,7 @@
+import 'package:stayfinder_vendor/data/model/model_exports.dart';
 import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
 import 'package:stayfinder_vendor/presentation/screens/confirm_payment_screen.dart';
+import 'package:stayfinder_vendor/presentation/screens/tier_transaction_screen.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 
 import '../../constants/constants_exports.dart';
@@ -9,8 +11,9 @@ class RenewSubscriptionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffECEFF1),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20.0),
         child: BlocBuilder<RadioListTileCubit, RadioListTileState>(
           builder: (_, radiolistTileState) {
             return CustomMaterialButton(
@@ -20,7 +23,7 @@ class RenewSubscriptionScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => ConfirmPaymentScreen(
+                          builder: (_) => TierTransactionScreen(
                               tier: radiolistTileState.currentValue!)));
                 },
                 child: Text("Continue to Payment"),
@@ -48,8 +51,12 @@ class RenewSubscriptionScreen extends StatelessWidget {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          SizedBox(
+                            height: 15,
+                          ),
                           ListView.builder(
                             shrinkWrap: true,
+                            padding: EdgeInsets.all(0),
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: radioState.groupValue!.length,
                             itemBuilder: (context, index) {
@@ -72,9 +79,9 @@ class RenewSubscriptionScreen extends StatelessWidget {
                                     child: CustomPoppinsText(
                                       text:
                                           "${radioState.groupValue![index].name!}",
-                                      fontSize: 16,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w500,
-                                      color: Color(0xff32454D).withOpacity(0.8),
+                                      color: Color(0xff32454D),
                                       // color: Colors.blue, // Example text color
                                     ),
                                   ),
@@ -84,7 +91,7 @@ class RenewSubscriptionScreen extends StatelessWidget {
                                     child: CustomPoppinsText(
                                       text:
                                           "${radioState.groupValue![index].description!} at only ${radioState.groupValue![index].price} Rupee.",
-                                      fontSize: 12,
+                                      fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       color: Color(0xff32454D).withOpacity(0.8),
                                     ),
@@ -158,7 +165,7 @@ class UpperRenewSubscriptionBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 270,
+      height: 290,
       child: Column(
         children: [
           SizedBox(
@@ -177,19 +184,24 @@ class UpperRenewSubscriptionBody extends StatelessWidget {
                         children: [
                           Text(
                             "Stay",
-                            style:
-                                TextStyle(fontFamily: 'Slackey', fontSize: 24),
+                            style: TextStyle(
+                              fontFamily: 'Slackey',
+                              fontSize: 24,
+                              color: Colors.white,
+                            ),
                           ),
                           CustomPoppinsText(
                             fontSize: 22,
                             fontWeight: FontWeight.w500,
                             text: "finder",
+                            color: Colors.white,
                           )
                         ],
                       ),
                       CustomPoppinsText(
                           text: "Renew Subscription",
                           fontSize: 16,
+                          color: Colors.white,
                           fontWeight: FontWeight.w500),
                     ]),
               ),
@@ -271,26 +283,23 @@ class UpperRenewSubscriptionBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomPoppinsText(
-                            text: "Last Month",
+                            text: "Last Payment",
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Color(
-                              0xff29383F,
-                            ),
+                            color: Colors.white,
                           ),
                           CustomPoppinsText(
                               text:
                                   "Rs ${fetchTransactionState.transactionHistory.last.paid_amount!}",
                               fontSize: 14,
+                              color: Colors.white,
                               fontWeight: FontWeight.w300),
                         ],
                       ),
                       Container(
                         height: 20,
                         child: VerticalDivider(
-                          color: Color(
-                            0xff29383F,
-                          ),
+                          color: Colors.white,
                           thickness: 1,
                           width: 1,
                         ),
@@ -299,16 +308,14 @@ class UpperRenewSubscriptionBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomPoppinsText(
-                            text: "Total Paid",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(
-                              0xff29383F,
-                            ),
-                          ),
+                              text: "Total Paid",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
                           CustomPoppinsText(
                               text: "Rs ${sumTotalMoney()}",
                               fontSize: 14,
+                              color: Colors.white,
                               fontWeight: FontWeight.w300),
                           // Divider()
                         ],
@@ -324,7 +331,7 @@ class UpperRenewSubscriptionBody extends StatelessWidget {
       ),
       margin: EdgeInsets.all(0.2),
       decoration: BoxDecoration(
-          color: Color(0xffDAD7CD),
+          color: Color(0xff37474F),
           border: Border.all(
             color: Color(
               0xff29383F,

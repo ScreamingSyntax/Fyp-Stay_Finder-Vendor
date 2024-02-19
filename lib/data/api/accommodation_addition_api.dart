@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:stayfinder_vendor/constants/constants_exports.dart';
 import 'package:http/http.dart' as http;
 import './api_exports.dart';
@@ -24,6 +25,24 @@ class AccommodationAdditionApi {
     } catch (e) {
       print(e);
       return [Accommodation.withError(error: "Connection Error")];
+    }
+  }
+
+  Future<Success> reSubmitForVerification(
+      {required int accommodationId, required String token}) async {
+    try {
+      final url = "${getIp()}accommodation/reVerify/";
+      final request = await http.post(Uri.parse(url),
+          body: jsonEncode({'accommodation': accommodationId}),
+          headers: {
+            'Authorization': 'Token $token',
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+      final response = json.decode(request.body);
+      return Success.fromMap(response);
+    } catch (e) {
+      return Success(
+          success: 0, message: "Please check your internet connection");
     }
   }
 

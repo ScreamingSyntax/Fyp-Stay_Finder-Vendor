@@ -11,3 +11,5 @@ export 'room_model.dart';
 export 'hotel_tier.dart';
 export 'booking_request_model.dart';
 export 'room_accommodation_model.dart';
+export 'review_model.dart';
+export 'notification_model.dart';

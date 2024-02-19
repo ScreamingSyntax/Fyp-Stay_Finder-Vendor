@@ -60,6 +60,7 @@ class InformationScreen extends StatelessWidget {
                 }
               },
               child: Scaffold(
+                backgroundColor: Color(0xffECEFF1),
                 appBar: PreferredSize(
                     preferredSize: Size.fromHeight(100),
                     child: InformationScreenAppBar(
@@ -69,6 +70,9 @@ class InformationScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        SizedBox(
+                          height: 20,
+                        ),
                         // if (fetchVendorState.vendorProfile.is_rejected ==
                         //     'True')
                         fetchVendorState.vendorProfile.is_rejected == 'True'
@@ -77,13 +81,23 @@ class InformationScreen extends StatelessWidget {
                               )
                             : SizedBox(),
                         Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
+                          // margin: EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 30),
                           decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0,
+                                      0.1), // Semi-transparent black for a subtle shadow
+                                  offset: Offset(0,
+                                      2), // Shadow is slightly shifted downwards
+                                  blurRadius:
+                                      8.0, // Moderate blur radius for a soft shadow effect
+                                  spreadRadius:
+                                      -1.0, // Negative spread radius to fine-tune the shadow size
+                                ),
+                              ],
                               color: Color(
-                                0xffDAD7CD,
+                                0xffFFFFFF,
                               ),
                               borderRadius: BorderRadius.circular(5)),
                           width: MediaQuery.of(context).size.width,
@@ -652,6 +666,10 @@ class InformationScreenAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Color(
+        0xff263238,
+      ),
+      foregroundColor: Colors.white,
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 20),
@@ -659,11 +677,8 @@ class InformationScreenAppBar extends StatelessWidget {
               width: 120,
               height: 40,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Color(
-                    0xffDAD7CD,
-                  ),
-                  borderRadius: BorderRadius.circular(50)),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(50)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -671,18 +686,29 @@ class InformationScreenAppBar extends StatelessWidget {
                     (fetchVendorState.vendorProfile.is_verified == "True")
                         ? Icons.verified
                         : Icons.error,
+                    color: Colors.white,
                     size: 20,
                   ),
                   (fetchVendorState.vendorProfile.is_verified == "True")
-                      ? Text("Verified")
-                      : Text("Unverified")
+                      ? Text(
+                          "Verified",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          "Unverified",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        )
                 ],
               )),
         )
       ],
       title: Text(
         "My Information",
-        style: TextStyle(fontSize: 16),
+        style: TextStyle(fontSize: 16, color: Colors.white),
       ),
     );
   }

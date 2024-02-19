@@ -8,6 +8,7 @@ class RenewTierApiProvider {
       required methodOfPayment,
       required String transactionId,
       required String paidAmount,
+      required String paidTill,
       required String token}) async {
     try {
       Uri uri = Uri.parse("${getIp()}tier/renewTier/");
@@ -18,9 +19,10 @@ class RenewTierApiProvider {
           },
           body: jsonEncode({
             'tier': tier,
+            'paid_till': paidTill,
+            'paid_amount': paidAmount,
             'method_of_payment': methodOfPayment,
             'transaction_id': transactionId,
-            'paid_amount': paidAmount
           }));
       print(response.body);
       if (response.statusCode == 200) {

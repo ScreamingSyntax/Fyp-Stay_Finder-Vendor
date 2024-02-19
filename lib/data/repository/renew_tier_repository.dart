@@ -8,8 +8,10 @@ class RenewTierRepository {
       required String methodOfPayment,
       required String transactionId,
       required String paidAmount,
+      required String paidTill,
       required String token}) async {
     return await renewTierApiProvider.renewSubscription(
+        paidTill: paidTill,
         tier: tier,
         methodOfPayment: methodOfPayment,
         transactionId: transactionId,

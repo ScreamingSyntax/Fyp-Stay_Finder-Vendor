@@ -98,6 +98,12 @@ class AppRouter {
             data: routeSettings.arguments! as Map,
           ),
         );
+      case "/resetPass":
+        return MaterialPageRoute(builder: (_) => ResetPasswordScreen());
+      case "/revenue":
+        return MaterialPageRoute(builder: (_) => MonitorRevenueScreen());
+      case "/forgotPass":
+        return MaterialPageRoute(builder: (_) => ForgotPasswordEmailScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

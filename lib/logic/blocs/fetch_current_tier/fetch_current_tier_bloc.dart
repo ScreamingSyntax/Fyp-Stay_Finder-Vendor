@@ -14,7 +14,12 @@ class FetchCurrentTierBloc
     on<FetchCurrentTierHitEvent>((event, emit) async {
       await fetchCurrentTier(event: event, emit: emit, repository: repository);
     });
+    on<FetchCurrentTierClearEvent>(resetCurrentTier);
   }
+
+  Future<void> resetCurrentTier(FetchCurrentTierClearEvent event,
+          Emitter<FetchCurrentTierState> emit) async =>
+      emit(FetchCurrentTierInitial());
   Future<void> fetchCurrentTier(
       {required FetchCurrentTierHitEvent event,
       required Emitter<FetchCurrentTierState> emit,

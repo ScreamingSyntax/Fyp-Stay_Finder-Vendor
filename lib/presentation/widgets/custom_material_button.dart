@@ -56,11 +56,16 @@ class UpperBody extends StatelessWidget {
                   children: [
                     Text(
                       "Stay",
-                      style: TextStyle(fontFamily: 'Slackey', fontSize: 24),
+                      style: TextStyle(
+                        fontFamily: 'Slackey',
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
                     ),
                     CustomPoppinsText(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,
+                      color: Colors.white,
                       text: "finder",
                     )
                   ],
@@ -74,16 +79,19 @@ class UpperBody extends StatelessWidget {
                         return CustomPoppinsText(
                             text: "Hi ${state.vendorModel.fullName}",
                             fontSize: 16,
+                            color: Colors.white,
                             fontWeight: FontWeight.normal);
                       }
                       return CustomPoppinsText(
                           text: "Hi There,",
                           fontSize: 16,
+                          color: Colors.white,
                           fontWeight: FontWeight.normal);
                     }),
                     CustomPoppinsText(
                         text: "Good Morning",
                         fontSize: 24,
+                        color: Colors.white,
                         fontWeight: FontWeight.w700)
                     // Text("Good Morning",)
                   ],
@@ -109,7 +117,7 @@ class UpperBody extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(200),
                                   border: Border.all(
-                                      width: 2, color: Colors.black)),
+                                      width: 2, color: Colors.white)),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(200),
                                 child: CachedNetworkImage(
@@ -134,7 +142,7 @@ class UpperBody extends StatelessWidget {
       ),
       margin: EdgeInsets.all(0.2),
       decoration: BoxDecoration(
-          color: Color(0xffDAD7CD),
+          color: Color(0xff37474F),
           border: Border.all(
             color: Color(
               0xff29383F,

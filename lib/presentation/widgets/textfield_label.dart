@@ -12,7 +12,7 @@ class TextFieldLabel extends StatelessWidget {
         Text(
           label,
           style:
-              TextStyle(color: Color(0xff29383F), fontWeight: FontWeight.w500),
+              TextStyle(color: Color(0xff212121), fontWeight: FontWeight.w500),
         )
       ],
     );

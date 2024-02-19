@@ -42,6 +42,8 @@ class FetchBookingRequestCubit extends Cubit<FetchBookingRequestState> {
     }
   }
 
+  void resetBookings() => emit(FetchBookingRequestInitial());
+
   @override
   void onChange(Change<FetchBookingRequestState> change) {
     print(

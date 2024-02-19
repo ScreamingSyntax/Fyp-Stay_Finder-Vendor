@@ -13,11 +13,13 @@ class RenewSubscriptionHitEvent extends RenewSubscriptionEvent {
   final String transactionId;
   final String paidAmount;
   final String token;
+  final String paidTill;
 
   RenewSubscriptionHitEvent(
       {required this.tier,
       required this.methodOfPayment,
       required this.transactionId,
       required this.paidAmount,
+      required this.paidTill,
       required this.token});
 }

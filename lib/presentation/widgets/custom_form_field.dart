@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 class CustomFormField extends StatelessWidget {
   final List<TextInputFormatter> inputFormatters;
+  final TextEditingController? controller;
   final String? Function(String?)? validatior;
   final void Function(String?)? onChange;
   final void Function()? onTap;
@@ -25,12 +26,14 @@ class CustomFormField extends StatelessWidget {
       this.icon,
       this.prefixIcon,
       this.labelText,
-      this.obscureText = false});
+      this.obscureText = false,
+      this.controller});
 
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextFormField(
-        initialValue: initialValue ?? "",
+        controller: controller,
+        initialValue: initialValue ?? null,
         obscureText: obscureText,
         keyboardType: this.keyboardType != null ? keyboardType : null,
         inputFormatters: inputFormatters,

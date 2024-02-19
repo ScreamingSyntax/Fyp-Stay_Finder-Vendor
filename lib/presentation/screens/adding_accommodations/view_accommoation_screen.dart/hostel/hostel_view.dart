@@ -85,35 +85,61 @@ class HostelSuccessScreen extends StatelessWidget {
         ),
       ],
       child: Builder(builder: (context) {
-        return BlocListener<UpdateHostelCubit, UpdateHostelState>(
-          listener: (context, state) {
-            // var state
-            // TODO: implement listener
-            if (state is UpdateHostelLoading) {
-              customScaffold(
-                  context: context,
-                  title: "Updating..",
-                  message: "Please wait, This is being updated",
-                  contentType: ContentType.warning);
-            }
-            if (state is UpdateHostelSuccessState) {
-              context.read<FetchHostelDetailsCubit>()
-                ..fetchHostelAccommodation(
-                    accommodationId: data['id'], token: token);
-              customScaffold(
-                  context: context,
-                  title: "Updated",
-                  message: state.message,
-                  contentType: ContentType.success);
-            }
-            if (state is UpdateHostelErrorState) {
-              customScaffold(
-                  context: context,
-                  title: "Error..",
-                  message: state.message,
-                  contentType: ContentType.failure);
-            }
-          },
+        return MultiBlocListener(
+          listeners: [
+            BlocListener<UpdateHostelCubit, UpdateHostelState>(
+              listener: (context, state) {
+                // var state
+                // TODO: implement listener
+                if (state is UpdateHostelLoading) {
+                  customScaffold(
+                      context: context,
+                      title: "Updating..",
+                      message: "Please wait, This is being updated",
+                      contentType: ContentType.warning);
+                }
+                if (state is UpdateHostelSuccessState) {
+                  context.read<FetchHostelDetailsCubit>()
+                    ..fetchHostelAccommodation(
+                        accommodationId: data['id'], token: token);
+                  customScaffold(
+                      context: context,
+                      title: "Updated",
+                      message: state.message,
+                      contentType: ContentType.success);
+                }
+                if (state is UpdateHostelErrorState) {
+                  customScaffold(
+                      context: context,
+                      title: "Error..",
+                      message: state.message,
+                      contentType: ContentType.failure);
+                }
+              },
+            ),
+            BlocListener<ResumbitAccommodationVerificationCubit,
+                ResumbitAccommodationVerificationState>(
+              listener: (context, state) {
+                if (state is ResubmitAccommodationVerificationSuccess) {
+                  customScaffold(
+                      context: context,
+                      title: "Success",
+                      message: state.message,
+                      contentType: ContentType.success);
+                  context.read<FetchHostelDetailsCubit>()
+                    ..fetchHostelAccommodation(
+                        accommodationId: data['id'], token: token);
+                }
+                if (state is ResubmitAccommodationVerificationError) {
+                  customScaffold(
+                      context: context,
+                      title: "Error",
+                      message: state.message,
+                      contentType: ContentType.failure);
+                }
+              },
+            ),
+          ],
           child: RefreshIndicator(
             onRefresh: () async {
               context.read<FetchHostelDetailsCubit>()
@@ -123,14 +149,16 @@ class HostelSuccessScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SafeArea(
-                    child: Container(
-                      height: 270,
-                      child: Stack(
-                        children: [
-                          CustomMainImageVIew(
-                              imageLink:
-                                  "${getIpWithoutSlash()}${fetchHostelDetailSuccess.accommodation!.image!}"),
+                  Container(
+                    height: 270,
+                    child: Stack(
+                      children: [
+                        CustomMainImageVIew(
+                            imageLink:
+                                "${getIpWithoutSlash()}${fetchHostelDetailSuccess.accommodation!.image!}"),
+                        if (fetchHostelDetailSuccess
+                                .accommodation!.is_pending! ==
+                            false)
                           Positioned(
                               right: 20,
                               top: 20,
@@ -169,61 +197,60 @@ class HostelSuccessScreen extends StatelessWidget {
                                   }
                                 },
                               )),
-                          Positioned(
-                              left: 1,
-                              bottom: -1,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (fetchHostelDetailSuccess
-                                        .accommodation!.is_pending!)
-                                      VerificationBadgeRentalRoom(
-                                        w1: Icon(
-                                          Icons.verified_outlined,
-                                          color: Colors.white,
-                                        ),
-                                        w2: CustomPoppinsText(
-                                          text: "Pending",
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                        ),
+                        Positioned(
+                            left: 1,
+                            bottom: -1,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (fetchHostelDetailSuccess
+                                      .accommodation!.is_pending!)
+                                    VerificationBadgeRentalRoom(
+                                      w1: Icon(
+                                        Icons.verified_outlined,
+                                        color: Colors.white,
                                       ),
-                                    if (fetchHostelDetailSuccess
-                                        .accommodation!.is_verified!)
-                                      VerificationBadgeRentalRoom(
-                                        w1: Icon(
-                                          Icons.verified,
-                                          color: Colors.white,
-                                        ),
-                                        w2: CustomPoppinsText(
-                                          text: "Verified",
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                        ),
+                                      w2: CustomPoppinsText(
+                                        text: "Pending",
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
                                       ),
-                                    if (fetchHostelDetailSuccess
-                                        .accommodation!.is_rejected!)
-                                      VerificationBadgeRentalRoom(
-                                        w1: Icon(
-                                          Icons.cancel,
-                                          color: Colors.white,
-                                        ),
-                                        w2: CustomPoppinsText(
-                                          text: "Rejected",
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                        ),
+                                    ),
+                                  if (fetchHostelDetailSuccess
+                                      .accommodation!.is_verified!)
+                                    VerificationBadgeRentalRoom(
+                                      w1: Icon(
+                                        Icons.verified,
+                                        color: Colors.white,
                                       ),
-                                  ],
-                                ),
-                              ))
-                        ],
-                      ),
+                                      w2: CustomPoppinsText(
+                                        text: "Verified",
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  if (fetchHostelDetailSuccess
+                                      .accommodation!.is_rejected!)
+                                    VerificationBadgeRentalRoom(
+                                      w1: Icon(
+                                        Icons.cancel,
+                                        color: Colors.white,
+                                      ),
+                                      w2: CustomPoppinsText(
+                                        text: "Rejected",
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ))
+                      ],
                     ),
                   ),
                   Padding(
@@ -241,59 +268,64 @@ class HostelSuccessScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                children: [
-                                  CustomPoppinsText(
-                                      text: fetchHostelDetailSuccess
-                                          .accommodation!.name!,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    // crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      CustomPoppinsText(
-                                          text: "Rs",
-                                          fontSize: 15,
-                                          color: Color(0xff4c4c4c),
-                                          fontWeight: FontWeight.w700),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      CustomPoppinsText(
-                                          text: fetchHostelDetailSuccess
-                                              .accommodation!.admission_rate!
-                                              .toString(),
-                                          fontSize: 23,
-                                          color: Color(0xff4c4c4c),
-                                          fontWeight: FontWeight.w700),
-                                    ],
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    CustomPoppinsText(
+                                        text: fetchHostelDetailSuccess
+                                            .accommodation!.name!,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Row(
+                                      // crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        CustomPoppinsText(
+                                            text: "Rs",
+                                            fontSize: 15,
+                                            color: Color(0xff4c4c4c),
+                                            fontWeight: FontWeight.w700),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        CustomPoppinsText(
+                                            text: fetchHostelDetailSuccess
+                                                .accommodation!.admission_rate!
+                                                .toString(),
+                                            fontSize: 23,
+                                            color: Color(0xff4c4c4c),
+                                            fontWeight: FontWeight.w700),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                               // if (fetchHostelDetailSuccess
                               //         .accommodation!.is_rejected! ||
                               //     fetchHostelDetailSuccess
                               //         .accommodation!.is_verified!)
-                              InkWell(
-                                onTap: () async {
-                                  updateRentalAccommodation(
-                                      accommodation: fetchHostelDetailSuccess
-                                          .accommodation!,
-                                      context: context);
-                                  // roomDetailsUpdateSheet(beds: fetchHostelDetailSuccess.accommodation.)
-                                  // updateRentalAccommodation(
-                                  //     context: context,
-                                  //     accommodation:
-                                  //         state.accommodation);
-                                },
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.red,
-                                ),
-                              )
+                              if (fetchHostelDetailSuccess
+                                      .accommodation!.is_pending! ==
+                                  false)
+                                InkWell(
+                                  onTap: () async {
+                                    updateRentalAccommodation(
+                                        accommodation: fetchHostelDetailSuccess
+                                            .accommodation!,
+                                        context: context);
+                                    // roomDetailsUpdateSheet(beds: fetchHostelDetailSuccess.accommodation.)
+                                    // updateRentalAccommodation(
+                                    //     context: context,
+                                    //     accommodation:
+                                    //         state.accommodation);
+                                  },
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Colors.red,
+                                  ),
+                                )
                             ],
                           ),
                           SizedBox(
@@ -472,6 +504,18 @@ class HostelSuccessScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 19,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: CustomReviewSection(
+                      context: context,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Padding(
                     padding: EdgeInsets.all(15),
                     child: Container(
@@ -553,6 +597,7 @@ class HostelSuccessScreen extends StatelessWidget {
                             Column(
                               children: [
                                 ListView.builder(
+                                  padding: EdgeInsets.all(0),
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount:
@@ -563,14 +608,14 @@ class HostelSuccessScreen extends StatelessWidget {
                                     late String imageLink;
                                     fetchHostelDetailSuccess.images!.forEach(
                                       (element) {
-                                        // print("The images are ${element}");
+                                        // print("The images are ");
                                         if (element.room == room_id) {
                                           print("It does exist");
                                           imageLink = element.images!;
                                         }
                                       },
                                     );
-                                    print("The room id is ${room_id}");
+                                    print("The room id is ");
                                     return Container(
                                       padding: EdgeInsets.all(10),
                                       child: ListTile(
@@ -601,7 +646,7 @@ class HostelSuccessScreen extends StatelessWidget {
                                           ),
                                         ),
                                         subtitle: Text(
-                                          "This room has fan for 300rs",
+                                          "This room has ${fetchHostelDetailSuccess.rooms![index].seater_beds} seater beds",
                                           style: TextStyle(
                                             fontSize: 12,
                                           ),
@@ -626,7 +671,45 @@ class HostelSuccessScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  if (fetchHostelDetailSuccess.accommodation!.is_rejected!)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Column(
+                        children: [
+                          BlocBuilder<ResumbitAccommodationVerificationCubit,
+                              ResumbitAccommodationVerificationState>(
+                            builder: (context, resubState) {
+                              if (resubState
+                                  is ResubmitAccommodationVerificationLoading) {
+                                return SizedBox();
+                              }
+                              return CustomMaterialButton(
+                                  onPressed: () {
+                                    var loginState =
+                                        context.read<LoginBloc>().state;
+                                    if (loginState is LoginLoaded) {
+                                      context.read<
+                                          ResumbitAccommodationVerificationCubit>()
+                                        ..resubmitForVerification(
+                                            token:
+                                                loginState.successModel.token!,
+                                            accommodationId: data['id']);
+                                    }
+                                  },
+                                  child: Text("Resubmit for Verification"),
+                                  backgroundColor: Color(0xff29383f),
+                                  textColor: Colors.white,
+                                  height: 45);
+                            },
+                          ),
+                          SizedBox(
+                            height: 30,
+                          )
+                        ],
+                      ),
+                    )
                 ],
               ),
             ),

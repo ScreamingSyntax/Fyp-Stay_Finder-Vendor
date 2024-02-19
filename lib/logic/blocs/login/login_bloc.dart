@@ -7,7 +7,8 @@ part 'login_state.dart';
 class LoginBloc extends HydratedBloc<LoginEvent, LoginState> {
   LoginBloc({required LoginRepository apiRepository, required bool rememberMe})
       : super(LoginInitial()) {
-    on<LoginClearEvent>((event, emit) => LoginInitial());
+    on<LoginClearEvent>((event, emit) => emit(LoginInitial()));
+
     on<LoginClickedEvent>((event, emit) async {
       try {
         emit(LoginLoading());

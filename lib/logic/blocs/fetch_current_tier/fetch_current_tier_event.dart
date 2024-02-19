@@ -12,3 +12,5 @@ class FetchCurrentTierHitEvent extends FetchCurrentTierEvent {
 
   FetchCurrentTierHitEvent({required this.token});
 }
+
+class FetchCurrentTierClearEvent extends FetchCurrentTierEvent {}

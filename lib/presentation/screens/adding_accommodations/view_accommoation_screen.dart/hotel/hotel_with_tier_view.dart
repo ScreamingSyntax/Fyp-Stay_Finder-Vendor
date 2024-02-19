@@ -34,66 +34,64 @@ class HotelWithTierView extends StatelessWidget {
   Widget build(BuildContext context) {
     // double c_width = MediaQuery.of(context).size.width * 0.8;
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xffe5e5e5),
-        body: BlocBuilder<FetchHotelWithTierCubit, FetchHotelWithTierState>(
-          builder: (context, state) {
-            if (state is FetchHotelTierLoading) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [CircularProgressIndicator()],
-                ),
-              );
-            }
-            if (state is FetchHotelWithTierError) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomPoppinsText(
-                        text: state.message,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 100.0),
-                      child: CustomMaterialButton(
-                          onPressed: () async {
-                            CallHotelWithTierAPi.fetchHotelWithTierApis(
-                                context: context,
-                                token: data['token'],
-                                accommodationID: data['id'].toString());
-                            // fetchHotelWithTierApis(
-                            //     accommodationID: data['id'].toString(),
-                            //     token: data['token'],
-                            //     context: context);
-                          },
-                          child: Text("Retry"),
-                          backgroundColor: Color(0xff4C4C4C),
-                          textColor: Colors.white,
-                          height: 45),
-                    )
-                  ],
-                ),
-              );
-            }
-            if (state is FetchHotelTierSuccess) {
-              return HotelWithTierSuccessViewScreen(
-                data: data,
-                fetchHotelTierSuccess: state,
-              );
-            }
-            return Column(
-              children: [],
+    return Scaffold(
+      backgroundColor: Color(0xffe5e5e5),
+      body: BlocBuilder<FetchHotelWithTierCubit, FetchHotelWithTierState>(
+        builder: (context, state) {
+          if (state is FetchHotelTierLoading) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [CircularProgressIndicator()],
+              ),
             );
-          },
-        ),
+          }
+          if (state is FetchHotelWithTierError) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomPoppinsText(
+                      text: state.message,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 100.0),
+                    child: CustomMaterialButton(
+                        onPressed: () async {
+                          CallHotelWithTierAPi.fetchHotelWithTierApis(
+                              context: context,
+                              token: data['token'],
+                              accommodationID: data['id'].toString());
+                          // fetchHotelWithTierApis(
+                          //     accommodationID: data['id'].toString(),
+                          //     token: data['token'],
+                          //     context: context);
+                        },
+                        child: Text("Retry"),
+                        backgroundColor: Color(0xff4C4C4C),
+                        textColor: Colors.white,
+                        height: 45),
+                  )
+                ],
+              ),
+            );
+          }
+          if (state is FetchHotelTierSuccess) {
+            return HotelWithTierSuccessViewScreen(
+              data: data,
+              fetchHotelTierSuccess: state,
+            );
+          }
+          return Column(
+            children: [],
+          );
+        },
       ),
     );
   }
@@ -825,36 +823,63 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
       create: (context) =>
           ImageHelperCubit()..imageHelperAccess(imageHelper: ImageHelper()),
       child: Builder(builder: (context) {
-        return BlocListener<UpdateHotelWithTierCubit, UpdateHotelWithTierState>(
-          listener: (context, state) {
-            if (state is UpdateHotelWithTierLoading) {
-              customScaffold(
-                  context: context,
-                  title: "Loading",
-                  message: "Please Waitt",
-                  contentType: ContentType.warning);
-            }
+        return MultiBlocListener(
+          listeners: [
+            BlocListener<UpdateHotelWithTierCubit, UpdateHotelWithTierState>(
+              listener: (context, state) {
+                if (state is UpdateHotelWithTierLoading) {
+                  customScaffold(
+                      context: context,
+                      title: "Loading",
+                      message: "Please Waitt",
+                      contentType: ContentType.warning);
+                }
 
-            if (state is UpdateHotelWithTierSuccess) {
-              CallHotelWithTierAPi.fetchHotelWithTierApis(
-                  context: context,
-                  token: data['token'],
-                  accommodationID: data['id'].toString());
-              customScaffold(
-                  context: context,
-                  title: "Success",
-                  message: state.message,
-                  contentType: ContentType.success);
-            }
+                if (state is UpdateHotelWithTierSuccess) {
+                  CallHotelWithTierAPi.fetchHotelWithTierApis(
+                      context: context,
+                      token: data['token'],
+                      accommodationID: data['id'].toString());
+                  customScaffold(
+                      context: context,
+                      title: "Success",
+                      message: state.message,
+                      contentType: ContentType.success);
+                }
 
-            if (state is UpdateHotelWithTierError) {
-              customScaffold(
-                  context: context,
-                  title: "Error",
-                  message: state.message,
-                  contentType: ContentType.failure);
-            }
-          },
+                if (state is UpdateHotelWithTierError) {
+                  customScaffold(
+                      context: context,
+                      title: "Error",
+                      message: state.message,
+                      contentType: ContentType.failure);
+                }
+              },
+            ),
+            BlocListener<ResumbitAccommodationVerificationCubit,
+                ResumbitAccommodationVerificationState>(
+              listener: (context, state) {
+                if (state is ResubmitAccommodationVerificationSuccess) {
+                  customScaffold(
+                      context: context,
+                      title: "Success",
+                      message: state.message,
+                      contentType: ContentType.success);
+                  CallHotelWithTierAPi.fetchHotelWithTierApis(
+                      context: context,
+                      token: data['token'],
+                      accommodationID: data['id'].toString());
+                }
+                if (state is ResubmitAccommodationVerificationError) {
+                  customScaffold(
+                      context: context,
+                      title: "Error",
+                      message: state.message,
+                      contentType: ContentType.failure);
+                }
+              },
+            ),
+          ],
           child: RefreshIndicator(
             onRefresh: () async {
               CallHotelWithTierAPi.fetchHotelWithTierApis(
@@ -872,44 +897,47 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                         CustomMainImageVIew(
                             imageLink:
                                 "${getIpWithoutSlash()}${fetchHotelTierSuccess.accommodation.image}"),
-                        Positioned(
-                            right: 20,
-                            top: 20,
-                            child: EditDeleteButtonWidget(
-                                deleteOnTap: () async {},
-                                editOnTap: () async {
-                                  var imageHelper = context
-                                      .read<ImageHelperCubit>()
-                                      .state
-                                      .imageHelper!;
-                                  final files = await imageHelper.pickImage();
-                                  if (files.isNotEmpty) {
-                                    final croppedFile = await imageHelper.crop(
-                                        file: files.first,
-                                        cropStyle: CropStyle.rectangle);
-                                    print("This is cropped file ");
-                                    if (croppedFile != null) {
-                                      context.read<UpdateHotelWithTierCubit>()
-                                        ..updateAccommodationImage(
-                                            accommodation_id: data['id'],
-                                            token: data['token'],
-                                            image: File(croppedFile.path));
-                                      // var loginState = context.read<LoginBloc>().state;
-                                      // print("The file is ${File(croppedFile.path)}");
-                                      // File file = File(croppedFile.path);
-                                      // if (loginState is LoginLoaded) {
-                                      //   await context.read<UpdateHotelWithoutTierCubit>()
-                                      //     ..updateAccommodationImage(
-                                      //         token: loginState.successModel.token!,
-                                      //         image: file,
-                                      //         id: data['id']);
-                                      //   await callHotelWithoutTierApis(
-                                      //       accommodationID: data['id'],
-                                      //       context: context,
-                                      //       token: data['token']);
+                        if (fetchHotelTierSuccess.accommodation.is_pending! ==
+                            false)
+                          Positioned(
+                              right: 20,
+                              top: 20,
+                              child: EditDeleteButtonWidget(
+                                  deleteOnTap: () async {},
+                                  editOnTap: () async {
+                                    var imageHelper = context
+                                        .read<ImageHelperCubit>()
+                                        .state
+                                        .imageHelper!;
+                                    final files = await imageHelper.pickImage();
+                                    if (files.isNotEmpty) {
+                                      final croppedFile =
+                                          await imageHelper.crop(
+                                              file: files.first,
+                                              cropStyle: CropStyle.rectangle);
+                                      print("This is cropped file ");
+                                      if (croppedFile != null) {
+                                        context.read<UpdateHotelWithTierCubit>()
+                                          ..updateAccommodationImage(
+                                              accommodation_id: data['id'],
+                                              token: data['token'],
+                                              image: File(croppedFile.path));
+                                        // var loginState = context.read<LoginBloc>().state;
+                                        // print("The file is ${File(croppedFile.path)}");
+                                        // File file = File(croppedFile.path);
+                                        // if (loginState is LoginLoaded) {
+                                        //   await context.read<UpdateHotelWithoutTierCubit>()
+                                        //     ..updateAccommodationImage(
+                                        //         token: loginState.successModel.token!,
+                                        //         image: file,
+                                        //         id: data['id']);
+                                        //   await callHotelWithoutTierApis(
+                                        //       accommodationID: data['id'],
+                                        //       context: context,
+                                        //       token: data['token']);
+                                      }
                                     }
-                                  }
-                                })),
+                                  })),
                         Positioned(
                             left: 1,
                             bottom: -1,
@@ -981,30 +1009,35 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  children: [
-                                    CustomPoppinsText(
-                                        text: fetchHotelTierSuccess
-                                            .accommodation.name!,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    await editAccommodaiton(
-                                        accommodation:
-                                            fetchHotelTierSuccess.accommodation,
-                                        context: context);
-                                  },
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: Colors.red,
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      CustomPoppinsText(
+                                          text: fetchHotelTierSuccess
+                                              .accommodation.name!,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                    ],
                                   ),
-                                )
+                                ),
+                                if (fetchHotelTierSuccess
+                                        .accommodation.is_pending! !=
+                                    true)
+                                  InkWell(
+                                    onTap: () async {
+                                      await editAccommodaiton(
+                                          accommodation: fetchHotelTierSuccess
+                                              .accommodation,
+                                          context: context);
+                                    },
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.red,
+                                    ),
+                                  )
                               ],
                             ),
                             SizedBox(
@@ -1099,6 +1132,18 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                           ]),
                     ),
                   ),
+                  SizedBox(
+                    height: 19,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: CustomReviewSection(
+                      context: context,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Container(
@@ -1113,7 +1158,7 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 350,
+                    height: 400,
                     // width: 100,
                     child: ListView.builder(
                         itemCount: fetchHotelTierSuccess.tier.length,
@@ -1206,62 +1251,67 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          Positioned(
-                                              right: 30,
-                                              top: 40,
-                                              child: Row(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      editTier(
-                                                          tier: hotelTier,
-                                                          context: context,
-                                                          token: data['token'],
-                                                          id: hotelTier.id!);
-                                                    },
-                                                    child: Container(
-                                                        height: 35,
-                                                        width: 35,
-                                                        // padding: EdgeInsets.all(10),
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
-                                                        child:
-                                                            Icon(Icons.edit)),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      context.read<
-                                                          UpdateHotelWithTierCubit>()
-                                                        ..deleteTier(
+                                          if (fetchHotelTierSuccess
+                                                  .accommodation.is_pending !=
+                                              true)
+                                            Positioned(
+                                                right: 30,
+                                                top: 40,
+                                                child: Row(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        editTier(
+                                                            tier: hotelTier,
+                                                            context: context,
                                                             token:
                                                                 data['token'],
-                                                            hotelTierId:
-                                                                hotelTier.id
-                                                                    .toString());
-                                                    },
-                                                    child: Container(
-                                                        height: 35,
-                                                        width: 35,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.red,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
-                                                        child: Icon(
-                                                          Icons.delete,
-                                                          color: Colors.white,
-                                                        )),
-                                                  ),
-                                                ],
-                                              ))
+                                                            id: hotelTier.id!);
+                                                      },
+                                                      child: Container(
+                                                          height: 35,
+                                                          width: 35,
+                                                          // padding: EdgeInsets.all(10),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5)),
+                                                          child:
+                                                              Icon(Icons.edit)),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        context.read<
+                                                            UpdateHotelWithTierCubit>()
+                                                          ..deleteTier(
+                                                              token:
+                                                                  data['token'],
+                                                              hotelTierId:
+                                                                  hotelTier.id
+                                                                      .toString());
+                                                      },
+                                                      child: Container(
+                                                          height: 35,
+                                                          width: 35,
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.red,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5)),
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            color: Colors.white,
+                                                          )),
+                                                    ),
+                                                  ],
+                                                ))
                                         ],
                                       ),
                                       SizedBox(
@@ -1327,7 +1377,7 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                                                           ),
                                                           CustomPoppinsText(
                                                               text:
-                                                                  "${startingPrice} - ${endingPrice}",
+                                                                  "$startingPrice -  $endingPrice",
                                                               color: Colors.red,
                                                               fontSize: 14,
                                                               fontWeight:
@@ -1384,7 +1434,47 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  if (fetchHotelTierSuccess.accommodation.is_rejected!)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Column(
+                        children: [
+                          BlocBuilder<ResumbitAccommodationVerificationCubit,
+                              ResumbitAccommodationVerificationState>(
+                            builder: (context, resubState) {
+                              if (resubState
+                                  is ResubmitAccommodationVerificationLoading) {
+                                return SizedBox();
+                              }
+                              return CustomMaterialButton(
+                                  onPressed: () {
+                                    var loginState =
+                                        context.read<LoginBloc>().state;
+                                    if (loginState is LoginLoaded) {
+                                      context.read<
+                                          ResumbitAccommodationVerificationCubit>()
+                                        ..resubmitForVerification(
+                                            token:
+                                                loginState.successModel.token!,
+                                            accommodationId:
+                                                fetchHotelTierSuccess
+                                                    .accommodation.id!);
+                                    }
+                                  },
+                                  child: Text("Resubmit for Verification"),
+                                  backgroundColor: Color(0xff29383f),
+                                  textColor: Colors.white,
+                                  height: 45);
+                            },
+                          ),
+                          SizedBox(
+                            height: 30,
+                          )
+                        ],
+                      ),
+                    )
                 ],
               ),
             ),

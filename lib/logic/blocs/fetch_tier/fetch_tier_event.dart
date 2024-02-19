@@ -11,3 +11,5 @@ class FetchTierHitEvent extends FetchTierEvent {
   final String token;
   FetchTierHitEvent({required this.token});
 }
+
+class FetchTierClearEvent extends FetchTierEvent {}

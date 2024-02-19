@@ -11,8 +11,11 @@ class FetchTierBloc extends HydratedBloc<FetchTierEvent, FetchTierState> {
     on<FetchTierHitEvent>((event, emit) async {
       await fetchTier(emit: emit, event: event, tier: tier);
     });
+    on<FetchTierClearEvent>(clearTier);
   }
-
+  Future<void> clearTier(
+          FetchTierClearEvent event, Emitter<FetchTierState> emit) async =>
+      emit(FetchTierInitialState());
   Future<void> fetchTier(
       {required FetchTierHitEvent event,
       required Emitter<FetchTierState> emit,

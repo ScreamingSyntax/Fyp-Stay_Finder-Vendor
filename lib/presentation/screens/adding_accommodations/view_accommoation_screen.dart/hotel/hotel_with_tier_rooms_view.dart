@@ -931,41 +931,47 @@ class HotelWithTierRoomsView extends StatelessWidget {
   }
 
   Widget customRoomCard(
-      {required BuildContext context, required Room room, required int index}) {
+      {required BuildContext context,
+      required Room room,
+      required int index,
+      required bool isPending}) {
     return Slidable(
       closeOnScroll: true,
       endActionPane: ActionPane(
         extentRatio: 1,
         motion: ScrollMotion(),
-        children: [
-          SlidableAction(
-            onPressed: (context) async {
-              // await updateTierHotelRooms(context, index, room);
-              // print(room);
-              updateTierHotelRooms(context, index, room);
-              // await updateNonTierHotelRooms(
-              // context, index, state.room![index]!);
-            },
-            foregroundColor: Color(0xff878e92),
-            icon: Icons.edit,
-            label: 'Edit',
-          ),
-          SlidableAction(
-            onPressed: (context) {
-              context.read<UpdateHotelWithTierCubit>()
-                ..deleteRoom(token: data['token'], roomID: room.id.toString());
-              // context.read<StoreRoomsCubit>()..deleteRoom(room);
-              // customScaffold(
-              //     context: context,
-              //     title: "Success",
-              //     message: "Successfully Deleted",
-              //     contentType: ContentType.success);
-            },
-            foregroundColor: Color(0xff514f53),
-            icon: Icons.delete,
-            label: 'Delete',
-          ),
-        ],
+        children: isPending == true
+            ? []
+            : [
+                SlidableAction(
+                  onPressed: (context) async {
+                    // await updateTierHotelRooms(context, index, room);
+                    // print(room);
+                    updateTierHotelRooms(context, index, room);
+                    // await updateNonTierHotelRooms(
+                    // context, index, state.room![index]!);
+                  },
+                  foregroundColor: Color(0xff878e92),
+                  icon: Icons.edit,
+                  label: 'Edit',
+                ),
+                SlidableAction(
+                  onPressed: (context) {
+                    context.read<UpdateHotelWithTierCubit>()
+                      ..deleteRoom(
+                          token: data['token'], roomID: room.id.toString());
+                    // context.read<StoreRoomsCubit>()..deleteRoom(room);
+                    // customScaffold(
+                    //     context: context,
+                    //     title: "Success",
+                    //     message: "Successfully Deleted",
+                    //     contentType: ContentType.success);
+                  },
+                  foregroundColor: Color(0xff514f53),
+                  icon: Icons.delete,
+                  label: 'Delete',
+                ),
+              ],
       ),
       child: Container(
           padding: EdgeInsets.all(10),
@@ -1099,16 +1105,16 @@ class HotelWithTierRoomsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xffe5e5e5),
-        body: RefreshIndicator(
-          onRefresh: () async {
-            CallHotelWithTierAPi.fetchHotelWithTierApis(
-                context: context,
-                accommodationID: data['id'],
-                token: data['token']);
-          },
+    return Scaffold(
+      backgroundColor: Color(0xffe5e5e5),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          CallHotelWithTierAPi.fetchHotelWithTierApis(
+              context: context,
+              accommodationID: data['id'],
+              token: data['token']);
+        },
+        child: SafeArea(
           child: SingleChildScrollView(
             child:
                 BlocBuilder<FetchHotelWithTierCubit, FetchHotelWithTierState>(
@@ -1148,11 +1154,14 @@ class HotelWithTierRoomsView extends StatelessWidget {
                                   Navigator.pop(context);
                                 },
                                 child: Icon(Icons.arrow_back)),
-                            InkWell(
-                                onTap: () {
-                                  addTierHotelRooms(context);
-                                },
-                                child: Icon(Icons.add))
+                            if (hotelWithoutTierState
+                                    .accommodation.is_pending! !=
+                                true)
+                              InkWell(
+                                  onTap: () {
+                                    addTierHotelRooms(context);
+                                  },
+                                  child: Icon(Icons.add))
                           ],
                         ),
                       ),
@@ -1172,6 +1181,8 @@ class HotelWithTierRoomsView extends StatelessWidget {
                               //     image = roomImage.images!;
                               //   }
                               return customRoomCard(
+                                  isPending: hotelWithoutTierState
+                                      .accommodation.is_pending!,
                                   context: context,
                                   index: index,
                                   room: tierRooms[index]);

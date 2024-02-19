@@ -14,7 +14,13 @@ class FetchVendorProfileBloc
     on<HitFetchVendorProfileEvent>((event, emit) async {
       return await fetchVendorProfile(emit, event, repository);
     });
+    on<ClearVendorProfileEvent>(
+      (event, emit) {
+        emit(FetchVendorProfileInitial());
+      },
+    );
   }
+
   Future<void> fetchVendorProfile(
       Emitter<FetchVendorProfileState> emit,
       HitFetchVendorProfileEvent event,

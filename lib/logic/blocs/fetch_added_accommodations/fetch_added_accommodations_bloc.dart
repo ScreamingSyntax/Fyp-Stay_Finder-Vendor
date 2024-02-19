@@ -11,6 +11,8 @@ class FetchAddedAccommodationsBloc
     extends Bloc<FetchAddedAccommodationsEvent, FetchAddedAccommodationsState> {
   FetchAddedAccommodationsBloc({required AccommodationAdditionRepository repo})
       : super(FetchAddedAccommodationsInitial()) {
+    on<FetchAddedAccommodationResetEvent>(
+        (event, emit) => emit(FetchAddedAccommodationsInitial()));
     on<FetchAddedAccommodationHitEvent>((event, emit) async {
       try {
         emit(FetchAddedAccommodationsLoading());

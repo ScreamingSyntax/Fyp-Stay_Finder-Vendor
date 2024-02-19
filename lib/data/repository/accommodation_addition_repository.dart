@@ -11,6 +11,12 @@ class AccommodationAdditionRepository {
     return accommodationAdditionApi.fetchAccommodation(token: token);
   }
 
+  Future<Success> reSubmitForVerification(
+      {required int accommodationId, required String token}) async {
+    return await accommodationAdditionApi.reSubmitForVerification(
+        accommodationId: accommodationId, token: token);
+  }
+
   Future<Success> hotelWithTierAddition(
       {required Accommodation accommodation,
       required Map<int, Tier>? tier,

@@ -13,3 +13,7 @@ export 'transaction_history_screen.dart';
 export 'adding_accommodations/accommodation_main_screen.dart';
 export 'adding_accommodations/rental_room_addition_screen.dart';
 export 'adding_accommodations/hostel_addition_screen.dart';
+export 'review_screen.dart';
+export 'monitor_revenue_screen.dart';
+export 'reset_password_screen.dart';
+export 'forgot_password_screens/forgot_password_email_screen.dart';

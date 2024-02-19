@@ -2,7 +2,6 @@ import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stayfinder_vendor/data/model/booked_model.dart';
 import 'package:stayfinder_vendor/data/model/room_image_model.dart';
-import 'package:stayfinder_vendor/logic/cubits/fetch_particular_booking_request/fetch_particular_booking_details_cubit.dart';
 import 'package:stayfinder_vendor/presentation/screens/view_booking_details/call_booking_apis.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
 
@@ -461,6 +460,8 @@ class HostelRoomBookingHistory extends StatelessWidget {
                               height: 15,
                             ),
                             HostelViewCard(
+                              isPending:
+                                  state.accommodation!.is_pending ?? false,
                               images: state.roomImage as List<RoomImage>,
                               id: room.id!,
                               onEdit: (p0) {},

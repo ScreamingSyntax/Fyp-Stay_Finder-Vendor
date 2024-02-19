@@ -6,6 +6,8 @@ import '../../data/model/model_exports.dart';
 void showPaymentResult(BuildContext context, String title,
     {PaymentSuccessModel? successModel,
     PaymentFailureModel? failureModel,
+    String? paidTill,
+    int? paidAmount,
     Tier? tier}) {
   showDialog(
     context: context,
@@ -17,7 +19,8 @@ void showPaymentResult(BuildContext context, String title,
               tier: tier!.id!,
               methodOfPayment: 'Khalti',
               transactionId: successModel.idx,
-              paidAmount: tier.price!,
+              paidAmount: paidAmount.toString(),
+              paidTill: paidTill!,
               token: loginState.successModel.token!));
         }
       }
@@ -62,7 +65,11 @@ void onCancel(BuildContext context) {
       contentType: ContentType.success);
 }
 
-void payWithKhaltiInApp({required BuildContext context, required Tier tier}) {
+void payWithKhaltiInApp(
+    {required BuildContext context,
+    required Tier tier,
+    required int paidAmount,
+    required String paidTill}) {
   final config = PaymentConfig(
     amount: 2000,
     productIdentity: tier.description!,
@@ -73,8 +80,12 @@ void payWithKhaltiInApp({required BuildContext context, required Tier tier}) {
     config: config,
     preferences: [PaymentPreference.khalti],
     onSuccess: (successModel) => showPaymentResult(
-        context, "Successfully Paid :)",
-        successModel: successModel, tier: tier),
+        paidAmount: paidAmount,
+        context,
+        "Successfully Paid :)",
+        successModel: successModel,
+        tier: tier,
+        paidTill: paidTill),
     onCancel: () => onCancel(context),
     onFailure: (paymentFailure) => showPaymentResult(context, "Failed Bro"),
   );

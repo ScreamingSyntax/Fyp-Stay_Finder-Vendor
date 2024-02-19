@@ -8,10 +8,26 @@ import '../presentation/screens/screen_exports.dart';
 
 List<Widget> getNavBarItems() {
   return <Widget>[
-    Icon(Icons.home_outlined, size: 30),
-    Icon(CupertinoIcons.chat_bubble, size: 30),
-    Icon(CupertinoIcons.arrow_right_arrow_left_square, size: 30),
-    Icon(CupertinoIcons.bell, size: 30),
+    Icon(
+      Icons.home_outlined,
+      size: 30,
+      color: Color(0xff64FFDA),
+    ),
+    Icon(
+      CupertinoIcons.chat_bubble,
+      size: 30,
+      color: Color(0xff64FFDA),
+    ),
+    Icon(
+      CupertinoIcons.arrow_right_arrow_left_square,
+      size: 30,
+      color: Color(0xff64FFDA),
+    ),
+    Icon(
+      CupertinoIcons.bell,
+      size: 30,
+      color: Color(0xff64FFDA),
+    ),
   ];
 }
 

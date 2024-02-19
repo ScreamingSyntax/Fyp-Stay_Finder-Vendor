@@ -323,6 +323,129 @@ class HotelWithTierBookingHistory extends StatelessWidget {
                         height: 15,
                       ),
                       Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  spreadRadius: 2,
+                                  blurRadius: 7,
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            padding: EdgeInsets.all(20),
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Booking Details"),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(Icons.account_circle_outlined,
+                                                color: Color(0xff4c4c4c)),
+                                            SizedBox(width: 8),
+                                            CustomPoppinsText(
+                                                text: booked.user!.full_name!,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400)
+                                          ],
+                                        ),
+                                        SizedBox(height: 15),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.email_outlined,
+                                              color: Color(0xff4c4c4c),
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            CustomPoppinsText(
+                                                text: booked.user!.email!,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400)
+                                          ],
+                                        ),
+                                        SizedBox(height: 15),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Icon(Icons.payment_outlined,
+                                                color: Color(0xff4c4c4c)),
+                                            SizedBox(width: 8),
+                                            CustomPoppinsText(
+                                              text:
+                                                  "At Rs ${booked.paid_amount.toString()}",
+                                              fontSize: 14,
+                                              color: Color(0xff4c4c4c),
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 15),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                    Icons
+                                                        .calendar_today_outlined,
+                                                    color: Color(0xff4c4c4c)),
+                                                SizedBox(width: 8),
+                                                CustomPoppinsText(
+                                                  text: booked.check_in
+                                                      .toString(),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ],
+                                            ),
+                                            Text(" -- "),
+                                            Row(
+                                              children: [
+                                                Icon(Icons.calendar_month,
+                                                    color: Color(0xff4c4c4c)),
+                                                SizedBox(width: 8),
+                                                CustomPoppinsText(
+                                                  text: booked.check_out
+                                                      .toString(),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Container(
                           decoration: BoxDecoration(

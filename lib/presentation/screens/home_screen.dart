@@ -34,6 +34,7 @@ class HomeScreen extends StatelessWidget {
                     }
                   }
                   return Scaffold(
+                    backgroundColor: Color(0xffECEFF1),
                     body: SingleChildScrollView(
                       physics: AlwaysScrollableScrollPhysics(),
                       child: Column(
@@ -175,6 +176,7 @@ void callApis(BuildContext context, LoginLoaded loggedInStae) {
       .add(HitFetchVendorProfileEvent(token: loggedInStae.successModel.token!));
   var currentTierState = context.read<FetchVendorProfileBloc>().state;
   if (currentTierState is FetchVendorProfileLoaded) {
+    callNotificationsMethod(context);
     if (currentTierState.vendorProfile.is_verified == 'True') {
       context.read<FetchCurrentTierBloc>().add(
           FetchCurrentTierHitEvent(token: loggedInStae.successModel.token!));

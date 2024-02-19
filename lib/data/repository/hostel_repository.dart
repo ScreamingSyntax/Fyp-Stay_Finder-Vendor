@@ -46,6 +46,7 @@ class HostelRepository {
   Future<Success> updateAccommodation(
       {required String token,
       required Map<String, dynamic> accommodation}) async {
+    print(accommodation);
     return _hostelApiProvider.updateAccommodation(
         token: token, accommodation: accommodation);
   }

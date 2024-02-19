@@ -22,11 +22,6 @@ bool checkVerification(BuildContext context, LoginLoaded state) {
         DateTime paidTill =
             DateTime.parse(currentProfileState.currentTier.paid_till!);
         if (now.isAfter(paidTill)) {
-          // customScaffold(
-          //     context: context,
-          //     title: "Subscription Ended",
-          //     message: "Your Subscription has ended, please renew",
-          //     contentType: ContentType.warning);
           return false;
         }
       }
