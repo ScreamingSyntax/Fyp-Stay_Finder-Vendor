@@ -79,4 +79,12 @@ class AccommodationAdditionRepository {
         roomImage2: roomImage2,
         roomImage3: roomImage3);
   }
+
+  Future<Success> updateLocation(
+      {required String token,
+      required String latitude,
+      required String longitude}) async {
+    return await accommodationAdditionApi.updateLocation(
+        token: token, latitude: latitude, longitude: longitude);
+  }
 }

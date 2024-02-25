@@ -113,17 +113,45 @@ class HostelWithTierScreen extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  Arc(
-                    height: 50,
-                    arcType: ArcType.CONVEX,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 2.5,
-                      decoration: BoxDecoration(
-                          color: Color(0xff32454D),
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/images/Hotel_Booking-bro.png"))),
-                    ),
+                  Stack(
+                    children: [
+                      Arc(
+                        height: 50,
+                        arcType: ArcType.CONVEX,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 2.5,
+                          decoration: BoxDecoration(
+                              color: Color(0xff32454D),
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/Hotel_Booking-bro.png"))),
+                        ),
+                      ),
+                      Positioned(
+                          top: 50,
+                          left: 30,
+                          child: InkWell(
+                            onTap: () {
+                              showExitPopup(
+                                context: context,
+                                message: "Do you really want to go back?",
+                                title: "Confirmation",
+                                noBtnFunction: () {
+                                  Navigator.pop(context);
+                                },
+                                yesBtnFunction: () {
+                                  int count = 0;
+                                  Navigator.of(context)
+                                      .popUntil((_) => count++ >= 7);
+                                },
+                              );
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          ))
+                    ],
                   ),
 
                   // Text("A"),

@@ -1193,95 +1193,131 @@ class HostelWithoutTierScreen extends StatelessWidget {
         );
       },
       child: Scaffold(
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
-          child: BlocConsumer<AddHotelWithoutTierApiCallbackBlocBloc,
-              AddHotelWithoutTierApiCallbackBlocState>(
-            listener: (context, state) {
-              int count = 0;
-              if (state is AddHotelWithoutTierApiCallbackBlocSuccess) {
-                customScaffold(
-                    context: context,
-                    title: "Success",
-                    message: state.message,
-                    contentType: ContentType.success);
-                Navigator.of(context).popUntil((_) => count++ >= 6);
-                var loginState = context.read<LoginBloc>().state;
-                if (loginState is LoginLoaded) {
-                  callApis(context, loginState);
+        bottomNavigationBar: SizedBox(
+          height: 90,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+            child: BlocConsumer<AddHotelWithoutTierApiCallbackBlocBloc,
+                AddHotelWithoutTierApiCallbackBlocState>(
+              listener: (context, state) {
+                int count = 0;
+                if (state is AddHotelWithoutTierApiCallbackBlocSuccess) {
+                  customScaffold(
+                      context: context,
+                      title: "Success",
+                      message: state.message,
+                      contentType: ContentType.success);
+                  Navigator.of(context).popUntil((_) => count++ >= 6);
+                  var loginState = context.read<LoginBloc>().state;
+                  if (loginState is LoginLoaded) {
+                    callApis(context, loginState);
+                  }
                 }
-              }
-              if (state is AddHotelWithoutTierApiCallbackBlocError) {
-                customScaffold(
-                    context: context,
-                    title: "Success",
-                    message: state.message,
-                    contentType: ContentType.success);
-              }
-            },
-            builder: (context, state) {
-              if (state is AddHotelWithoutTierApiCallbackBlocLoading) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [CircularProgressIndicator()],
-                  ),
-                );
-              }
-              return CustomMaterialButton(
-                  onPressed: () {
-                    var state = context.read<AddHotelWithoutTierBloc>().state;
-                    Accommodation accommodation = state.accommodation!;
-                    if (state.room!.length < 2) {
-                      customScaffold(
-                          context: context,
-                          title: "Error",
-                          message: "Add atleast two rooms",
-                          contentType: ContentType.failure);
-                      return;
-                    } else {
-                      var loginState = context.read<LoginBloc>().state;
-                      if (loginState is LoginLoaded) {
-                        context.read<AddHotelWithoutTierApiCallbackBlocBloc>()
-                          ..add(HitHotelWithoutTierApi(
-                              token: loginState.successModel.token!,
-                              accommodation: accommodation,
-                              accommodationImage: state.accommodationImage!,
-                              room: state.room,
-                              roomImages:
-                                  state.roomImages as Map<int, List<dynamic>>));
-                        // callApis(context, loginState);
-                      }
-                    }
-                    // print(accommodation);
-                    // print(state.accommodationImage);
-                    // print(state.roomImages);
-                    // print(state.room);
+                if (state is AddHotelWithoutTierApiCallbackBlocError) {
+                  customScaffold(
+                      context: context,
+                      title: "Error",
+                      message: state.message,
+                      contentType: ContentType.success);
+                }
+              },
+              builder: (context, state) {
+                if (state is AddHotelWithoutTierApiCallbackBlocLoading) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [CircularProgressIndicator()],
+                    ),
+                  );
+                }
+                return SizedBox(
+                  height: 50,
+                  child: CustomMaterialButton(
+                      onPressed: () {
+                        var state =
+                            context.read<AddHotelWithoutTierBloc>().state;
+                        Accommodation accommodation = state.accommodation!;
+                        if (state.room!.length < 2) {
+                          customScaffold(
+                              context: context,
+                              title: "Error",
+                              message: "Add atleast two rooms",
+                              contentType: ContentType.failure);
+                          return;
+                        } else {
+                          var loginState = context.read<LoginBloc>().state;
+                          if (loginState is LoginLoaded) {
+                            context
+                                .read<AddHotelWithoutTierApiCallbackBlocBloc>()
+                              ..add(HitHotelWithoutTierApi(
+                                  token: loginState.successModel.token!,
+                                  accommodation: accommodation,
+                                  accommodationImage: state.accommodationImage!,
+                                  room: state.room,
+                                  roomImages: state.roomImages
+                                      as Map<int, List<dynamic>>));
+                            // callApis(context, loginState);
+                          }
+                        }
+                        // print(accommodation);
+                        // print(state.accommodationImage);
+                        // print(state.roomImages);
+                        // print(state.room);
 
-                    // print(accommodationImage);
-                  },
-                  child: Text("Confirm Addition"),
-                  backgroundColor: Color(0xff32454D),
-                  textColor: Colors.white,
-                  height: 45);
-            },
+                        // print(accommodationImage);
+                      },
+                      child: Text("Confirm Addition"),
+                      backgroundColor: Color(0xff32454D),
+                      textColor: Colors.white,
+                      height: 45),
+                );
+              },
+            ),
           ),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Arc(
-                height: 50,
-                arcType: ArcType.CONVEX,
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 2.5,
-                  decoration: BoxDecoration(
-                      color: Color(0xff32454D),
-                      image: DecorationImage(
-                          image: AssetImage(
-                              "assets/images/Hotel_Booking-bro.png"))),
-                ),
+              Stack(
+                children: [
+                  Arc(
+                    height: 50,
+                    arcType: ArcType.CONVEX,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 2.5,
+                      decoration: BoxDecoration(
+                          color: Color(0xff32454D),
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/images/Hotel_Booking-bro.png"))),
+                    ),
+                  ),
+                  Positioned(
+                      top: 50,
+                      left: 30,
+                      child: InkWell(
+                        onTap: () {
+                          showExitPopup(
+                            context: context,
+                            message: "Do you really want to go back?",
+                            title: "Confirmation",
+                            noBtnFunction: () {
+                              Navigator.pop(context);
+                            },
+                            yesBtnFunction: () {
+                              int count = 0;
+                              Navigator.of(context)
+                                  .popUntil((_) => count++ >= 7);
+                            },
+                          );
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                      ))
+                ],
               ),
               SizedBox(
                 height: 20,

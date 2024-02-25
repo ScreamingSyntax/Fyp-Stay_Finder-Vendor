@@ -12,6 +12,11 @@ void customScaffold(
     backgroundColor: Colors.transparent,
     duration: Duration(milliseconds: 1000),
     content: AwesomeSnackbarContent(
-        title: title, message: message, contentType: contentType),
+      title: title,
+      message: message,
+      contentType: contentType,
+      titleFontSize: 13,
+      messageFontSize: 11,
+    ),
   ));
 }

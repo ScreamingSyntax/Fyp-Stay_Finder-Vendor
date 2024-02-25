@@ -13,10 +13,16 @@ class EditDeleteButtonWidget extends StatelessWidget {
         InkWell(
           onTap: editOnTap,
           child: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(5)),
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  offset: Offset(0, 2),
+                  blurRadius: 8.0,
+                  spreadRadius: -1.0,
+                ),
+              ], color: Colors.white, borderRadius: BorderRadius.circular(5)),
               child: Icon(Icons.edit)),
         ),
         SizedBox(
@@ -25,15 +31,53 @@ class EditDeleteButtonWidget extends StatelessWidget {
         InkWell(
           onTap: deleteOnTap,
           child: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  color: Colors.red, borderRadius: BorderRadius.circular(5)),
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  offset: Offset(0, 2),
+                  blurRadius: 8.0,
+                  spreadRadius: -1.0,
+                ),
+              ], color: Colors.red, borderRadius: BorderRadius.circular(5)),
               child: Icon(
                 Icons.delete,
                 color: Colors.white,
               )),
         ),
+        SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: deleteOnTap,
+          child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      offset: Offset(0, 2),
+                      blurRadius: 8.0,
+                      spreadRadius: -1.0,
+                    ),
+                  ],
+                  color: Colors.blue.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Icon(
+                Icons.map,
+                color: Colors.black.withOpacity(0.8),
+              )),
+        ),
+        // SizedBox(
+        //   height: 10,
+        // ),
+        // Container(
+        //   width: MediaQuery.of(context).size.width,
+        //   child: Icon(Icons.location_on_outlined),
+        // )
+        // )
       ],
     );
   }

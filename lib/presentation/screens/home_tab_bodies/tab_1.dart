@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'package:stayfinder_vendor/data/model/model_exports.dart';
 import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
+import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
 import 'package:stayfinder_vendor/logic/cubits/drop_down_value/drop_down_value_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/fetch_accommodation_review/fetch_accommodation_reviews_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/fetch_hostel/fetch_hostel_details_cubit.dart';
@@ -363,6 +364,7 @@ class CustomAddAccommodationButton extends StatelessWidget {
             );
             context.read<AccommodationAdditionBloc>()
               ..add(AccommodationClearEvent());
+            context.read<SaveLocationCubit>()..clearLocation();
             context.read<DropDownValueCubit>()
               ..changeDropDownValue('rent_room');
             Navigator.pushNamed(context, "accommodationMain");

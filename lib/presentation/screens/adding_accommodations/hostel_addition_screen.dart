@@ -193,186 +193,197 @@ class HostelAdditionScreen extends StatelessWidget {
       ],
       child: Scaffold(
         key: _scaffoldKey,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
-          child: Builder(builder: (context) {
-            return Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  child: CustomMaterialButton(
-                      onPressed: () {
-                        if (!(context
-                            .read<FormBloc>()
-                            .state
-                            .formKey!
-                            .currentState!
-                            .validate())) {
-                          customScaffold(
-                              context: context,
-                              title: "Empty Fields",
-                              message: "Please enteer the above details first",
-                              contentType: ContentType.warning);
-                        } else {
-                          return customHostelRoomAddition(context);
-                        }
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 12,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                              child: Text(
-                            "Add Rooms",
-                            style: TextStyle(fontSize: 12),
-                          ))
-                        ],
-                      ),
-                      backgroundColor: Color(0xff32454D),
-                      textColor: Colors.white,
-                      height: 50),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child:
-                      BlocConsumer<AddHostelApiCallBloc, AddHostelApiCallState>(
-                    listener: (context, state) async {
-                      if (state is AddHostelApiCallError) {
-                        customScaffold(
-                            context: context,
-                            title: "Error",
-                            message: state.message,
-                            contentType: ContentType.failure);
-                      }
-                      if (state is AddHostelApiCallSuccess) {
-                        var loginState = context.read<LoginBloc>().state;
-                        if (loginState is LoginLoaded) {
-                          callApis(context, loginState);
-                        }
-                        int count = 0;
-                        Navigator.of(context).popUntil((_) => count++ >= 3);
-                        customScaffold(
-                            context: context,
-                            title: "Success",
-                            message: state.message,
-                            contentType: ContentType.success);
-                        await Future.delayed(Duration(seconds: 1));
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is AddHostelApiCallLoading) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [CircularProgressIndicator()],
-                          ),
-                        );
-                      }
-                      return CustomMaterialButton(
+        bottomNavigationBar: SizedBox(
+          height: 90,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+            child: SizedBox(
+              height: 50,
+              child: Builder(builder: (context) {
+                return Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      child: CustomMaterialButton(
                           onPressed: () {
-                            if (context
+                            if (!(context
                                 .read<FormBloc>()
                                 .state
                                 .formKey!
                                 .currentState!
-                                .validate()) {
-                              // print("object");
-                              if (context
-                                      .read<HostelAdditionBloc>()
-                                      .state
-                                      .room!
-                                      .length ==
-                                  0) {
-                                customScaffold(
-                                    context: context,
-                                    title: "Room Missing",
-                                    message: "Please add some rooms first",
-                                    contentType: ContentType.warning);
-                              } else {
-                                Accommodation accommodation = context
-                                    .read<HostelAdditionBloc>()
-                                    .state
-                                    .accommodation!;
-                                String mealsPerDay = context
-                                    .read<FormBloc>()
-                                    .state
-                                    .mealsPerDay
-                                    .value;
-                                String washRoomCount = context
-                                    .read<FormBloc>()
-                                    .state
-                                    .washRoomCount
-                                    .value;
-                                String nonVegMealsPerWeek = context
-                                    .read<FormBloc>()
-                                    .state
-                                    .nonVegMealsPerDay
-                                    .value;
-                                String rate =
-                                    context.read<FormBloc>().state.rate.value;
-                                String laundaryCycles = context
-                                    .read<FormBloc>()
-                                    .state
-                                    .weeklyLaundaryCycles
-                                    .value;
-                                accommodation.meals_per_day =
-                                    int.parse(mealsPerDay);
-                                accommodation.number_of_washroom =
-                                    int.parse(washRoomCount);
-                                accommodation.weekly_non_veg_meals =
-                                    int.parse(nonVegMealsPerWeek);
-                                accommodation.monthly_rate = int.parse(rate);
-                                accommodation.weekly_laundry_cycles =
-                                    int.parse(laundaryCycles);
-                                // context.read<()
-                                List<Room?> room = context
-                                    .read<HostelAdditionBloc>()
-                                    .state
-                                    .room!;
-                                Map<int, List> roomImages = context
-                                    .read<HostelAdditionBloc>()
-                                    .state
-                                    .roomImages!;
-                                File accommodationImage = context
-                                    .read<HostelAdditionBloc>()
-                                    .state
-                                    .accommodationImage!;
-                                var state = context.read<LoginBloc>().state;
-                                if (state is LoginLoaded) {
-                                  context.read<AddHostelApiCallBloc>().add(
-                                      AddHostelApiAddEvent(
-                                          accommodation: accommodation,
-                                          accommodationImage:
-                                              accommodationImage,
-                                          room: room,
-                                          token: state.successModel.token!,
-                                          roomImages: roomImages));
-                                  // callApis(context, state);
-                                }
-                              }
+                                .validate())) {
+                              customScaffold(
+                                  context: context,
+                                  title: "Empty Fields",
+                                  message:
+                                      "Please enteer the above details first",
+                                  contentType: ContentType.warning);
+                            } else {
+                              return customHostelRoomAddition(context);
                             }
                           },
-                          child: Text(
-                            "Confirm Addition",
-                            style: TextStyle(fontSize: 12),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.add,
+                                size: 12,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                  child: Text(
+                                "Add Rooms",
+                                style: TextStyle(fontSize: 12),
+                              ))
+                            ],
                           ),
                           backgroundColor: Color(0xff32454D),
                           textColor: Colors.white,
-                          height: 50);
-                    },
-                  ),
-                ),
-              ],
-            );
-          }),
+                          height: 50),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: BlocConsumer<AddHostelApiCallBloc,
+                          AddHostelApiCallState>(
+                        listener: (context, state) async {
+                          if (state is AddHostelApiCallError) {
+                            customScaffold(
+                                context: context,
+                                title: "Error",
+                                message: state.message,
+                                contentType: ContentType.failure);
+                          }
+                          if (state is AddHostelApiCallSuccess) {
+                            var loginState = context.read<LoginBloc>().state;
+                            if (loginState is LoginLoaded) {
+                              callApis(context, loginState);
+                            }
+                            int count = 0;
+                            Navigator.of(context).popUntil((_) => count++ >= 3);
+                            customScaffold(
+                                context: context,
+                                title: "Success",
+                                message: state.message,
+                                contentType: ContentType.success);
+                            await Future.delayed(Duration(seconds: 1));
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is AddHostelApiCallLoading) {
+                            return SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [CircularProgressIndicator()],
+                              ),
+                            );
+                          }
+                          return CustomMaterialButton(
+                              onPressed: () {
+                                if (context
+                                    .read<FormBloc>()
+                                    .state
+                                    .formKey!
+                                    .currentState!
+                                    .validate()) {
+                                  // print("object");
+                                  if (context
+                                          .read<HostelAdditionBloc>()
+                                          .state
+                                          .room!
+                                          .length ==
+                                      0) {
+                                    customScaffold(
+                                        context: context,
+                                        title: "Room Missing",
+                                        message: "Please add some rooms first",
+                                        contentType: ContentType.warning);
+                                  } else {
+                                    Accommodation accommodation = context
+                                        .read<HostelAdditionBloc>()
+                                        .state
+                                        .accommodation!;
+                                    String mealsPerDay = context
+                                        .read<FormBloc>()
+                                        .state
+                                        .mealsPerDay
+                                        .value;
+                                    String washRoomCount = context
+                                        .read<FormBloc>()
+                                        .state
+                                        .washRoomCount
+                                        .value;
+                                    String nonVegMealsPerWeek = context
+                                        .read<FormBloc>()
+                                        .state
+                                        .nonVegMealsPerDay
+                                        .value;
+                                    String rate = context
+                                        .read<FormBloc>()
+                                        .state
+                                        .rate
+                                        .value;
+                                    String laundaryCycles = context
+                                        .read<FormBloc>()
+                                        .state
+                                        .weeklyLaundaryCycles
+                                        .value;
+                                    accommodation.meals_per_day =
+                                        int.parse(mealsPerDay);
+                                    accommodation.number_of_washroom =
+                                        int.parse(washRoomCount);
+                                    accommodation.weekly_non_veg_meals =
+                                        int.parse(nonVegMealsPerWeek);
+                                    accommodation.monthly_rate =
+                                        int.parse(rate);
+                                    accommodation.weekly_laundry_cycles =
+                                        int.parse(laundaryCycles);
+                                    // context.read<()
+                                    List<Room?> room = context
+                                        .read<HostelAdditionBloc>()
+                                        .state
+                                        .room!;
+                                    Map<int, List> roomImages = context
+                                        .read<HostelAdditionBloc>()
+                                        .state
+                                        .roomImages!;
+                                    File accommodationImage = context
+                                        .read<HostelAdditionBloc>()
+                                        .state
+                                        .accommodationImage!;
+                                    var state = context.read<LoginBloc>().state;
+                                    if (state is LoginLoaded) {
+                                      context.read<AddHostelApiCallBloc>().add(
+                                          AddHostelApiAddEvent(
+                                              accommodation: accommodation,
+                                              accommodationImage:
+                                                  accommodationImage,
+                                              room: room,
+                                              token: state.successModel.token!,
+                                              roomImages: roomImages));
+                                      // callApis(context, state);
+                                    }
+                                  }
+                                }
+                              },
+                              child: Text(
+                                "Confirm Addition",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              backgroundColor: Color(0xff32454D),
+                              textColor: Colors.white,
+                              height: 50);
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: WillPopScope(
@@ -403,18 +414,47 @@ class HostelAdditionScreen extends StatelessWidget {
                                   .room
                                   .toString() ==
                               '[]'
-                          ? Arc(
-                              height: 50,
-                              arcType: ArcType.CONVEX,
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height / 2.5,
-                                decoration: BoxDecoration(
-                                    color: Color(0xff32454D),
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/rental_house.png"))),
-                              ),
+                          ? Stack(
+                              children: [
+                                Arc(
+                                  height: 50,
+                                  arcType: ArcType.CONVEX,
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height /
+                                        2.5,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff32454D),
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/rental_house.png"))),
+                                  ),
+                                ),
+                                Positioned(
+                                    top: 80,
+                                    left: 30,
+                                    child: InkWell(
+                                      onTap: () {
+                                        showExitPopup(
+                                          context: context,
+                                          message:
+                                              "Do you really want to go back?",
+                                          title: "Confirmation",
+                                          noBtnFunction: () {
+                                            Navigator.pop(context);
+                                          },
+                                          yesBtnFunction: () {
+                                            int count = 0;
+                                            Navigator.of(context)
+                                                .popUntil((_) => count++ >= 4);
+                                          },
+                                        );
+                                      },
+                                      child: Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.white,
+                                      ),
+                                    ))
+                              ],
                             )
                           : SizedBox(),
                       SizedBox(

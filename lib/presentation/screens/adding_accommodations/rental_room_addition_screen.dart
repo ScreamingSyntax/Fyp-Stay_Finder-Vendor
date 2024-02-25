@@ -32,144 +32,155 @@ class RentalRoomAdditionScreen extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
-          child: Builder(builder: (context) {
-            return BlocConsumer<AddRentalRoomApiCallBloc,
-                AddRentalRoomApiCallState>(
-              listener: (context, state) async {
-                if (state is AddRentalRoomApiCallError) {
-                  customScaffold(
-                      context: context,
-                      title: "Error",
-                      message: state.message,
-                      contentType: ContentType.failure);
-                }
-                if (state is AddRentalRoomApiCallSuccess) {
-                  customScaffold(
-                      context: context,
-                      title: "Success",
-                      message: state.message,
-                      contentType: ContentType.success);
-                  var loginState = context.read<LoginBloc>().state;
-                  if (loginState is LoginLoaded) {
-                    callApis(context, loginState);
+        bottomNavigationBar: Container(
+          color: Colors.transparent,
+          height: 100,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+            child: Builder(builder: (context) {
+              return BlocConsumer<AddRentalRoomApiCallBloc,
+                  AddRentalRoomApiCallState>(
+                listener: (context, state) async {
+                  if (state is AddRentalRoomApiCallError) {
+                    customScaffold(
+                        context: context,
+                        title: "Error",
+                        message: state.message,
+                        contentType: ContentType.failure);
                   }
-                  int count = 0;
-                  Navigator.of(context).popUntil((_) => count++ >= 3);
-                  await Future.delayed(Duration(seconds: 1));
-                  // context.read<DropDownValueCubit>().clearDropDownValue();
-                }
-              },
-              builder: (context, state) {
-                if (state is AddRentalRoomApiCallLoading) {
+                  if (state is AddRentalRoomApiCallSuccess) {
+                    customScaffold(
+                        context: context,
+                        title: "Success",
+                        message: state.message,
+                        contentType: ContentType.success);
+                    var loginState = context.read<LoginBloc>().state;
+                    if (loginState is LoginLoaded) {
+                      callApis(context, loginState);
+                    }
+                    int count = 0;
+                    Navigator.of(context).popUntil((_) => count++ >= 3);
+                    await Future.delayed(Duration(seconds: 1));
+                    // context.read<DropDownValueCubit>().clearDropDownValue();
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AddRentalRoomApiCallLoading) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [CircularProgressIndicator()],
+                      ),
+                    );
+                  }
                   return SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [CircularProgressIndicator()],
-                    ),
+                    height: 20,
+                    child: CustomMaterialButton(
+                        onPressed: () async {
+                          if (context
+                              .read<FormBloc>()
+                              .state
+                              .formKey!
+                              .currentState!
+                              .validate()) {
+                            if (context
+                                    .read<DropDownValueCubit>()
+                                    .state
+                                    .value ==
+                                null) {
+                              customScaffold(
+                                  context: context,
+                                  title: "Empty",
+                                  message: "Please select washroom status",
+                                  contentType: ContentType.failure);
+                              return;
+                            }
+                            var state = context.read<AddRentalRoomBloc>().state;
+                            if (state.roomImage1 == null &&
+                                state.roomImage2 == null &&
+                                state.roomImage3 == null) {
+                              customScaffold(
+                                  context: context,
+                                  title: "Images",
+                                  message: "Please add images",
+                                  contentType: ContentType.failure);
+                              return;
+                            }
+
+                            var formState = context.read<FormBloc>().state;
+                            // if(accommodationState.)
+                            await context.read<AddRentalRoomBloc>()
+                              ..add(
+                                UpdateAccommodationEvent(
+                                  accommodation: state.accommodation!.copyWith(
+                                      monthly_rate:
+                                          int.parse(formState.rate.value),
+                                      number_of_washroom: int.parse(
+                                          formState.washRoomCount.value)),
+                                ),
+                              );
+                            Accommodation accommodation = context
+                                .read<AddRentalRoomBloc>()
+                                .state
+                                .accommodation!;
+                            accommodation.monthly_rate =
+                                int.parse(formState.rate.value);
+                            accommodation.number_of_washroom =
+                                int.parse(formState.washRoomCount.value);
+                            Room room =
+                                context.read<AddRentalRoomBloc>().state.room!;
+                            room.washroom_status =
+                                context.read<DropDownValueCubit>().state.value;
+                            var loginState = context.read<LoginBloc>().state;
+
+                            if (loginState is LoginLoaded) {
+                              context.read<AddRentalRoomApiCallBloc>().add(
+                                  AddRentalRoomHitEventApi(
+                                      token: loginState.successModel.token!,
+                                      accommodationImage: context
+                                          .read<AddRentalRoomBloc>()
+                                          .state
+                                          .accommodationImage!,
+                                      accommodation: accommodation,
+                                      room: room,
+                                      roomImage1: context
+                                          .read<AddRentalRoomBloc>()
+                                          .state
+                                          .roomImage1!,
+                                      roomImage2: context
+                                          .read<AddRentalRoomBloc>()
+                                          .state
+                                          .roomImage2!,
+                                      roomImage3: context
+                                          .read<AddRentalRoomBloc>()
+                                          .state
+                                          .roomImage3!));
+                            }
+                          }
+                          if (!(context
+                              .read<FormBloc>()
+                              .state
+                              .formKey!
+                              .currentState!
+                              .validate())) {
+                            customScaffold(
+                                context: context,
+                                title: "Oops",
+                                message: "There are some validation errors",
+                                contentType: ContentType.failure);
+                            return;
+                          }
+                        },
+                        child: Text("Confirm Addition"),
+                        backgroundColor: Color(0xff32454D),
+                        textColor: Colors.white,
+                        height: 50),
                   );
-                }
-                return CustomMaterialButton(
-                    onPressed: () async {
-                      if (context
-                          .read<FormBloc>()
-                          .state
-                          .formKey!
-                          .currentState!
-                          .validate()) {
-                        if (context.read<DropDownValueCubit>().state.value ==
-                            null) {
-                          customScaffold(
-                              context: context,
-                              title: "Empty",
-                              message: "Please select washroom status",
-                              contentType: ContentType.failure);
-                          return;
-                        }
-                        var state = context.read<AddRentalRoomBloc>().state;
-                        if (state.roomImage1 == null &&
-                            state.roomImage2 == null &&
-                            state.roomImage3 == null) {
-                          customScaffold(
-                              context: context,
-                              title: "Images",
-                              message: "Please add images",
-                              contentType: ContentType.failure);
-                          return;
-                        }
-
-                        var formState = context.read<FormBloc>().state;
-                        // if(accommodationState.)
-                        await context.read<AddRentalRoomBloc>()
-                          ..add(
-                            UpdateAccommodationEvent(
-                              accommodation: state.accommodation!.copyWith(
-                                  monthly_rate: int.parse(formState.rate.value),
-                                  number_of_washroom:
-                                      int.parse(formState.washRoomCount.value)),
-                            ),
-                          );
-                        Accommodation accommodation = context
-                            .read<AddRentalRoomBloc>()
-                            .state
-                            .accommodation!;
-                        accommodation.monthly_rate =
-                            int.parse(formState.rate.value);
-                        accommodation.number_of_washroom =
-                            int.parse(formState.washRoomCount.value);
-                        Room room =
-                            context.read<AddRentalRoomBloc>().state.room!;
-                        room.washroom_status =
-                            context.read<DropDownValueCubit>().state.value;
-                        var loginState = context.read<LoginBloc>().state;
-
-                        if (loginState is LoginLoaded) {
-                          context.read<AddRentalRoomApiCallBloc>().add(
-                              AddRentalRoomHitEventApi(
-                                  token: loginState.successModel.token!,
-                                  accommodationImage: context
-                                      .read<AddRentalRoomBloc>()
-                                      .state
-                                      .accommodationImage!,
-                                  accommodation: accommodation,
-                                  room: room,
-                                  roomImage1: context
-                                      .read<AddRentalRoomBloc>()
-                                      .state
-                                      .roomImage1!,
-                                  roomImage2: context
-                                      .read<AddRentalRoomBloc>()
-                                      .state
-                                      .roomImage2!,
-                                  roomImage3: context
-                                      .read<AddRentalRoomBloc>()
-                                      .state
-                                      .roomImage3!));
-                        }
-                      }
-                      if (!(context
-                          .read<FormBloc>()
-                          .state
-                          .formKey!
-                          .currentState!
-                          .validate())) {
-                        customScaffold(
-                            context: context,
-                            title: "Oops",
-                            message: "There are some validation errors",
-                            contentType: ContentType.failure);
-                        return;
-                      }
-                    },
-                    child: Text("Confirm Addition"),
-                    backgroundColor: Color(0xff32454D),
-                    textColor: Colors.white,
-                    height: 50);
-              },
-            );
-          }),
+                },
+              );
+            }),
+          ),
         ),
         body: SingleChildScrollView(
           child: WillPopScope(
@@ -190,17 +201,46 @@ class RentalRoomAdditionScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Arc(
-                      height: 50,
-                      arcType: ArcType.CONVEX,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 2.5,
-                        decoration: BoxDecoration(
-                            color: Color(0xff32454D),
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/rental_house.png"))),
-                      ),
+                    Stack(
+                      children: [
+                        Arc(
+                          height: 50,
+                          arcType: ArcType.CONVEX,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 2.5,
+                            decoration: BoxDecoration(
+                                color: Color(0xff32454D),
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        "assets/images/rental_house.png"))),
+                          ),
+                        ),
+                        // Positioned(child: )
+                        Positioned(
+                            top: 80,
+                            left: 30,
+                            child: InkWell(
+                              onTap: () {
+                                showExitPopup(
+                                  context: context,
+                                  message: "Do you really want to go back?",
+                                  title: "Confirmation",
+                                  noBtnFunction: () {
+                                    Navigator.pop(context);
+                                  },
+                                  yesBtnFunction: () {
+                                    int count = 0;
+                                    Navigator.of(context)
+                                        .popUntil((_) => count++ >= 4);
+                                  },
+                                );
+                              },
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
+                            ))
+                      ],
                     ),
                     SizedBox(
                       height: 30,

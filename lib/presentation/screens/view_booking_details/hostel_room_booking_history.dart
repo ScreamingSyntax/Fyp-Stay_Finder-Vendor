@@ -79,9 +79,37 @@ class HostelRoomBookingHistory extends StatelessWidget {
                 },
                 child: SingleChildScrollView(
                     child: Column(children: [
-                  CustomMainImageVIew(
-                    imageLink:
-                        "${getIpWithoutSlash()}${state.accommodation!.image}",
+                  Stack(
+                    children: [
+                      CustomMainImageVIew(
+                        imageLink:
+                            "${getIpWithoutSlash()}${state.accommodation!.image}",
+                      ),
+                      Positioned(
+                          top: 80,
+                          left: 30,
+                          child: InkWell(
+                            onTap: () {
+                              showExitPopup(
+                                context: context,
+                                message: "Do you really want to go back?",
+                                title: "Confirmation",
+                                noBtnFunction: () {
+                                  Navigator.pop(context);
+                                },
+                                yesBtnFunction: () {
+                                  int count = 0;
+                                  Navigator.of(context)
+                                      .popUntil((_) => count++ >= 2);
+                                },
+                              );
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          )),
+                    ],
                   ),
                   Padding(
                       padding: const EdgeInsets.all(15.0),

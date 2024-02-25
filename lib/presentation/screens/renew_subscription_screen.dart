@@ -180,6 +180,19 @@ class UpperRenewSubscriptionBody extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Navigator.pop(context);
+                      InkWell(
+                          onTap: () {
+                            int count = 0;
+                            Navigator.of(context).popUntil((_) => count++ >= 2);
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          )),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
                           Text(

@@ -365,7 +365,7 @@ class UppBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 240,
+      height: 260,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -375,8 +375,21 @@ class UppBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
+                    InkWell(
+                        onTap: () {
+                          // int count = 0;
+                          // Navigator.of(context).popUntil((_) => count++ >= 2);
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        )),
                     SizedBox(
                       width: 17,
                     ),

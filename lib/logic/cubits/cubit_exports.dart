@@ -22,3 +22,5 @@ export 'forgot_pass/forgot_pass_cubit.dart';
 export 'store_user_temp/store_temp_user_details_cubit.dart';
 export 'boolean_change/boolean_change_cubit.dart';
 export 'fetch_notifications/fetch_notifications_cubit.dart';
+export 'save_location/save_location_cubit.dart';
+export 'update_accommodation_location/update_accommodation_location_cubit.dart';

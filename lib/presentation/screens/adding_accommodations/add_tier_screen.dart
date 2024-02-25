@@ -798,62 +798,65 @@ class AddTierScreen extends StatelessWidget {
         return Form(
           key: context.watch<FormBloc>().state.formKey,
           child: Scaffold(
-            bottomNavigationBar: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width / 1,
-                child: CustomMaterialButton(
-                    onPressed: () {
-                      List<Room>? rooms =
-                          context.read<StoreRoomsCubit>().state.rooms;
-                      List<File?>? tierImage =
-                          context.read<StoreImagesCubit>().state.images;
-                      String tierName =
-                          context.read<FormBloc>().state.name.value;
-                      String city = context.read<FormBloc>().state.city.value;
-                      if (rooms == null || rooms.isEmpty) {
-                        customScaffold(
-                            context: context,
-                            title: "Warning",
-                            message: "Add some rooms first",
-                            contentType: ContentType.warning);
-                        return;
-                      }
-                      if (tierImage.isEmpty) {
-                        customScaffold(
-                            context: context,
-                            title: "Warning",
-                            message: "Add tier image first",
-                            contentType: ContentType.warning);
-                        return;
-                      }
-                      ;
+            bottomNavigationBar: SizedBox(
+              height: 90,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                child: SizedBox(
+                  height: 60,
+                  child: CustomMaterialButton(
+                      onPressed: () {
+                        List<Room>? rooms =
+                            context.read<StoreRoomsCubit>().state.rooms;
+                        List<File?>? tierImage =
+                            context.read<StoreImagesCubit>().state.images;
+                        String tierName =
+                            context.read<FormBloc>().state.name.value;
+                        String city = context.read<FormBloc>().state.city.value;
+                        if (rooms == null || rooms.isEmpty) {
+                          customScaffold(
+                              context: context,
+                              title: "Warning",
+                              message: "Add some rooms first",
+                              contentType: ContentType.warning);
+                          return;
+                        }
+                        if (tierImage.isEmpty) {
+                          customScaffold(
+                              context: context,
+                              title: "Warning",
+                              message: "Add tier image first",
+                              contentType: ContentType.warning);
+                          return;
+                        }
+                        ;
 
-                      // Navigator.pop(context);
-                      showExitPopup(
-                        context: context,
-                        message:
-                            "Are you sure you've checked all the added tier data",
-                        title: "Confirmation",
-                        noBtnFunction: () {
-                          Navigator.pop(context);
-                        },
-                        yesBtnFunction: () {
-                          int count = 0;
-                          context.read<AddHotelWithTierBlocBloc>()
-                            ..add(AddHotelTierWithTierEvent(
-                                tier: Tier(name: tierName, description: city),
-                                rooms: rooms,
-                                tierImage: tierImage[0]!));
-                          Navigator.of(context).popUntil((_) => count++ >= 2);
-                        },
-                      );
-                    },
-                    child: Text("Confirm Addition"),
-                    backgroundColor: Color(0xff32454D),
-                    textColor: Colors.white,
-                    height: 45),
+                        // Navigator.pop(context);
+                        showExitPopup(
+                          context: context,
+                          message:
+                              "Are you sure you've checked all the added tier data",
+                          title: "Confirmation",
+                          noBtnFunction: () {
+                            Navigator.pop(context);
+                          },
+                          yesBtnFunction: () {
+                            int count = 0;
+                            context.read<AddHotelWithTierBlocBloc>()
+                              ..add(AddHotelTierWithTierEvent(
+                                  tier: Tier(name: tierName, description: city),
+                                  rooms: rooms,
+                                  tierImage: tierImage[0]!));
+                            Navigator.of(context).popUntil((_) => count++ >= 2);
+                          },
+                        );
+                      },
+                      child: Text("Confirm Addition"),
+                      backgroundColor: Color(0xff32454D),
+                      textColor: Colors.white,
+                      height: 45),
+                ),
               ),
             ),
             resizeToAvoidBottomInset: false,
@@ -877,10 +880,45 @@ class AddTierScreen extends StatelessWidget {
                       : SizedBox(
                           height: 40,
                         ),
-                  CustomPoppinsText(
-                      text: "Add Tier and It's Room",
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500),
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showExitPopup(
+                                context: context,
+                                message: "Do you really want to go back?",
+                                title: "Confirmation",
+                                noBtnFunction: () {
+                                  Navigator.pop(context);
+                                },
+                                yesBtnFunction: () {
+                                  int count = 0;
+                                  Navigator.of(context)
+                                      .popUntil((_) => count++ >= 2);
+                                },
+                              );
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.black,
+                            ),
+                          ),
+                          CustomPoppinsText(
+                              text: "Add Tier and It's Room",
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500),
+                          SizedBox(
+                            width: 2,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+
                   SizedBox(
                     height: 20,
                   ),

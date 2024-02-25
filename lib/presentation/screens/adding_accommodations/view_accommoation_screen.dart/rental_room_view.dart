@@ -838,8 +838,8 @@ class RentalRoomViewScreen extends StatelessWidget {
                                 if (state.accommodation.is_verified! ||
                                     state.accommodation.is_rejected!)
                                   Positioned(
-                                      right: 20,
-                                      top: 20,
+                                      right: 30,
+                                      top: 50,
                                       child: EditDeleteButtonWidget(
                                         editOnTap: () async {
                                           var imageHelper = context
@@ -882,6 +882,32 @@ class RentalRoomViewScreen extends StatelessWidget {
                                         },
                                         deleteOnTap: () {},
                                       )),
+                                // Positioned(child: child),
+                                Positioned(
+                                    top: 80,
+                                    left: 30,
+                                    child: InkWell(
+                                      onTap: () {
+                                        showExitPopup(
+                                          context: context,
+                                          message:
+                                              "Do you really want to go back?",
+                                          title: "Confirmation",
+                                          noBtnFunction: () {
+                                            Navigator.pop(context);
+                                          },
+                                          yesBtnFunction: () {
+                                            int count = 0;
+                                            Navigator.of(context)
+                                                .popUntil((_) => count++ >= 2);
+                                          },
+                                        );
+                                      },
+                                      child: Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.white,
+                                      ),
+                                    )),
                                 Positioned(
                                     left: 1,
                                     bottom: -1,
@@ -932,7 +958,16 @@ class RentalRoomViewScreen extends StatelessWidget {
                                             ),
                                         ],
                                       ),
-                                    ))
+                                    )),
+                                // Positioned(
+                                //     // left: 1,
+                                //     right: 20,
+                                //     top: 20,
+                                //     child: Container(
+                                //       width: MediaQuery.of(context).size.width,
+                                //       height: 50,
+                                //       child: Icon(Icons.location_on_outlined),
+                                //     ))
                               ],
                             ),
                           ),

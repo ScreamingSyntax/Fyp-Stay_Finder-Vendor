@@ -5,6 +5,23 @@ import './api_exports.dart';
 import '../model/model_exports.dart';
 
 class AccommodationAdditionApi {
+  Future<Success> updateLocation(
+      {required String token,
+      required String latitude,
+      required String longitude}) async {
+    try {
+      final url = Uri.parse("${getIp()}accommodation/updateLocation/");
+      final response = await http.patch(url, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Token $token'
+      });
+      return Success.fromMap(jsonDecode(response.body));
+    } catch (e) {
+      return Success(
+          success: 0, message: "Please check your internet connection");
+    }
+  }
+
   Future<List<Accommodation>> fetchAccommodation(
       {required String token}) async {
     try {
@@ -65,8 +82,8 @@ class AccommodationAdditionApi {
           accommodation.parking_availability.toString();
       accommodationRequest.fields['swimming_pool_availability'] =
           accommodation.swimming_pool_availability.toString();
-      accommodationRequest.fields['latitude'] = "ad";
-      accommodationRequest.fields['longitude'] = "ad";
+      accommodationRequest.fields['latitude'] = accommodation.latitude!;
+      accommodationRequest.fields['longitude'] = accommodation.longitude!;
       accommodationRequest.fields['type'] = "hotel";
       accommodationRequest.fields['address'] = accommodation.address!;
       accommodationRequest.fields['gym_availability'] =
@@ -82,6 +99,9 @@ class AccommodationAdditionApi {
       final streamedReponse = await accommodationRequest.send();
       final response = await http.Response.fromStream(streamedReponse);
       final body = jsonDecode(response.body);
+      if (body['success'] == 0) {
+        return Success(success: 0, message: body['message']);
+      }
       int id = body['message']['id'];
       List<int> tiersList = tier!.keys.toList();
       final tierUrl = Uri.parse("${getIp()}accommodation/hotel/tier/");
@@ -156,8 +176,8 @@ class AccommodationAdditionApi {
           accommodation.parking_availability.toString();
       accommodationRequest.fields['swimming_pool_availability'] =
           accommodation.swimming_pool_availability.toString();
-      accommodationRequest.fields['latitude'] = "ad";
-      accommodationRequest.fields['longitude'] = "ad";
+      accommodationRequest.fields['longitude'] = accommodation.longitude!;
+      accommodationRequest.fields['latitude'] = accommodation.latitude!;
       accommodationRequest.fields['type'] = "hotel";
       accommodationRequest.fields['address'] = accommodation.address!;
       accommodationRequest.fields['gym_availability'] =
@@ -174,6 +194,9 @@ class AccommodationAdditionApi {
       final response = await http.Response.fromStream(streamedReponse);
       // print(jsonDecode(response.body));
       final body = jsonDecode(response.body);
+      if (body['success'] == 0) {
+        return Success(success: 0, message: body['message']);
+      }
       // print(body);
       int id = body['message']['id'];
       // print(id);
@@ -221,13 +244,13 @@ class AccommodationAdditionApi {
       // print(finalBody);
       // return Success(success: 0, message: "Connection Error");
       if (finalBody['success'] == 1) {
-        print("Yello");
+        // print("Yello");
         return Success(success: 1, message: finalBody['message']);
       }
-      if (finalBody['success'] == 0) {
-        return Success(success: 0, message: finalBody['message']);
-      }
-      return Success(success: 0, message: "Something went wrong");
+      // print(finalBody);
+      // if (finalBody['success'] == 0) {
+      return Success(success: 0, message: finalBody['message']);
+      // }
     } catch (Exception) {
       print("a");
       return Success(success: 0, message: "Connection Error");
@@ -249,8 +272,9 @@ class AccommodationAdditionApi {
       request.fields['accommodation[name]'] = accommodation.name!;
       request.fields['accommodation[city]'] = accommodation.city!;
       request.fields['accommodation[address]'] = accommodation.address!;
-      request.fields['accommodation[longitude]'] = "dada";
-      request.fields['accommodation[latitude]'] = "dada";
+      request.fields['accommodation[longitude]'] = accommodation.longitude!;
+      request.fields['accommodation[latitude]'] = accommodation.latitude!;
+      // request.fields
       request.fields['accommodation[number_of_washroom]'] =
           accommodation.number_of_washroom.toString();
       request.fields['accommodation[type]'] = accommodation.type!;
@@ -270,6 +294,7 @@ class AccommodationAdditionApi {
           room.mat_availability.toString();
       request.fields['room[carpet_availability]'] =
           room.mat_availability.toString();
+      // request.fields['']
       request.fields['room[washroom_status]'] = room.washroom_status.toString();
 
       request.fields['room[dustbin_availability]'] =
@@ -310,7 +335,6 @@ class AccommodationAdditionApi {
       if (body['success'] == 1) {
         return Success(success: 1, message: "Successfully Added");
       }
-
       return Success(success: 0, message: body['message']);
     } catch (Exception) {
       print(Exception);
@@ -331,8 +355,8 @@ class AccommodationAdditionApi {
       request.fields['accommodation[name]'] = accommodation.name!;
       request.fields['accommodation[city]'] = accommodation.city!;
       request.fields['accommodation[address]'] = accommodation.address!;
-      request.fields['accommodation[longitude]'] = "aadda";
-      request.fields['accommodation[latitude]'] = "ada";
+      request.fields['accommodation[longitude]'] = accommodation.longitude!;
+      request.fields['accommodation[latitude]'] = accommodation.latitude!;
       request.fields['accommodation[type]'] = accommodation.type!;
       request.fields['accommodation[number_of_washroom]'] =
           accommodation.number_of_washroom!.toString();

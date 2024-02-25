@@ -161,6 +161,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => StoreTempUserDetailsCubit()),
         BlocProvider(create: (context) => BooleanChangeCubit()),
         BlocProvider(create: (context) => FetchNotificationsCubit()),
+        BlocProvider(create: (context) => SaveLocationCubit()),
+        BlocProvider(create: (context) => UpdateAccommodationLocationCubit())
       ],
       child: RepositoryProvider(
         create: (context) => LoginRepository(),

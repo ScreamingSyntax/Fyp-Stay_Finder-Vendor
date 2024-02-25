@@ -110,7 +110,7 @@ class UpperBodyTransaction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height: 220,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,6 +120,31 @@ class UpperBodyTransaction extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+
+                  // InkWell(
+                  //   onTap: () {
+                  //     showExitPopup(
+                  //       context: context,
+                  //       message: "Do you really want to go back?",
+                  //       title: "Confirmation",
+                  //       noBtnFunction: () {
+                  //         Navigator.pop(context);
+                  //       },
+                  //       yesBtnFunction: () {
+                  //         int count = 0;
+                  //         Navigator.of(context).popUntil((_) => count++ >= 2);
+                  //       },
+                  //     );
+                  //   },
+                  //   child:
+                  // ),
                   Row(
                     children: [
                       Text(

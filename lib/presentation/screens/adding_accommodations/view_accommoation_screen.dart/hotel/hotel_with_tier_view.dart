@@ -939,6 +939,30 @@ class HotelWithTierSuccessViewScreen extends StatelessWidget {
                                     }
                                   })),
                         Positioned(
+                            top: 80,
+                            left: 30,
+                            child: InkWell(
+                              onTap: () {
+                                showExitPopup(
+                                  context: context,
+                                  message: "Do you really want to go back?",
+                                  title: "Confirmation",
+                                  noBtnFunction: () {
+                                    Navigator.pop(context);
+                                  },
+                                  yesBtnFunction: () {
+                                    int count = 0;
+                                    Navigator.of(context)
+                                        .popUntil((_) => count++ >= 2);
+                                  },
+                                );
+                              },
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
+                            )),
+                        Positioned(
                             left: 1,
                             bottom: -1,
                             child: Container(
