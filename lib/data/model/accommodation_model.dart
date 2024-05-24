@@ -28,6 +28,7 @@ class Accommodation {
   int? admission_rate;
   String? error;
   bool? trash_dispose_availability;
+  String? rejected_message;
   Accommodation({
     this.id,
     this.name,
@@ -54,6 +55,7 @@ class Accommodation {
     this.admission_rate,
     this.error,
     this.trash_dispose_availability,
+    this.rejected_message,
   });
   Accommodation.withError({required String error}) {
     this.error = error;
@@ -85,6 +87,7 @@ class Accommodation {
     int? admission_rate,
     String? error,
     bool? trash_dispose_availability,
+    String? rejected_message,
   }) {
     return Accommodation(
       id: id ?? this.id,
@@ -115,6 +118,7 @@ class Accommodation {
       error: error ?? this.error,
       trash_dispose_availability:
           trash_dispose_availability ?? this.trash_dispose_availability,
+      rejected_message: rejected_message ?? this.rejected_message,
     );
   }
 
@@ -145,6 +149,7 @@ class Accommodation {
       'admission_rate': admission_rate,
       'error': error,
       'trash_dispose_availability': trash_dispose_availability,
+      'rejected_message': rejected_message,
     };
   }
 
@@ -195,6 +200,9 @@ class Accommodation {
       trash_dispose_availability: map['trash_dispose_availability'] != null
           ? map['trash_dispose_availability'] as bool
           : null,
+      rejected_message: map['rejected_message'] != null
+          ? map['rejected_message'] as String
+          : null,
     );
   }
 
@@ -205,7 +213,7 @@ class Accommodation {
 
   @override
   String toString() {
-    return 'Accommodation(id: $id, name: $name, image: $image, city: $city, address: $address, longitude: $longitude, latitude: $latitude, type: $type, monthly_rate: $monthly_rate, number_of_washroom: $number_of_washroom, gym_availability: $gym_availability, swimming_pool_availability: $swimming_pool_availability, has_tier: $has_tier, date_added: $date_added, is_verified: $is_verified, is_active: $is_active, is_pending: $is_pending, is_rejected: $is_rejected, meals_per_day: $meals_per_day, weekly_non_veg_meals: $weekly_non_veg_meals, weekly_laundry_cycles: $weekly_laundry_cycles, parking_availability: $parking_availability, admission_rate: $admission_rate, error: $error, trash_dispose_availability: $trash_dispose_availability)';
+    return 'Accommodation(id: $id, name: $name, image: $image, city: $city, address: $address, longitude: $longitude, latitude: $latitude, type: $type, monthly_rate: $monthly_rate, number_of_washroom: $number_of_washroom, gym_availability: $gym_availability, swimming_pool_availability: $swimming_pool_availability, has_tier: $has_tier, date_added: $date_added, is_verified: $is_verified, is_active: $is_active, is_pending: $is_pending, is_rejected: $is_rejected, meals_per_day: $meals_per_day, weekly_non_veg_meals: $weekly_non_veg_meals, weekly_laundry_cycles: $weekly_laundry_cycles, parking_availability: $parking_availability, admission_rate: $admission_rate, error: $error, trash_dispose_availability: $trash_dispose_availability, rejected_message: $rejected_message)';
   }
 
   @override
@@ -236,7 +244,8 @@ class Accommodation {
         other.parking_availability == parking_availability &&
         other.admission_rate == admission_rate &&
         other.error == error &&
-        other.trash_dispose_availability == trash_dispose_availability;
+        other.trash_dispose_availability == trash_dispose_availability &&
+        other.rejected_message == rejected_message;
   }
 
   @override
@@ -265,6 +274,7 @@ class Accommodation {
         parking_availability.hashCode ^
         admission_rate.hashCode ^
         error.hashCode ^
-        trash_dispose_availability.hashCode;
+        trash_dispose_availability.hashCode ^
+        rejected_message.hashCode;
   }
 }

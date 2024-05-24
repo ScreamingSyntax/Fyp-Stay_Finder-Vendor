@@ -52,9 +52,25 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
           physics: AlwaysScrollableScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: 100,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: InkWell(
+                    onTap: () {
+                      showExitPopup(
+                          context: context,
+                          message: "Do you want to cancel the process?",
+                          title: "Confirmation",
+                          noBtnFunction: () => Navigator.pop(context),
+                          yesBtnFunction: () {
+                            popMultipleScreens(context, 2);
+                          });
+                    },
+                    child: Icon(Icons.arrow_back)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -63,12 +79,15 @@ class ForgotPasswordOtpScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                "Please Enter Otp",
-                style: TextStyle(
-                    color: Color(0xff29383F).withOpacity(0.5),
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Please Enter Otp",
+                  style: TextStyle(
+                      color: Color(0xff29383F).withOpacity(0.5),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500),
+                ),
               ),
               SizedBox(
                 height: 20,

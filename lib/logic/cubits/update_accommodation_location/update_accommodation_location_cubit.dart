@@ -14,13 +14,23 @@ class UpdateAccommodationLocationCubit
   void updateAccommodationLocation(
       {required String token,
       required String longitude,
+      required String id,
       required String latitude}) async {
     emit(UpdateAccommodationLocationLoading());
     Success success = await _accommodationAdditionRepository.updateLocation(
-        token: token, latitude: latitude, longitude: longitude);
+        accommodationId: id,
+        token: token,
+        latitude: latitude,
+        longitude: longitude);
     if (success.success == 0) {
       return emit(UpdateAccommodationLocationError(error: success.message!));
     }
     emit(UpdateAccommodationLocationSuccess(success: success));
+  }
+
+  @override
+  void onChange(Change<UpdateAccommodationLocationState> change) {
+    print("C :${change.currentState} N: ${change.nextState}");
+    super.onChange(change);
   }
 }

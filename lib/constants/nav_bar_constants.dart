@@ -42,3 +42,12 @@ List<Widget> getNavBarBody() {
     NotificationScreen(),
   ];
 }
+
+List<Widget> offLineNavBarBody() {
+  return <Widget>[
+    NoConnectionScreen(),
+    NoConnectionScreen(),
+    NoConnectionScreen(),
+    NoConnectionScreen(),
+  ];
+}

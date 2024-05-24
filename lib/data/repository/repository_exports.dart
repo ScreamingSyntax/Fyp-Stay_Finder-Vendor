@@ -15,3 +15,6 @@ export 'hostel_repository.dart';
 export 'booking_repository.dart';
 export 'review_repository.dart';
 export 'revenue_repository.dart';
+export 'inventory_repository.dart';
+export 'chat_repository.dart';
+export 'vendor_profile_repository.dart';

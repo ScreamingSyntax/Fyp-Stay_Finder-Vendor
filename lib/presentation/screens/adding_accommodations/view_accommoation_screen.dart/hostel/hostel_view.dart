@@ -1,4 +1,5 @@
 import 'package:flutter_boxicons/flutter_boxicons.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stayfinder_vendor/constants/extensions.dart';
 import 'package:stayfinder_vendor/data/repository/login_repository.dart';
@@ -65,10 +66,11 @@ class HostelViewScreen extends StatelessWidget {
 }
 
 class HostelSuccessScreen extends StatelessWidget {
+  MapController _controller = new MapController();
   final String token;
   final Map data;
   final FetchHostelDetailSuccess fetchHostelDetailSuccess;
-  const HostelSuccessScreen({
+  HostelSuccessScreen({
     required this.fetchHostelDetailSuccess,
     super.key,
     required this.data,
@@ -163,6 +165,17 @@ class HostelSuccessScreen extends StatelessWidget {
                               right: 20,
                               top: 20,
                               child: EditDeleteButtonWidget(
+                                controller: _controller,
+                                accommodationId:
+                                    fetchHostelDetailSuccess.accommodation!.id!,
+                                latitude: double.tryParse(
+                                        fetchHostelDetailSuccess
+                                            .accommodation!.latitude!) ??
+                                    0,
+                                longitude: double.tryParse(
+                                        fetchHostelDetailSuccess
+                                            .accommodation!.longitude!) ??
+                                    0,
                                 deleteOnTap: () async {},
                                 editOnTap: () async {
                                   var imageHelper = context
@@ -709,23 +722,72 @@ class HostelSuccessScreen extends StatelessWidget {
                                   is ResubmitAccommodationVerificationLoading) {
                                 return SizedBox();
                               }
-                              return CustomMaterialButton(
-                                  onPressed: () {
-                                    var loginState =
-                                        context.read<LoginBloc>().state;
-                                    if (loginState is LoginLoaded) {
-                                      context.read<
-                                          ResumbitAccommodationVerificationCubit>()
-                                        ..resubmitForVerification(
-                                            token:
-                                                loginState.successModel.token!,
-                                            accommodationId: data['id']);
-                                    }
-                                  },
-                                  child: Text("Resubmit for Verification"),
-                                  backgroundColor: Color(0xff29383f),
-                                  textColor: Colors.white,
-                                  height: 45);
+                              return Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.all(10),
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            spreadRadius: 2,
+                                            blurRadius: 4,
+                                            offset: Offset(0, 3),
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.white),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Rejection Reason",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          fetchHostelDetailSuccess
+                                              .accommodation!.rejected_message!,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  CustomMaterialButton(
+                                      onPressed: () {
+                                        var loginState =
+                                            context.read<LoginBloc>().state;
+                                        if (loginState is LoginLoaded) {
+                                          context.read<
+                                              ResumbitAccommodationVerificationCubit>()
+                                            ..resubmitForVerification(
+                                                token: loginState
+                                                    .successModel.token!,
+                                                accommodationId: data['id']);
+                                        }
+                                      },
+                                      child: Text("Resubmit for Verification"),
+                                      backgroundColor: Color(0xff29383f),
+                                      textColor: Colors.white,
+                                      height: 45),
+                                ],
+                              );
                             },
                           ),
                           SizedBox(

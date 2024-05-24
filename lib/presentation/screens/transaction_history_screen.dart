@@ -127,24 +127,6 @@ class UpperBodyTransaction extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-
-                  // InkWell(
-                  //   onTap: () {
-                  //     showExitPopup(
-                  //       context: context,
-                  //       message: "Do you really want to go back?",
-                  //       title: "Confirmation",
-                  //       noBtnFunction: () {
-                  //         Navigator.pop(context);
-                  //       },
-                  //       yesBtnFunction: () {
-                  //         int count = 0;
-                  //         Navigator.of(context).popUntil((_) => count++ >= 2);
-                  //       },
-                  //     );
-                  //   },
-                  //   child:
-                  // ),
                   Row(
                     children: [
                       Text(

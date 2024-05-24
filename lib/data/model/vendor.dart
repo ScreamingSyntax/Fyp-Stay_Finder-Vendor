@@ -6,7 +6,7 @@ import './model_exports.dart';
 class Vendor {
   int? id;
   String? email;
-  String? phoneNumber;
+  String? phone_number;
   bool? isVerified;
   String? fullName;
   String? full_name;
@@ -18,7 +18,7 @@ class Vendor {
   Vendor({
     this.id,
     this.email,
-    this.phoneNumber,
+    this.phone_number,
     this.isVerified,
     this.fullName,
     this.full_name,
@@ -33,7 +33,7 @@ class Vendor {
   Vendor copyWith({
     int? id,
     String? email,
-    String? phoneNumber,
+    String? phone_number,
     bool? isVerified,
     String? fullName,
     String? full_name,
@@ -45,7 +45,7 @@ class Vendor {
     return Vendor(
       id: id ?? this.id,
       email: email ?? this.email,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
+      phone_number: phone_number ?? this.phone_number,
       isVerified: isVerified ?? this.isVerified,
       fullName: fullName ?? this.fullName,
       full_name: full_name ?? this.full_name,
@@ -60,7 +60,7 @@ class Vendor {
     return <String, dynamic>{
       'id': id,
       'email': email,
-      'phoneNumber': phoneNumber,
+      'phone_number': phone_number,
       'isVerified': isVerified,
       'fullName': fullName,
       'full_name': full_name,
@@ -75,8 +75,8 @@ class Vendor {
     return Vendor(
       id: map['id'] != null ? map['id'] as int : null,
       email: map['email'] != null ? map['email'] as String : null,
-      phoneNumber:
-          map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
+      phone_number:
+          map['phone_number'] != null ? map['phone_number'] as String : null,
       isVerified: map['isVerified'] != null ? map['isVerified'] as bool : null,
       fullName: map['fullName'] != null ? map['fullName'] as String : null,
       full_name: map['full_name'] != null ? map['full_name'] as String : null,
@@ -94,7 +94,7 @@ class Vendor {
 
   @override
   String toString() {
-    return 'Vendor(id: $id, email: $email, phoneNumber: $phoneNumber, isVerified: $isVerified, fullName: $fullName, full_name: $full_name, error: $error, password: $password, otp: $otp, image: $image)';
+    return 'Vendor(id: $id, email: $email, phone_number: $phone_number, isVerified: $isVerified, fullName: $fullName, full_name: $full_name, error: $error, password: $password, otp: $otp, image: $image)';
   }
 
   @override
@@ -103,7 +103,7 @@ class Vendor {
 
     return other.id == id &&
         other.email == email &&
-        other.phoneNumber == phoneNumber &&
+        other.phone_number == phone_number &&
         other.isVerified == isVerified &&
         other.fullName == fullName &&
         other.full_name == full_name &&
@@ -117,7 +117,7 @@ class Vendor {
   int get hashCode {
     return id.hashCode ^
         email.hashCode ^
-        phoneNumber.hashCode ^
+        phone_number.hashCode ^
         isVerified.hashCode ^
         fullName.hashCode ^
         full_name.hashCode ^

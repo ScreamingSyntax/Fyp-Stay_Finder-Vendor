@@ -83,8 +83,12 @@ class AccommodationAdditionRepository {
   Future<Success> updateLocation(
       {required String token,
       required String latitude,
+      required String accommodationId,
       required String longitude}) async {
     return await accommodationAdditionApi.updateLocation(
-        token: token, latitude: latitude, longitude: longitude);
+        accommodationId: accommodationId,
+        token: token,
+        latitude: latitude,
+        longitude: longitude);
   }
 }

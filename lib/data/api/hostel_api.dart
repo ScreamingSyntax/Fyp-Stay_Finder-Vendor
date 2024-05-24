@@ -19,8 +19,10 @@ class HostelApiProvider {
       if (request.data['success'] == 0) {
         return Success(success: 0, message: request.data['message']);
       }
+      print(request.data);
+      print("object");
       Success success = Success(success: 1, data: request.data['data']);
-      // print("Thsi is success ${success}");
+      // print("Thsi is success ${success}");\\
       return success;
     } catch (Exception) {
       return Success(success: 0, message: "Connection Error");

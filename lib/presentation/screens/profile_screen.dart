@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:stayfinder_vendor/constants/ip.dart';
+import 'package:stayfinder_vendor/data/api/api_exports.dart';
 import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
 import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
 import 'package:stayfinder_vendor/presentation/widgets/widgets_exports.dart';
@@ -15,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xffECEFF1),
       body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
             // Container(
@@ -136,216 +137,321 @@ class ProfileScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 27.0),
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    ListTile(
-                        onTap: () {
-                          var state = context.read<LoginBloc>().state;
-                          if (state is LoginLoaded) {
-                            context.read<FetchVendorProfileBloc>()
-                              ..add(HitFetchVendorProfileEvent(
-                                  token: state.successModel.token!));
-                            Navigator.pushNamed(context, "/info");
-                          }
-                          context
-                              .read<DocumentDetailDartBloc>()
-                              .add(DocumentDataClearEvent());
-                        },
-                        leading: Icon(
-                          CupertinoIcons.doc_checkmark_fill,
-                          color: Color(0xff455A64).withOpacity(0.8),
-                        ),
-                        title: CustomPoppinsText(
-                            text: "My information",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff2E3D49)),
-                        //  Text(
-                        //   "My information",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w500,
-                        //     color: Color(0xff32454D).withOpacity(0.8),
-                        //   ),
-                        // ),
-                        subtitle: CustomPoppinsText(
-                          text: "View your personal information",
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: Color(0xff607D8B),
-                        )),
-                    ListTile(
+              child: Column(
+                children: [
+                  ListTile(
                       onTap: () {
                         var state = context.read<LoginBloc>().state;
                         if (state is LoginLoaded) {
-                          context.read<FetchRevenueDataCubit>()
-                            ..getRevenue(token: state.successModel.token!);
-                          Navigator.pushNamed(context, "/revenue");
+                          context.read<FetchVendorProfileBloc>()
+                            ..add(HitFetchVendorProfileEvent(
+                                token: state.successModel.token!));
+                          Navigator.pushNamed(context, "/info");
                         }
+                        context
+                            .read<DocumentDetailDartBloc>()
+                            .add(DocumentDataClearEvent());
                       },
                       leading: Icon(
-                        Icons.monetization_on,
-                        color: Color(0xff32454D).withOpacity(0.8),
-                      ),
-                      subtitle: CustomPoppinsText(
-                        text: "View your income",
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        color: Color(0xff607D8B),
+                        CupertinoIcons.doc_checkmark_fill,
+                        color: Color(0xff455A64).withOpacity(0.8),
                       ),
                       title: CustomPoppinsText(
-                          text: "Revenue",
+                          text: "My information",
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: Color(0xff2E3D49)),
+                      //  Text(
+                      //   "My information",
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.w500,
+                      //     color: Color(0xff32454D).withOpacity(0.8),
+                      //   ),
+                      // ),
+                      subtitle: CustomPoppinsText(
+                        text: "View your personal information",
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff607D8B),
+                      )),
+                  ListTile(
+                    onTap: () {
+                      var state = context.read<LoginBloc>().state;
+                      if (state is LoginLoaded) {
+                        context.read<FetchRevenueDataCubit>()
+                          ..getRevenue(token: state.successModel.token!);
+                        Navigator.pushNamed(context, "/revenue");
+                      }
+                    },
+                    leading: Icon(
+                      Icons.monetization_on,
+                      color: Color(0xff32454D).withOpacity(0.8),
                     ),
-                    BlocBuilder<LoginBloc, LoginState>(
-                      builder: (context, state) {
-                        return ListTile(
-                          onTap: () {
-                            if (state is LoginLoaded) {
-                              context.read<FetchTransactionHistoryBloc>().add(
-                                  FetchTransactionHistoryHitEvent(
-                                      token: state.successModel.token!));
-                              Navigator.pushNamed(context, "/paymentHistory");
-                            }
-                          },
-                          leading: Icon(
-                            Icons.attach_money,
-                            color: Color(0xff32454D).withOpacity(0.8),
-                          ),
-                          subtitle: CustomPoppinsText(
-                            text: "View your payment history",
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xff607D8B),
-                          ),
-                          title: CustomPoppinsText(
-                            text: "Payment History",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff2E3D49),
-                          ),
-                        );
-                      },
+                    subtitle: CustomPoppinsText(
+                      text: "View your income",
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      color: Color(0xff607D8B),
                     ),
-                    ListTile(
+                    title: CustomPoppinsText(
+                        text: "Revenue",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff2E3D49)),
+                  ),
+                  BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      return ListTile(
                         onTap: () {
-                          showExitPopup(
-                              context: context,
-                              message: "This will remove your current tier",
-                              title: "Confirmation",
-                              noBtnFunction: () {
-                                Navigator.pop(context);
-                              },
-                              yesBtnFunction: () {
-                                var profileState = context
-                                    .read<FetchVendorProfileBloc>()
-                                    .state;
+                          if (state is LoginLoaded) {
+                            context.read<FetchTransactionHistoryBloc>().add(
+                                FetchTransactionHistoryHitEvent(
+                                    token: state.successModel.token!));
+                            Navigator.pushNamed(context, "/paymentHistory");
+                          }
+                        },
+                        leading: Icon(
+                          Icons.attach_money,
+                          color: Color(0xff32454D).withOpacity(0.8),
+                        ),
+                        subtitle: CustomPoppinsText(
+                          text: "View your payment history",
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: Color(0xff607D8B),
+                        ),
+                        title: CustomPoppinsText(
+                          text: "Payment History",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff2E3D49),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                      onTap: () {
+                        showExitPopup(
+                            context: context,
+                            message: "This will remove your current tier",
+                            title: "Confirmation",
+                            noBtnFunction: () {
+                              Navigator.pop(context);
+                            },
+                            yesBtnFunction: () {
+                              var profileState =
+                                  context.read<FetchVendorProfileBloc>().state;
 
-                                if (profileState is FetchVendorProfileLoaded) {
-                                  if (profileState.vendorProfile.is_verified ==
-                                      'True') {
-                                    var state = context.read<LoginBloc>().state;
-                                    if (state is LoginLoaded) {
-                                      context
-                                          .read<FetchTransactionHistoryBloc>()
-                                          .add(FetchTransactionHistoryHitEvent(
-                                              token:
-                                                  state.successModel.token!));
-                                      Navigator.pushNamed(
-                                          context, "/renewSubscription");
-                                    }
-                                  } else {
-                                    customScaffold(
-                                        context: context,
-                                        title: "Error",
-                                        message: "Verify your profile first",
-                                        contentType: ContentType.failure);
+                              if (profileState is FetchVendorProfileLoaded) {
+                                if (profileState.vendorProfile.is_verified ==
+                                    'True') {
+                                  var state = context.read<LoginBloc>().state;
+                                  if (state is LoginLoaded) {
+                                    context
+                                        .read<FetchTransactionHistoryBloc>()
+                                        .add(FetchTransactionHistoryHitEvent(
+                                            token: state.successModel.token!));
+                                    Navigator.pushNamed(
+                                        context, "/renewSubscription");
                                   }
+                                } else {
+                                  customScaffold(
+                                      context: context,
+                                      title: "Error",
+                                      message: "Verify your profile first",
+                                      contentType: ContentType.failure);
                                 }
-                              });
-                        },
-                        leading: Icon(
-                          Boxicons.bx_medal,
-                          color: Color(0xff32454D).withOpacity(0.8),
-                        ),
-                        title: CustomPoppinsText(
-                          text: "Change Tier",
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff2E3D49),
-                        ),
-                        subtitle: CustomPoppinsText(
-                          text: "Change your current Tier",
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: Color(0xff607D8B),
-                        )),
+                              }
+                            });
+                      },
+                      leading: Icon(
+                        Boxicons.bx_medal,
+                        color: Color(0xff32454D).withOpacity(0.8),
+                      ),
+                      title: CustomPoppinsText(
+                        text: "Change Tier",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff2E3D49),
+                      ),
+                      subtitle: CustomPoppinsText(
+                        text: "Change your current Tier",
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff607D8B),
+                      )),
+                  if (Platform.isAndroid)
                     ListTile(
                         onTap: () {
-                          Navigator.pushNamed(context, "/resetPass");
+                          var loginState = context.read<LoginBloc>().state;
+                          if (loginState is LoginLoaded) {
+                            context.read<FetchDevicesCubit>()
+                              ..fetchNotification(
+                                  token: loginState.successModel.token!);
+                          }
+                          Navigator.pushNamed(context, "/devices");
                         },
                         leading: Icon(
-                          CupertinoIcons.lock_fill,
+                          CupertinoIcons.device_phone_portrait,
                           color: Color(0xff32454D).withOpacity(0.8),
                         ),
                         title: CustomPoppinsText(
-                          text: "Reset Password",
+                          text: "Your Devices",
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: Color(0xff2E3D49),
                         ),
                         subtitle: CustomPoppinsText(
-                          text: "Do you want to change your password",
+                          text: "View your devices",
                           fontSize: 12,
                           fontWeight: FontWeight.normal,
                           color: Color(0xff607D8B),
                         )),
-                    ListTile(
-                        onTap: () {
-                          context
-                              .read<FetchAddedAccommodationsBloc>()
-                              .add(FetchAddedAccommodationResetEvent());
-                          context
-                              .read<FetchCurrentTierBloc>()
-                              .add(FetchCurrentTierClearEvent());
-                          context
-                              .read<FetchVendorProfileBloc>()
-                              .add(ClearVendorProfileEvent());
-                          context
-                              .read<FetchTierBloc>()
-                              .add(FetchTierClearEvent());
-                          context
-                              .read<FetchTransactionHistoryBloc>()
-                              .add(FetchTransactionHistoryClearEvent());
-                          context.read<LoginBloc>().add(LoginClearEvent());
-                          context
-                              .read<FetchBookingRequestCubit>()
-                              .resetBookings();
-                          context.read<RememberMeCubit>().reset();
-                          Navigator.pushNamed(context, "/login");
-                        },
-                        leading: Icon(
-                          Icons.door_back_door_rounded,
-                          color: Color(0xff32454D).withOpacity(0.8),
-                        ),
-                        title: CustomPoppinsText(
-                          text: "Log out",
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff2E3D49),
-                        ),
-                        subtitle: CustomPoppinsText(
-                          text: "Log out from the system bro",
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: Color(0xff607D8B),
-                        )),
-                  ],
-                ),
+                  ListTile(
+                      onTap: () async {
+                        var state =
+                            context.read<FetchAddedAccommodationsBloc>().state;
+                        //  var profileState =
+                        // context.read<FetchVendorProfileBloc>().state;
+                        var profileState =
+                            context.read<FetchCurrentTierBloc>().state;
+                        // if(profileState.)
+                        if (profileState is FetchCurrentTierLoaded) {
+                          // if(profileState.currentTier.)
+                          // if(profileState.currentTier.)
+                          DateTime now = DateTime.now();
+                          DateTime paid_till = DateTime.parse(
+                              profileState.currentTier.paid_till!);
+                          if (now.isAfter(paid_till)) {
+                            customScaffold(
+                                context: context,
+                                title: "Error",
+                                message: "You need to renew Tier First",
+                                contentType: ContentType.failure);
+                            return;
+                          }
+                          if (state is FetchAddedAccommodationsLoaded) {
+                            // if(state.)
+                            if (state.accommodation.length == 0) {
+                              customScaffold(
+                                  context: context,
+                                  title: "Warning",
+                                  message:
+                                      "You haven't added any accommodation yet",
+                                  contentType: ContentType.warning);
+                            } else {
+                              var items = state.accommodation;
+                              if (items.length == 0) {
+                                customScaffold(
+                                    context: context,
+                                    title: "Warning",
+                                    message:
+                                        "You have no verified accommodations yet",
+                                    contentType: ContentType.warning);
+                                return;
+                              }
+
+                              await context.read<StoreFilterCubit>()
+                                ..storeAccommodation(accommodation: items[0]);
+                              await context.read<StoreFilterCubit>()
+                                ..initializeAccommodationList(
+                                    accommodations: state.accommodation);
+                              await context.read<StoreFilterCubit>()
+                                ..storeAccommodation(
+                                    accommodation: state.accommodation[0]);
+                              var loginState = context.read<LoginBloc>().state;
+                              if (loginState is LoginLoaded) {
+                                // if(profileState.)
+                                // profileState.
+                                context.read<FetchInventoryCubit>()
+                                  ..fetchInventory(
+                                      token: loginState.successModel.token!,
+                                      accommodationId:
+                                          state.accommodation[0].id!);
+                              }
+                              Navigator.pushNamed(context, "/inventory");
+                            }
+                          }
+                        }
+                      },
+                      leading: Icon(
+                        Icons.storage,
+                        color: Color(0xff32454D).withOpacity(0.8),
+                      ),
+                      title: CustomPoppinsText(
+                        text: "Inventory",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff2E3D49),
+                      ),
+                      subtitle: CustomPoppinsText(
+                        text: "Keeps your items in check",
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff607D8B),
+                      )),
+                  ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/resetPass");
+                      },
+                      leading: Icon(
+                        CupertinoIcons.lock_fill,
+                        color: Color(0xff32454D).withOpacity(0.8),
+                      ),
+                      title: CustomPoppinsText(
+                        text: "Reset Password",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff2E3D49),
+                      ),
+                      subtitle: CustomPoppinsText(
+                        text: "Do you want to change your password",
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff607D8B),
+                      )),
+                  ListTile(
+                      onTap: () {
+                        context
+                            .read<FetchAddedAccommodationsBloc>()
+                            .add(FetchAddedAccommodationResetEvent());
+                        context
+                            .read<FetchCurrentTierBloc>()
+                            .add(FetchCurrentTierClearEvent());
+                        context
+                            .read<FetchVendorProfileBloc>()
+                            .add(ClearVendorProfileEvent());
+                        context
+                            .read<FetchTierBloc>()
+                            .add(FetchTierClearEvent());
+                        context
+                            .read<FetchTransactionHistoryBloc>()
+                            .add(FetchTransactionHistoryClearEvent());
+                        context.read<LoginBloc>().add(LoginClearEvent());
+                        context
+                            .read<FetchBookingRequestCubit>()
+                            .resetBookings();
+                        context.read<RememberMeCubit>().reset();
+                        Navigator.pushNamed(context, "/login");
+                      },
+                      leading: Icon(
+                        Icons.door_back_door_rounded,
+                        color: Color(0xff32454D).withOpacity(0.8),
+                      ),
+                      title: CustomPoppinsText(
+                        text: "Log out",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff2E3D49),
+                      ),
+                      subtitle: CustomPoppinsText(
+                        text: "Log out from the system bro",
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff607D8B),
+                      )),
+                ],
               ),
             )
           ],

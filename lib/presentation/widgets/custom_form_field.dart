@@ -14,6 +14,7 @@ class CustomFormField extends StatelessWidget {
   final Icon? prefixIcon;
   final String? labelText;
   final String? initialValue;
+  final bool? hasBorder;
   const CustomFormField(
       {super.key,
       this.initialValue,
@@ -27,7 +28,8 @@ class CustomFormField extends StatelessWidget {
       this.prefixIcon,
       this.labelText,
       this.obscureText = false,
-      this.controller});
+      this.controller,
+      this.hasBorder = true});
 
   Widget build(BuildContext context) {
     return SizedBox(
@@ -47,12 +49,18 @@ class CustomFormField extends StatelessWidget {
             labelText: labelText ?? null,
             fillColor: Color(0xffe5e5e5),
             isDense: true,
-            border: borderDecoration(borderColor: Color(0xff878e92), radius: 5),
-            errorBorder: borderDecoration(borderColor: Colors.red, radius: 5),
-            focusedBorder:
-                borderDecoration(borderColor: Color(0xff878e92), radius: 5),
-            enabledBorder:
-                borderDecoration(borderColor: Color(0xff878e92), radius: 5)),
+            border: hasBorder!
+                ? borderDecoration(borderColor: Color(0xff878e92), radius: 5)
+                : null,
+            errorBorder: hasBorder!
+                ? borderDecoration(borderColor: Colors.red, radius: 5)
+                : null,
+            focusedBorder: hasBorder!
+                ? borderDecoration(borderColor: Color(0xff878e92), radius: 5)
+                : null,
+            enabledBorder: hasBorder!
+                ? borderDecoration(borderColor: Color(0xff878e92), radius: 5)
+                : null),
         onTap: onTap,
         onChanged: onChange,
         onTapOutside: onTapOutside,

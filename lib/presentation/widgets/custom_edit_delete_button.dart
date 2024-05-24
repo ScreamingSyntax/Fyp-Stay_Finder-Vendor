@@ -1,12 +1,29 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:stayfinder_vendor/logic/cubits/save_location/save_location_cubit.dart';
+
+import '../../constants/constants_exports.dart';
 import 'widgets_exports.dart';
 
 class EditDeleteButtonWidget extends StatelessWidget {
   final Function() editOnTap;
   final Function() deleteOnTap;
-  const EditDeleteButtonWidget(
-      {super.key, required this.editOnTap, required this.deleteOnTap});
+  final int accommodationId;
+  final MapController controller;
+  final double longitude;
+  final double latitude;
+  const EditDeleteButtonWidget({
+    Key? key,
+    required this.editOnTap,
+    required this.deleteOnTap,
+    required this.accommodationId,
+    required this.controller,
+    required this.longitude,
+    required this.latitude,
+  }) : super(key: key);
 
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -50,7 +67,31 @@ class EditDeleteButtonWidget extends StatelessWidget {
           height: 10,
         ),
         InkWell(
-          onTap: deleteOnTap,
+          onTap: () async {
+            context.read<SaveLocationCubit>()..clearLocation();
+            context.read<SaveLocationCubit>()
+              ..storeLocation(
+                  longitude: longitude.toString(),
+                  latitude: latitude.toString());
+            bool locationPermission =
+                await LocationHandler.handleLocationPermission(context);
+            customScaffold(
+                context: context,
+                title: "Please Wait",
+                message: "We are getting your current location",
+                contentType: ContentType.warning);
+            if (locationPermission) {
+              Position position = await Geolocator.getCurrentPosition(
+                  desiredAccuracy: LocationAccuracy.high);
+
+              editLocation(
+                  context: context,
+                  latitude: position.latitude,
+                  id: accommodationId,
+                  longitude: position.longitude,
+                  mapController: controller);
+            }
+          },
           child: Container(
               height: 40,
               width: 40,

@@ -8,15 +8,25 @@ class AccommodationAdditionApi {
   Future<Success> updateLocation(
       {required String token,
       required String latitude,
+      required String accommodationId,
       required String longitude}) async {
     try {
       final url = Uri.parse("${getIp()}accommodation/updateLocation/");
-      final response = await http.patch(url, headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Token $token'
-      });
+      final response = await http.patch(url,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Token $token'
+          },
+          body: jsonEncode({
+            'id': accommodationId,
+            'latitude': latitude,
+            'longitude': longitude
+          }));
+      print(response.body);
+      // print(object)
       return Success.fromMap(jsonDecode(response.body));
     } catch (e) {
+      print(e);
       return Success(
           success: 0, message: "Please check your internet connection");
     }
@@ -415,12 +425,14 @@ class AccommodationAdditionApi {
       }
       final streamedReponse = await request.send();
       final response = await http.Response.fromStream(streamedReponse);
+
       final body = jsonDecode(response.body);
       if (body['success'] == 1) {
         return Success(success: 1, message: body['message']);
       }
       return Success(success: 0, message: body['message']);
-    } catch (Exception) {
+    } catch (e) {
+      print(e);
       return Success(success: 0, message: "Check your internet connection");
     }
   }

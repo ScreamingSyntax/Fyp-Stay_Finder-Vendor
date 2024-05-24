@@ -124,6 +124,11 @@ class UpperBody extends StatelessWidget {
                                     width: 88,
                                     height: 88,
                                     fit: BoxFit.fill,
+                                    errorWidget: (context, url, error) {
+                                      return SizedBox(
+                                        height: 0,
+                                      );
+                                    },
                                     imageUrl:
                                         "${getIpWithoutSlash()}${fetchVendorState.vendorProfile.profile_picture}"),
                               ),

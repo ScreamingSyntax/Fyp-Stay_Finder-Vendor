@@ -18,11 +18,14 @@ class FetchHostelDetailsCubit extends Cubit<FetchHostelDetailsState> {
     }
     Map data = success.data!;
     Accommodation accommodation = Accommodation.fromMap(data['accommodation']);
+    print(accommodation);
+    accommodation.id = accommodationId;
     List<Room> rooms =
         List.from(data['room']).map((e) => Room.fromMap(e)).toList();
     List<RoomImage> roomImages =
         List.from(data['images']).map((e) => RoomImage.fromMap(e)).toList();
     // print("This is the data ${data}");
+    print(accommodation);
     return emit(FetchHostelDetailSuccess(
         accommodation: accommodation, rooms: rooms, images: roomImages));
   }

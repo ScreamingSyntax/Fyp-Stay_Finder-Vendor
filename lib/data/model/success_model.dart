@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 
 import './model_exports.dart';
 
@@ -9,22 +8,26 @@ class Success {
   String? token;
   String? error;
   Map? data;
+  Vendor? user;
   Success({
     this.success,
     this.message,
     this.token,
     this.error,
     this.data,
+    this.user,
   });
   Success.withError(String error) {
     this.error = error;
   }
+
   Success copyWith({
     int? success,
     String? message,
     String? token,
     String? error,
     Map? data,
+    Vendor? user,
   }) {
     return Success(
       success: success ?? this.success,
@@ -32,6 +35,7 @@ class Success {
       token: token ?? this.token,
       error: error ?? this.error,
       data: data ?? this.data,
+      user: user ?? this.user,
     );
   }
 
@@ -42,6 +46,7 @@ class Success {
       'token': token,
       'error': error,
       'data': data,
+      'user': user?.toMap(),
     };
   }
 
@@ -51,7 +56,10 @@ class Success {
       message: map['message'] != null ? map['message'] as String : null,
       token: map['token'] != null ? map['token'] as String : null,
       error: map['error'] != null ? map['error'] as String : null,
-      data: map['data'] != null ? map['data'] as Map<String, dynamic> : null,
+      data: map['data'] != null ? (map['data'] as Map<String, dynamic>) : null,
+      user: map['user'] != null
+          ? Vendor.fromMap(map['user'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -62,7 +70,7 @@ class Success {
 
   @override
   String toString() {
-    return 'Success(success: $success, message: $message, token: $token, error: $error, data: $data)';
+    return 'Success(success: $success, message: $message, token: $token, error: $error, data: $data, user: $user)';
   }
 
   @override
@@ -73,7 +81,8 @@ class Success {
         other.message == message &&
         other.token == token &&
         other.error == error &&
-        other.data == data;
+        other.data == data &&
+        other.user == user;
   }
 
   @override
@@ -82,6 +91,7 @@ class Success {
         message.hashCode ^
         token.hashCode ^
         error.hashCode ^
-        data.hashCode;
+        data.hashCode ^
+        user.hashCode;
   }
 }

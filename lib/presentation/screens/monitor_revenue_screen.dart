@@ -47,90 +47,90 @@ class MonitorRevenueScreen extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width: 65,
-                            child: CustomMaterialButton(
-                                onPressed: () {
-                                  filterRevenueStatus(context, 'daily');
-                                },
-                                child: Text(
-                                  "Today",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                backgroundColor: Colors.white,
-                                textColor: Colors.black.withOpacity(0.7),
-                                height: 35),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: 67,
-                            child: CustomMaterialButton(
-                                onPressed: () {
-                                  filterRevenueStatus(context, 'weekly');
-                                },
-                                child: Text(
-                                  "7 days",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                backgroundColor: Colors.white,
-                                textColor: Colors.black.withOpacity(0.7),
-                                height: 35),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: 75,
-                            child: CustomMaterialButton(
-                                onPressed: () {
-                                  filterRevenueStatus(context, 'monthly');
-                                },
-                                child: Text(
-                                  "1 month",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                backgroundColor: Colors.white,
-                                textColor: Colors.black.withOpacity(0.7),
-                                height: 35),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: 70,
-                            child: CustomMaterialButton(
-                                onPressed: () {
-                                  filterRevenueStatus(context, 'yearly');
-                                },
-                                child: Text(
-                                  "1 Year",
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                backgroundColor: Colors.white,
-                                textColor: Colors.black.withOpacity(0.7),
-                                height: 35),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //       children: [
+                  //         Container(
+                  //           width: 65,
+                  //           child: CustomMaterialButton(
+                  //               onPressed: () {
+                  //                 filterRevenueStatus(context, 'daily');
+                  //               },
+                  //               child: Text(
+                  //                 "Today",
+                  //                 style: TextStyle(
+                  //                     fontSize: 10,
+                  //                     fontWeight: FontWeight.bold),
+                  //               ),
+                  //               backgroundColor: Colors.white,
+                  //               textColor: Colors.black.withOpacity(0.7),
+                  //               height: 35),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 10,
+                  //         ),
+                  //         Container(
+                  //           width: 67,
+                  //           child: CustomMaterialButton(
+                  //               onPressed: () {
+                  //                 filterRevenueStatus(context, 'weekly');
+                  //               },
+                  //               child: Text(
+                  //                 "7 days",
+                  //                 style: TextStyle(
+                  //                     fontSize: 10,
+                  //                     fontWeight: FontWeight.bold),
+                  //               ),
+                  //               backgroundColor: Colors.white,
+                  //               textColor: Colors.black.withOpacity(0.7),
+                  //               height: 35),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 10,
+                  //         ),
+                  //         Container(
+                  //           width: 75,
+                  //           child: CustomMaterialButton(
+                  //               onPressed: () {
+                  //                 filterRevenueStatus(context, 'monthly');
+                  //               },
+                  //               child: Text(
+                  //                 "1 month",
+                  //                 style: TextStyle(
+                  //                     fontSize: 10,
+                  //                     fontWeight: FontWeight.bold),
+                  //               ),
+                  //               backgroundColor: Colors.white,
+                  //               textColor: Colors.black.withOpacity(0.7),
+                  //               height: 35),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 10,
+                  //         ),
+                  //         Container(
+                  //           width: 70,
+                  //           child: CustomMaterialButton(
+                  //               onPressed: () {
+                  //                 filterRevenueStatus(context, 'yearly');
+                  //               },
+                  //               child: Text(
+                  //                 "1 Year",
+                  //                 style: TextStyle(
+                  //                     fontSize: 10,
+                  //                     fontWeight: FontWeight.bold),
+                  //               ),
+                  //               backgroundColor: Colors.white,
+                  //               textColor: Colors.black.withOpacity(0.7),
+                  //               height: 35),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 30,
                   ),

@@ -1,15 +1,6 @@
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/add_tier_screen.dart';
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hostel_with_tier_screen.dart';
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hotel_landing_screen.dart';
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/hotel_without_tier_screen.dart';
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hostel/hostel_view.dart';
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hotel/hotel_with_tier_view.dart';
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/hotel_without_tier.dart/hotel_without_tier_view.dart';
-
 import '../../logic/blocs/bloc_exports.dart';
 import '../../logic/cubits/cubit_exports.dart';
 import '../../presentation/widgets/widgets_exports.dart';
-import '../screens/adding_accommodations/view_accommoation_screen.dart/rental_room_view.dart';
 import '../screens/screen_exports.dart';
 
 class AppRouter {
@@ -104,6 +95,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => MonitorRevenueScreen());
       case "/forgotPass":
         return MaterialPageRoute(builder: (_) => ForgotPasswordEmailScreen());
+      case "/devices":
+        return MaterialPageRoute(builder: (_) => DevicesScreen());
+      case '/inventory':
+        return MaterialPageRoute(builder: (_) => InventoryScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

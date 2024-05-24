@@ -23,7 +23,7 @@ class SignUpOtpDartBloc extends Bloc<SignUpOtpDartEvent, SignUpOtpDartState> {
           email: event.vendor.email!,
           fullName: event.vendor.fullName!,
           password: event.vendor.password!,
-          phoneNumber: event.vendor.phoneNumber!,
+          phoneNumber: event.vendor.phone_number!,
           otp: event.vendor.otp!);
       print(success);
       if (success.error != null) {

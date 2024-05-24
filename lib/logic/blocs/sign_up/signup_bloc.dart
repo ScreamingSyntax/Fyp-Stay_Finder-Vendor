@@ -21,7 +21,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           email: event.vendor.email!,
           fullName: event.vendor.fullName!,
           password: event.vendor.password!,
-          phoneNumber: event.vendor.phoneNumber!);
+          phoneNumber: event.vendor.phone_number!);
       if (success.error != null) {
         emit(SignUpErrorState(errorMessage: success.error!));
         return;

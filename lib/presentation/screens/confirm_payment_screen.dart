@@ -42,7 +42,9 @@ class ConfirmPaymentScreen extends StatelessWidget {
                     paidTill: checkOutDate);
               },
               style: ElevatedButton.styleFrom(
-                primary: Color(0xff32454D),
+                backgroundColor: Color(0xff32454D),
+                // primary:
+
                 padding: EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

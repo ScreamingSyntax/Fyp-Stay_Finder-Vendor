@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stayfinder_vendor/constants/ip.dart';
 import 'package:stayfinder_vendor/data/model/model_exports.dart';
@@ -16,9 +17,10 @@ import '../../../../logic/cubits/cubit_exports.dart';
 import '../../../config/config_exports.dart';
 
 class RentalRoomViewScreen extends StatelessWidget {
+  MapController _controller = new MapController();
   final Object arguments;
 
-  const RentalRoomViewScreen({super.key, required this.arguments});
+  RentalRoomViewScreen({super.key, required this.arguments});
 
   Future<dynamic> updateRoomDetails({
     required String token,
@@ -841,6 +843,15 @@ class RentalRoomViewScreen extends StatelessWidget {
                                       right: 30,
                                       top: 50,
                                       child: EditDeleteButtonWidget(
+                                        controller: _controller,
+                                        accommodationId:
+                                            state.accommodation.id!,
+                                        latitude: double.tryParse(state
+                                                .accommodation.latitude!) ??
+                                            0,
+                                        longitude: double.tryParse(state
+                                                .accommodation.longitude!) ??
+                                            0,
                                         editOnTap: () async {
                                           var imageHelper = context
                                               .read<ImageHelperCubit>()
@@ -1378,25 +1389,83 @@ class RentalRoomViewScreen extends StatelessWidget {
                                           is ResubmitAccommodationVerificationLoading) {
                                         return SizedBox();
                                       }
-                                      return CustomMaterialButton(
-                                          onPressed: () {
-                                            var loginState =
-                                                context.read<LoginBloc>().state;
-                                            if (loginState is LoginLoaded) {
-                                              context.read<
-                                                  ResumbitAccommodationVerificationCubit>()
-                                                ..resubmitForVerification(
-                                                    token: loginState
-                                                        .successModel.token!,
-                                                    accommodationId: state
-                                                        .accommodation.id!);
-                                            }
-                                          },
-                                          child:
-                                              Text("Resubmit for Verification"),
-                                          backgroundColor: Color(0xff29383f),
-                                          textColor: Colors.white,
-                                          height: 45);
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.center,
+                                            padding: EdgeInsets.all(10),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.2),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 4,
+                                                    offset: Offset(0, 3),
+                                                  ),
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: Colors.white),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "Rejection Reason",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  state.accommodation
+                                                      .rejected_message!,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          CustomMaterialButton(
+                                              onPressed: () {
+                                                var loginState = context
+                                                    .read<LoginBloc>()
+                                                    .state;
+                                                if (loginState is LoginLoaded) {
+                                                  context.read<
+                                                      ResumbitAccommodationVerificationCubit>()
+                                                    ..resubmitForVerification(
+                                                        token: loginState
+                                                            .successModel
+                                                            .token!,
+                                                        accommodationId: state
+                                                            .accommodation.id!);
+                                                }
+                                              },
+                                              child: Text(
+                                                  "Resubmit for Verification"),
+                                              backgroundColor:
+                                                  Color(0xff29383f),
+                                              textColor: Colors.white,
+                                              height: 45),
+                                        ],
+                                      );
                                     },
                                   ),
                                   SizedBox(

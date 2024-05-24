@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "919642445703",
+    "project_id": "stay-finder-93fe9",
+    "storage_bucket": "stay-finder-93fe9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919642445703:android:828a3096d8f87fb4f4e522",
+        "android_client_info": {
+          "package_name": "com.example.stayfinder_vendor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUrI8fIKd5k0BnDvyG3bir2JnZsCpn5lE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -18,14 +18,16 @@ class CustomDropDownButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButton(
       // isDense: trie,
+      // alignment: Alignment.,
+
       dropdownColor: Color(0xffe5e5e5),
       focusColor: Color(0xffe5e5e5),
       onChanged: onChanged,
       items: items,
       value: state.value,
       style: TextStyle(
-          color: Color(0xff514f53), fontSize: 16, fontWeight: FontWeight.w500),
-      icon: Icon(CupertinoIcons.chevron_down_circle_fill),
+          color: Color(0xff546E7A), fontSize: 16, fontWeight: FontWeight.w600),
+      // icon: Icon(CupertinoIcons.chevron_down_circle_fill),
     );
   }
 }

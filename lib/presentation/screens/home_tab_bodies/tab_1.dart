@@ -1,17 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-// ignore_for_file: must_be_immutable
-
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
 import 'package:stayfinder_vendor/data/model/model_exports.dart';
 import 'package:stayfinder_vendor/logic/blocs/fetch_current_tier/fetch_current_tier_bloc.dart';
 import 'package:stayfinder_vendor/logic/cubits/cubit_exports.dart';
-import 'package:stayfinder_vendor/logic/cubits/drop_down_value/drop_down_value_cubit.dart';
-import 'package:stayfinder_vendor/logic/cubits/fetch_accommodation_review/fetch_accommodation_reviews_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/fetch_hostel/fetch_hostel_details_cubit.dart';
 import 'package:stayfinder_vendor/logic/cubits/fetch_hotel_without_tier/fetch_hotel_without_tier_cubit.dart';
-import 'package:stayfinder_vendor/presentation/screens/adding_accommodations/view_accommoation_screen.dart/rental_room_view.dart';
 
 import '../../../constants/constants_exports.dart';
 import '../../../logic/blocs/accommodation_addition/accommodation_addition_bloc.dart';

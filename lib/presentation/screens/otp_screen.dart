@@ -129,8 +129,8 @@ class OtpScreen extends StatelessWidget {
                                         vendor: Vendor(
                                             id: 0,
                                             email: state.vendor.email,
-                                            phoneNumber:
-                                                state.vendor.phoneNumber,
+                                            phone_number:
+                                                state.vendor.phone_number,
                                             isVerified: null,
                                             password: state.vendor.password,
                                             fullName: state.vendor.fullName,
